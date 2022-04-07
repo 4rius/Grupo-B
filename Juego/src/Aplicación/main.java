@@ -1,8 +1,10 @@
 package Aplicación;
 
 public class main {
+    private Multiplex multiplex;
 
-    public static void main(String[] args) {
-        System.out.println("Hola mundo!");
+    public void main(String[] args) {
+        multiplex = new Multiplex(false);
+        multiplex.Start();
     }
 }
