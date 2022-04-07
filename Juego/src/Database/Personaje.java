@@ -40,11 +40,11 @@ public class Personaje {
         return inventario;
     }
 
-    public arma getArmaActual() {
+    public Arma getArmaActual() {
         return armaActual;
     }
 
-    public armadura getArmaduraActual() {
+    public Armadura getArmaduraActual() {
         return armaduraActual;
     }
 
