@@ -3,9 +3,9 @@ import Database.Personaje;
 public class Cliente {
 
     private String Nombre;
-    private String Nick;
+    private final String Nick;
     private String Contraseña;
-    private String Identificador;
+    private final String NRegistro;
     private Personaje Personaje;
     private boolean Baneado;
 
@@ -13,7 +13,7 @@ public class Cliente {
         Nombre = nombre;
         Nick = nick;
         Contraseña = contraseña;
-        Identificador = identificador;
+        NRegistro = identificador;
         Personaje = personaje;
         Baneado = baneado;
     }
@@ -30,10 +30,6 @@ public class Cliente {
         return Nick;
     }
 
-    public void setNick(String nick) {
-        Nick = nick;
-    }
-
     public String getContraseña() {
         return Contraseña;
     }
@@ -42,12 +38,8 @@ public class Cliente {
         Contraseña = contraseña;
     }
 
-    public String getIdentificador() {
-        return Identificador;
-    }
-
-    public void setIdentificador(String identificador) {
-        Identificador = identificador;
+    public String getNRegistro() {
+        return NRegistro;
     }
 
     public Database.Personaje getPersonaje() {

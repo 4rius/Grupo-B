@@ -1,31 +1,31 @@
 import Aplicación.Multiplex;
 import Aplicación.Operation;
 
-import java.util.List;
+import java.util.HashMap;
 
 public class Usuario extends Operation {
-    private List<Cliente> Clientes;
-    private List<Operador> Operadores;
+    private HashMap<String, Cliente> Clientes;
+    private HashMap<String, Operador> Operadores;
 
-    public Usuario(Multiplex multiplex, List<Cliente> clientes, List<Operador> operadores) {
+    public Usuario(Multiplex multiplex, HashMap<String, Cliente> clientes, HashMap<String, Operador> operadores) {
         super(multiplex);
         Clientes = clientes;
         Operadores = operadores;
     }
 
-    public List<Cliente> getClientes() {
+    public HashMap<String, Cliente> getClientes() {
         return Clientes;
     }
 
-    public void setClientes(List<Cliente> clientes) {
+    public void setClientes(HashMap<String, Cliente> clientes) {
         Clientes = clientes;
     }
 
-    public List<Operador> getOperadores() {
+    public HashMap<String, Operador> getOperadores() {
         return Operadores;
     }
 
-    public void setOperadores(List<Operador> operadores) {
+    public void setOperadores(HashMap<String, Operador> operadores) {
         Operadores = operadores;
     }
 
