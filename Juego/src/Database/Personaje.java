@@ -1,31 +1,33 @@
 package Database;
 
+import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Personaje {
     private String nombre;
     private int oro;
-    private List<Equipo> inventario;
+    private ArrayList<Equipo> inventario;
     private Arma armaActual;
     private Armadura armaduraActual;
     private int salud;
     private int poder;
-    private List<Modificador> modificadores;
-    private List<Esbirro> esbirros;
+    private ArrayList<Modificador> modificadores;
+    private ArrayList<Esbirro> esbirros;
     private Habilidad habilidadEspecial;
 
-    public Personaje(String nombre, int oro, List<Equipo> inventario, Arma armaActual, Armadura armaduraActual, int salud, int poder, List<Modificador> modificadores, List<Esbirro> esbirros, Habilidad habilidadEspecial) {
-        this.nombre = nombre;
-        this.oro = oro;
-        this.inventario = inventario;
-        this.armaActual = armaActual;
-        this.armaduraActual = armaduraActual;
-        this.salud = salud;
-        this.poder = poder;
-        this.modificadores = modificadores;
-        this.esbirros = esbirros;
-        this.habilidadEspecial = habilidadEspecial;
+    public Personaje(String nombre, int oro, List<Equipo> inventario, Arma armaActual, Armadura armaduraActual, int salud, int poder, List<Modificador> modificadores, List<Esbirro> esbirros, Habilidad habilidadEspecial) throws IOException {
+        this.nombre = System.console().readLine();
+        this.oro = 500;
+        this.inventario = new ArrayList<Equipo>();
+        this.armaActual = null;
+        this.armaduraActual = null;
+        this.salud = 5;
+        this.poder = (int) (Math.random() * 4 + 1);
+        this.modificadores = new ArrayList<Modificador>();
+        this.esbirros = new ArrayList<Esbirro>();
+        this.habilidadEspecial = null;
     }
 
     public String getNombre() {
@@ -76,7 +78,7 @@ public class Personaje {
         this.oro = oro;
     }
 
-    public void setInventario(List<Equipo> inventario) {
+    public void setInventario(ArrayList<Equipo> inventario) {
         this.inventario = inventario;
     }
 
@@ -96,11 +98,11 @@ public class Personaje {
         this.poder = poder;
     }
 
-    public void setModificadores(List<Modificador> modificadores) {
+    public void setModificadores(ArrayList<Modificador> modificadores) {
         this.modificadores = modificadores;
     }
 
-    public void setEsbirros(List<Esbirro> esbirros) {
+    public void setEsbirros(ArrayList<Esbirro> esbirros) {
         this.esbirros = esbirros;
     }
 

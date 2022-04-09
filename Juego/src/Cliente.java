@@ -57,4 +57,12 @@ public class Cliente {
     public void setBaneado(boolean baneado) {
         Baneado = baneado;
     }
+
+    public void registrarPersonaje(Personaje personaje){
+        Personaje = personaje;
+    }
+
+    public void eliminarPersonaje(Personaje personaje){
+        Personaje = null;
+    }
 }
