@@ -1,4 +1,4 @@
-package Database;
+package Datos;
 
 public class Ghoul extends Esbirro{
     private int Dependencia;

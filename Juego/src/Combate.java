@@ -1,85 +1,21 @@
-import Aplicación.Multiplex;
-import Aplicación.Operation;
+import java.util.ArrayList;
 
-public class Combate extends Operation {
-    private Cliente duelista1;
-    private Cliente duelista2;
-    private int Estado;
-    private int Rondas;
-    private String Fecha;
-    private Cliente Vencedor;
-    private boolean Esbirrosvivos;
+public class Combate {
+    private ArrayList<PerformCombat> combates;
 
-    public Combate(Multiplex multiplex, Cliente duelista1, Cliente duelista2, int estado, int rondas, String fecha, Cliente vencedor, boolean esbirrosvivos) {
-        super(multiplex);
-        this.duelista1 = duelista1;
-        this.duelista2 = duelista2;
-        Estado = estado;
-        Rondas = rondas;
-        Fecha = fecha;
-        Vencedor = vencedor;
-        Esbirrosvivos = esbirrosvivos;
+    public Combate(ArrayList<PerformCombat> combates) {
+        this.combates = combates;
     }
 
-    @Override
-    public void doOperation() {
-
-
-    }
-
-    public Cliente getDuelista1() {
-        return duelista1;
-    }
-
-    public void setDuelista1(Cliente duelista1) {
-        this.duelista1 = duelista1;
-    }
-
-    public Cliente getDuelista2() {
-        return duelista2;
-    }
-
-    public void setDuelista2(Cliente duelista2) {
-        this.duelista2 = duelista2;
-    }
-
-    public int getEstado() {
-        return Estado;
-    }
-
-    public void setEstado(int estado) {
-        Estado = estado;
-    }
-
-    public int getRondas() {
-        return Rondas;
-    }
-
-    public void setRondas(int rondas) {
-        Rondas = rondas;
-    }
-
-    public String getFecha() {
-        return Fecha;
-    }
-
-    public void setFecha(String fecha) {
-        Fecha = fecha;
-    }
-
-    public Cliente getVencedor() {
-        return Vencedor;
-    }
-
-    public void setVencedor(Cliente vencedor) {
-        Vencedor = vencedor;
-    }
-
-    public boolean isEsbirrosvivos() {
-        return Esbirrosvivos;
-    }
-
-    public void setEsbirrosvivos(boolean esbirrosvivos) {
-        Esbirrosvivos = esbirrosvivos;
+    public void verHistorial(String NRegistro){
+        for(PerformCombat combate: combates){
+            if(Cliente.getnRegistro().equals(NRegistro)){
+                System.out.println(combate.getDuelista1());
+                System.out.println(combate.getDuelista2());
+                System.out.println(combate.getVencedor());
+                System.out.println(combate.getFecha());
+                System.out.println(combate.getRondas());
+            }
+        }
     }
 }

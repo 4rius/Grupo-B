@@ -1,4 +1,4 @@
-package Database;
+package Datos;
 
 public class Disciplina extends Habilidad{
     private int CosteSangre;

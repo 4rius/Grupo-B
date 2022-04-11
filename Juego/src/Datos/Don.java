@@ -1,4 +1,4 @@
-package Database;
+package Datos;
 
 public class Don extends Habilidad{
     private int MinRabia;

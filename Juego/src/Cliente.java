@@ -1,68 +1,67 @@
-import Database.Personaje;
+import Datos.Personaje;
 
 public class Cliente {
+    private String name;
+    private String nick;
+    private String password;
+    private static String nRegistro;
+    private Personaje personaje;
+    private boolean banned;
 
-    private String Nombre;
-    private final String Nick;
-    private String Contraseña;
-    private final String NRegistro;
-    private Personaje Personaje;
-    private boolean Baneado;
-
-    public Cliente(String nombre, String nick, String contraseña, String identificador, Database.Personaje personaje, boolean baneado) {
-        Nombre = nombre;
-        Nick = nick;
-        Contraseña = contraseña;
-        NRegistro = identificador;
-        Personaje = personaje;
-        Baneado = baneado;
+    public Cliente(String name, String nick, String password, String nRegistro, Personaje personaje, boolean banned) {
+        this.name = name;
+        this.nick = nick;
+        this.password = password;
+        this.nRegistro = nRegistro;
+        this.personaje = personaje;
+        this.banned = banned;
     }
 
-    public String getNombre() {
-        return Nombre;
+    public String getName() {
+        return name;
     }
 
-    public void setNombre(String nombre) {
-        Nombre = nombre;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getNick() {
-        return Nick;
+        return nick;
     }
 
-    public String getContraseña() {
-        return Contraseña;
+    public void setNick(String nick) {
+        this.nick = nick;
     }
 
-    public void setContraseña(String contraseña) {
-        Contraseña = contraseña;
+    public String getPassword() {
+        return password;
     }
 
-    public String getNRegistro() {
-        return NRegistro;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public Database.Personaje getPersonaje() {
-        return Personaje;
+    public static String getnRegistro() {
+        return nRegistro;
     }
 
-    public void setPersonaje(Database.Personaje personaje) {
-        Personaje = personaje;
+    public void setnRegistro(String nRegistro) {
+        this.nRegistro = nRegistro;
     }
 
-    public boolean isBaneado() {
-        return Baneado;
+    public Personaje getPersonaje() {
+        return personaje;
     }
 
-    public void setBaneado(boolean baneado) {
-        Baneado = baneado;
+    public void setPersonaje(Personaje personaje) {
+        this.personaje = personaje;
     }
 
-    public void registrarPersonaje(Personaje personaje){
-        Personaje = personaje;
+    public boolean isBanned() {
+        return banned;
     }
 
-    public void eliminarPersonaje(Personaje personaje){
-        Personaje = null;
+    public void setBanned(boolean banned) {
+        this.banned = false;
     }
 }

@@ -1,4 +1,4 @@
-package Database;
+package Datos;
 
 public class Habilidad {
     private String Nombre;

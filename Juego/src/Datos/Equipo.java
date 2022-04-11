@@ -1,4 +1,4 @@
-package Database;
+package Datos;
 
 public class Equipo {
     private String Nombre;
