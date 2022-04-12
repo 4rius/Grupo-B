@@ -1,3 +1,5 @@
+import Datos.Equipo;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -8,6 +10,8 @@ public class Multiplex {
     private static HashSet<Operador> operadores;
     private static ArrayList<Combate> combates;
     private static HashSet<String> numerosderegistro; //hace falta para determinar si es un operador o cliente
+    private ArrayList<Equipo> inventario;
+
 
 
     public Multiplex(boolean modo) throws IOException, ClassNotFoundException {
@@ -44,6 +48,16 @@ public class Multiplex {
         outputstream.close();
     }
 
+    private static void inicializarInventario(){
+
+    }
+
+    public ArrayList<Equipo> getInventario() {
+        return inventario;
+    }
+
+
+
     public boolean isModo() {
         return modo;
     }
@@ -71,4 +85,6 @@ public class Multiplex {
     public void Start(){
         System.out.println("Not yet!");
     }
+
+
 }
