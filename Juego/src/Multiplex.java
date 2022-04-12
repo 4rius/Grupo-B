@@ -1,3 +1,5 @@
+import Datos.Equipo;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -8,12 +10,13 @@ public class Multiplex {
     private static HashSet<Operador> operadores;
     private static ArrayList<Combate> combates;
     private static HashSet<String> numerosderegistro; //hace falta para determinar si es un operador o cliente
+    private static ArrayList<Equipo> inventarios;
 
 
     public Multiplex(boolean modo) throws IOException, ClassNotFoundException {
         this.modo = modo;
 
-        File f = new File("assets/estado.bin");
+        File f = new File("Assets/estado.bin");
         if(f.exists()){
             Multiplex.deserialize();
         } else {
@@ -25,7 +28,7 @@ public class Multiplex {
     }
 
     private static void deserialize() throws IOException, ClassNotFoundException {
-        FileInputStream finputstream = new FileInputStream("assets/estado.bin");
+        FileInputStream finputstream = new FileInputStream("Assets/estado.bin");
         ObjectInputStream inputstream = new ObjectInputStream(finputstream);
         Multiplex.clientes = (HashSet<Cliente>) inputstream.readObject();
         Multiplex.operadores = (HashSet<Operador>) inputstream.readObject();
@@ -35,7 +38,7 @@ public class Multiplex {
     }
 
     public static void serialize() throws IOException {
-        FileOutputStream foutputstream = new FileOutputStream("assets/estado.bin");
+        FileOutputStream foutputstream = new FileOutputStream("Assets/estado.bin");
         ObjectOutputStream outputstream = new ObjectOutputStream(foutputstream);
         outputstream.writeObject(Multiplex.clientes);
         outputstream.writeObject(Multiplex.operadores);
