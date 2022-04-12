@@ -1,5 +1,3 @@
-package Aplicación;
-
 public abstract class Operation {
     private Multiplex multiplex;
 

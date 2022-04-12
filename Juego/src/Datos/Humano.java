@@ -1,4 +1,4 @@
-package Database;
+package Datos;
 
 public class Humano extends Esbirro{
     private enum lealtad {

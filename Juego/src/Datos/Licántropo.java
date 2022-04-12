@@ -1,11 +1,12 @@
-package Database;
+package Datos;
 
+import java.io.IOException;
 import java.util.List;
 
 public class Licántropo extends Personaje{
     private int Rabia;
 
-    public Licántropo(String nombre, int oro, List<Equipo> inventario, Arma armaActual, Armadura armaduraActual, int salud, int poder, List<Modificador> modificadores, List<Esbirro> esbirros, Habilidad habilidadEspecial, int rabia) {
+    public Licántropo(String nombre, int oro, List<Equipo> inventario, Arma armaActual, Armadura armaduraActual, int salud, int poder, List<Modificador> modificadores, List<Esbirro> esbirros, Habilidad habilidadEspecial, int rabia) throws IOException {
         super(nombre, oro, inventario, armaActual, armaduraActual, salud, poder, modificadores, esbirros, habilidadEspecial);
         Rabia = rabia;
     }
