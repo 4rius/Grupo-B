@@ -1,0 +1,44 @@
+Nombre: Executioner
+Ataque: 2
+Defensa: 1
+A2Manos: 0
+
+Nombre: Quins Sais
+Ataque: 3
+Defensa: 0
+A2Manos: 1
+
+Nombre: Spear of Desolation
+Ataque: 1
+Defensa: 3
+A2Manos: 0
+
+Nombre: Soul Eater
+Ataque: 2
+Defensa: 2
+A2Manos: 1
+
+Nombre: Deathbringer
+Ataque: 2
+Defensa: 2
+A2Manos: 0
+
+Nombre: Enchanted Ring
+Ataque: 1
+Defensa: 1
+A2Manos: 0
+
+Nombre: Warlocks Staff
+Ataque: 3
+Defensa: 2
+A2Manos: 1
+
+Nombre: Rod of Tahuti
+Ataque: 2
+Defensa: 3
+A2Manos: 1
+
+Nombre: Hastened Katana
+Ataque: 3
+Defensa: 0
+A2Manos: 0
