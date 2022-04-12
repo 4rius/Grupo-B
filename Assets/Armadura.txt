@@ -1,0 +1,35 @@
+Nombre: Mystical Mail
+Ataque: 3
+Defensa: 2
+
+Nombre: Breastplate of Valor
+Ataque: 1
+Defensa: 3
+
+Nombre: Spectral Armor
+Ataque: 2
+Defensa: 2
+
+Nombre: Mantle of Discord
+Ataque: 1
+Defensa: 3
+
+Nombre: Lonos Mask
+Ataque: 0
+Defensa: 3
+
+Nombre: Shoguns Kusari
+Ataque: 1
+Defensa: 1
+
+Nombre: Genjis Guard
+Ataque: 0
+Defensa: 3
+
+Nombre: Heartward Amulet
+Ataque: 1
+Defensa: 2
+
+Nombre: Caduceos Shield
+Ataque: 1
+Defensa: 1
