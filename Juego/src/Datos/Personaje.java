@@ -1,5 +1,6 @@
 package Datos;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,9 @@ public class Personaje {
     private ArrayList<Esbirro> esbirros;
     private Habilidad habilidadEspecial;
 
-    public Personaje(String nombre, int oro, List<Equipo> inventario, Arma armaActual, Armadura armaduraActual, int salud, int poder, List<Modificador> modificadores, List<Esbirro> esbirros, Habilidad habilidadEspecial) throws IOException {
+    public Personaje() throws IOException {
+        System.out.println("Creando tu nuevo personaje");
+        System.out.println("Nombre del personaje: ");
         this.nombre = System.console().readLine();
         this.oro = 500;
         this.inventario = new ArrayList<Equipo>();
@@ -27,6 +30,7 @@ public class Personaje {
         this.modificadores = new ArrayList<Modificador>();
         this.esbirros = new ArrayList<Esbirro>();
         this.habilidadEspecial = null;
+        System.out.println("Personaje creado");
     }
 
     public String getNombre() {
@@ -108,4 +112,5 @@ public class Personaje {
     public void setHabilidadEspecial(Habilidad habilidadEspecial) {
         this.habilidadEspecial = habilidadEspecial;
     }
+
 }
