@@ -1,3 +1,7 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 public class PerformCombat extends Operation {
     private Cliente duelista1;
     private Cliente duelista2;
@@ -7,15 +11,24 @@ public class PerformCombat extends Operation {
     private Cliente Vencedor;
     private boolean Esbirrosvivos;
 
-    public PerformCombat(Multiplex multiplex, Cliente duelista1, Cliente duelista2, int estado, int rondas, String fecha, Cliente vencedor, boolean esbirrosvivos) {
+    public PerformCombat(Multiplex multiplex, Cliente duelista1) {
         super(multiplex);
         this.duelista1 = duelista1;
-        this.duelista2 = duelista2;
-        Estado = estado;
-        Rondas = rondas;
-        Fecha = fecha;
-        Vencedor = vencedor;
-        Esbirrosvivos = esbirrosvivos;
+        try {
+            String duelista2 = System.console().readLine("A quién va a desafiar? ");
+            if (Multiplex.getClientes().containsKey(duelista2)) {
+                this.duelista2 = Multiplex.getClientes().get(duelista2);
+            } else {
+                throw new RuntimeException();
+            }
+        } catch (RuntimeException e) {
+            System.out.println("No existe el cliente, desafío cancelado");
+        }
+        Estado = 0;
+        Rondas = Integer.parseInt(System.console().readLine());
+        Fecha = System.currentTimeMillis() + "";
+        Vencedor = null;
+        Esbirrosvivos = true; //Aqui hay que llamar  a algo que compruebe cuantos esbirros quedan
     }
 
     public Cliente getDuelista1() {

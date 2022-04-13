@@ -1,20 +1,24 @@
 import Datos.Personaje;
 
-public class Cliente {
+import java.util.ArrayList;
+
+public class Cliente extends Operation{
     private String name;
     private String nick;
     private String password;
     private static String nRegistro;
     private Personaje personaje;
     private boolean banned;
+    private ArrayList<Combate> combatespersonales;
 
-    public Cliente(String name, String nick, String password, String nRegistro, Personaje personaje, boolean banned) {
+    public Cliente(Multiplex Multiplex, String name, String nick, String password, Personaje personaje, boolean banned, ArrayList<Combate> combatespersonales, ArrayList<PerformCombat> desafios) {
+        super(Multiplex);
         this.name = name;
         this.nick = nick;
         this.password = password;
-        this.nRegistro = nRegistro;
         this.personaje = personaje;
         this.banned = banned;
+        this.combatespersonales = combatespersonales;
     }
 
     public String getName() {
@@ -63,5 +67,30 @@ public class Cliente {
 
     public void setBanned(boolean banned) {
         this.banned = false;
+    }
+
+    public ArrayList<Combate> getCombatespersonales() {
+        return combatespersonales;
+    }
+
+    public void verHistorial(){
+        for(Combate combate: this.combatespersonales){
+            System.out.println(combate.toString());
+        }
+    }
+
+    public void verDesafios(){
+        for(PerformCombat desafio: Multiplex.getDesafios()){
+            System.out.println(desafio.toString());
+        }
+    }
+
+    void seleccionarEquipo() {
+        System.out.println("Falta contenido para implementar esto");
+    }
+
+    @Override
+    public void doOperation() {
+
     }
 }

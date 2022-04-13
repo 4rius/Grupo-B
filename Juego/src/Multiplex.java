@@ -2,16 +2,16 @@ import Datos.Equipo;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.io.File;
 
 public class Multiplex {
     private boolean modo;
-    private static HashSet<Cliente> clientes;
-    private static HashSet<Operador> operadores;
+    private static HashMap<String, Cliente> clientes; //String del tipo LNNLL
+    private static HashMap<String, Operador> operadores;
     private static ArrayList<Combate> combates;
-    private static HashSet<String> numerosderegistro; //hace falta para determinar si es un operador o cliente
     private static ArrayList<Equipo> inventario;
+    private static ArrayList<PerformCombat> desafios;
 
 
     public Multiplex(boolean modo) throws IOException, ClassNotFoundException {
@@ -21,20 +21,18 @@ public class Multiplex {
         if(f.exists()){
             Multiplex.deserialize();
         } else {
-            Multiplex.clientes = new HashSet<Cliente>(clientes);
-            Multiplex.operadores = new HashSet<Operador>(operadores);
+            Multiplex.clientes = new HashMap<>(clientes);
+            Multiplex.operadores = new HashMap<>(operadores);
             Multiplex.combates = new ArrayList<Combate>(combates);
-            Multiplex.numerosderegistro = new HashSet<String>(numerosderegistro);
         }
     }
 
     private static void deserialize() throws IOException, ClassNotFoundException {
         FileInputStream finputstream = new FileInputStream("assets/estado.bin");
         ObjectInputStream inputstream = new ObjectInputStream(finputstream);
-        Multiplex.clientes = (HashSet<Cliente>) inputstream.readObject();
-        Multiplex.operadores = (HashSet<Operador>) inputstream.readObject();
+        Multiplex.clientes = (HashMap<String, Cliente>) inputstream.readObject();
+        Multiplex.operadores = (HashMap<String, Operador>) inputstream.readObject();
         Multiplex.combates = (ArrayList<Combate>) inputstream.readObject();
-        Multiplex.numerosderegistro = (HashSet<String>) inputstream.readObject();
         inputstream.close();
     }
 
@@ -44,7 +42,6 @@ public class Multiplex {
         outputstream.writeObject(Multiplex.clientes);
         outputstream.writeObject(Multiplex.operadores);
         outputstream.writeObject(Multiplex.combates);
-        outputstream.writeObject(Multiplex.numerosderegistro);
         outputstream.close();
     }
 
@@ -60,11 +57,11 @@ public class Multiplex {
         this.modo = modo;
     }
 
-    public static HashSet<Cliente> getClientes() {
+    public static HashMap<String, Cliente> getClientes() {
         return clientes;
     }
 
-    public static HashSet<Operador> getOperadores() {
+    public static HashMap<String, Operador> getOperadores() {
         return operadores;
     }
 
@@ -72,8 +69,8 @@ public class Multiplex {
         return combates;
     }
 
-    public static HashSet<String> getNumerosderegistro() {
-        return numerosderegistro;
+    public static ArrayList<PerformCombat> getDesafios() {
+        return desafios;
     }
 
     public void Start(){
