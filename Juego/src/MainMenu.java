@@ -101,23 +101,11 @@ public class MainMenu extends Operation {
                 switch (opcion) {
                     case 1 -> Multiplex.getOperadores().get(nick).editarPersonaje();
                     case 2 -> Multiplex.getOperadores().get(nick).eliminarPersonaje();
-                    case 3 -> {
-                        if (Multiplex.getClientes().get(nick).getPersonaje() != null) {
-                            Multiplex.getClientes().get(nick).seleccionarEquipo();
-                        } else {
-                            System.out.println("Debes seleccionar un personaje antes de cambiar el equipo");
-                        }
-                    }
-                    case 4 -> {
-                        if (Multiplex.getClientes().get(nick).getPersonaje().getOro() > 0) {
-                            //Tdoo tuyo Yisus jejeje
-                        } else {
-                            System.out.println("No tienes oro suficiente para crear un desafío");
-                        }
-                    }
+                    case 3 -> Multiplex.getOperadores().get(nick).editarEquipo();
+                    case 4 -> Multiplex.getOperadores().get(nick).editarModificador();
                     case 5 -> Multiplex.getOperadores().get(nick).validarDesafios();
-                    case 6 -> {//Pendiente
-                    }
+                    case 6 -> Multiplex.getOperadores().get(nick).banearJugador();
+                    case 7 -> Multiplex.getOperadores().get(nick).desbanearJugador();
                     default -> {
                         System.out.println("Esa no es una opción válida");
                     }
