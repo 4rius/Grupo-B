@@ -1,5 +1,7 @@
 import Datos.Personaje;
 
+import java.io.IOException;
+
 public class Operador extends Operation{
     private String Nombre;
     private String Nick;
@@ -92,7 +94,7 @@ public class Operador extends Operation{
         }
     }
 
-    public void validarDesafios(){
+    public void validarDesafios() throws IOException {
         if (Multiplex.getDesafios().size() > 0){
             System.out.println("Desafios a validar: ");
             for (int i = 0; i < Multiplex.getDesafios().size(); i++){
@@ -105,6 +107,7 @@ public class Operador extends Operation{
             if (opcion < Multiplex.getDesafios().size()){
                 Multiplex.getDesafios().get(opcion).setEstado(1);
                 System.out.println("Desafío validado");
+                Multiplex.serialize();
             }
         } else {
             System.out.println("No hay desafios pendientes");
@@ -114,5 +117,37 @@ public class Operador extends Operation{
     @Override
     public void doOperation() {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void editarEquipo() {
+    }
+
+    public void editarModificador() {
+    }
+
+    public void banearJugador() throws IOException {
+        System.out.println("Baneo de jugadores");
+        System.out.println("Número de registro del usuario a banear: ");
+        String user = System.console().readLine();
+        if (Multiplex.getClientes().containsKey(user)){
+            Multiplex.getClientes().get(user).setBanned(true);
+            System.out.println("Usuario baneado");
+            Multiplex.serialize();
+        } else {
+            System.out.println("El usuario no existe");
+        }
+    }
+
+    public void desbanearJugador() throws IOException {
+        System.out.println("Desbaneo de jugadores");
+        System.out.println("Número de registro del usuario a desbanear: ");
+        String user = System.console().readLine();
+        if ((Multiplex.getClientes().containsKey(user)) && (Multiplex.getClientes().get(user).isBanned())){
+            Multiplex.getClientes().get(user).setBanned(false);
+            System.out.println("Usuario desbaneado");
+            Multiplex.serialize();
+        } else {
+            System.out.println("El usuario no existe o no está baneado");
+        }
     }
 }

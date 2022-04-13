@@ -4,7 +4,7 @@ public class Arma extends Equipo{
 
     private boolean adosmanos;
 
-    public Arma(String nombre, int modataque, int moddef, boolean adosmanos) {
+    public Arma(String nombre, int modataque, int moddef, boolean  adosmanos) {
         super(nombre, modataque, moddef);
         this.adosmanos = adosmanos;
     }
