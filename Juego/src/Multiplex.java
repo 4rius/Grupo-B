@@ -97,7 +97,7 @@ public class Multiplex {
             sc.nextLine();
             String dosManos = sc.findInLine(p2);
             sc.nextLine();
-            Arma a = new Arma(nombre, Integer.parseInt(atq), Integer.parseInt(def), Integer.parseInt(dosManos));
+            Arma a = new Arma(nombre, Integer.parseInt(atq), Integer.parseInt(def), Boolean.parseBoolean(dosManos));
             inventario.add(a);
         }
         sc.close();
