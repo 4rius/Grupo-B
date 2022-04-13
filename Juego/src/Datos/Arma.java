@@ -2,18 +2,18 @@ package Datos;
 
 public class Arma extends Equipo{
 
-    private boolean adosmanos;
+    private int adosmanos;
 
-    public Arma(String nombre, int modataque, int moddef, boolean adosmanos) {
+    public Arma(String nombre, int modataque, int moddef, int adosmanos) {
         super(nombre, modataque, moddef);
         this.adosmanos = adosmanos;
     }
 
-    public boolean isAdosmanos() {
+    public int isAdosmanos() {
         return adosmanos;
     }
 
-    public void setAdosmanos(boolean adosmanos) {
+    public void setAdosmanos(int adosmanos) {
         this.adosmanos = adosmanos;
     }
 }
