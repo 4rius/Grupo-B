@@ -1,14 +1,14 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import Datos.Esbirro;
+
+import java.util.List;
 
 public class PerformCombat extends Operation {
     private Cliente duelista1;
     private Cliente duelista2;
-    private int Estado;
-    private int Rondas;
+    private int estado;
+    private int rondas;
     private String Fecha;
-    private Cliente Vencedor;
+    private Cliente vencedor;
     private boolean Esbirrosvivos;
 
     public PerformCombat(Multiplex multiplex, Cliente duelista1) {
@@ -24,10 +24,10 @@ public class PerformCombat extends Operation {
         } catch (RuntimeException e) {
             System.out.println("No existe el cliente, desafío cancelado");
         }
-        Estado = 0;
-        Rondas = Integer.parseInt(System.console().readLine());
+        estado = 0;
+        rondas = Integer.parseInt(System.console().readLine());
         Fecha = System.currentTimeMillis() + "";
-        Vencedor = null;
+        vencedor = null;
         Esbirrosvivos = true; //Aqui hay que llamar  a algo que compruebe cuantos esbirros quedan
     }
 
@@ -48,19 +48,15 @@ public class PerformCombat extends Operation {
     }
 
     public int getEstado() {
-        return Estado;
+        return estado;
     }
 
-    public void setEstado(int estado) {
-        Estado = estado;
+   public void setEstado(int estado) {
+        estado = estado;
     }
 
     public int getRondas() {
-        return Rondas;
-    }
-
-    public void setRondas(int rondas) {
-        Rondas = rondas;
+        return rondas;
     }
 
     public String getFecha() {
@@ -72,23 +68,93 @@ public class PerformCombat extends Operation {
     }
 
     public Cliente getVencedor() {
-        return Vencedor;
+        return vencedor;
     }
 
-    public void setVencedor(Cliente vencedor) {
-        Vencedor = vencedor;
-    }
-
-    public boolean isEsbirrosvivos() {
+    public boolean getEsbirrosvivos() {
         return Esbirrosvivos;
-    }
-
-    public void setEsbirrosvivos(boolean esbirrosvivos) {
-        Esbirrosvivos = esbirrosvivos;
     }
 
     @Override
     public void doOperation() {
+        rondas = 0;
+        int hp_Esb1 = saludEsbirros(duelista1);
+        int hp_Per1 = duelista1.getPeronaje().getSalud();
+        int hp_Esb2 = saludEsbirros(duelista2);
+        int hp_Per2 = duelista2.getPeronaje().getSalud();
+        while(estado != 0){
+            int atk1 = calcularAtk(duelista1);
+            int atk2 = calcularAtk(duelista2);
+            int def1 = calcularDef(duelista1);
+            int def2 = calcularDef(duelista2);
+            atk1 = rolearDados(atk1);
+            atk2 = rolearDados(atk2);
+            def1 = rolearDados(def1);
+            def2 = rolearDados(def2);
+            if (atk1 >= def2){
+                if (hp_Esb1 > 0){
+                    hp_Esb1--;
+                }
+                else {
+                    hp_Per1--;
+                }
+            }
 
+            if (atk2 >= def1){
+                if (hp_Esb2 > 0){
+                    hp_Esb2--;
+                }
+                else{
+                    hp_Per2--;
+                }
+            }
+            comprobarEstado(hp_Per1, hp_Per2);
+            rondas++;
+        }
+    }
+
+    public int saludEsbirros(Cliente c){
+        int hp = 0;
+        List<Esbirro> eList = c.getPersonaje().getEsbirros();
+        for (Esbirro e: eList) {
+            hp = hp + e.getSalud();
+        }
+        return hp;
+    }
+
+    public int calcularAtk(Cliente c){
+        int atk = c.getPersonaje().atkTotal();
+        return atk;
+    }
+
+    public int calcularDef(Cliente c){
+        int def = c.getPersonaje().defTotal();
+        return def;
+    }
+
+    public int rolearDados(int n){
+        int k = 0;
+        for(int i = 1; i>n; i++){
+            int random = (int) Math.floor(Math.random()*6+1);
+            if (random == 5 || random == 6){
+                k = k++;
+            }
+        }
+        return k;
+    }
+
+    public void comprobarEstado(int hp1, int hp2){
+        if (hp1 <= 0 || hp2 <= 0){
+            if (hp1 > 0){
+                vencedor = duelista2;
+            }
+            else if (hp2 > 0){
+                vencedor = duelista1;
+            }
+            else{
+                vencedor = null;
+            }
+            estado = 0;
+        }
     }
 }
