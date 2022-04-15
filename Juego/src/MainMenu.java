@@ -28,7 +28,13 @@ public class MainMenu extends Operation {
                     throw new RuntimeException(e);
                 }
             }
-            case 2 -> registrarse();
+            case 2 -> {
+                try {
+                    registrarse();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
             case 3 -> System.out.println("Saliendo...");
             default -> {
                 System.out.println("Esa no es una opción válida");
@@ -38,7 +44,7 @@ public class MainMenu extends Operation {
 
     }
 
-    private void registrarse() {
+    private void registrarse() throws IOException {
         System.out.println("Se va a registrar un operador (1) o un jugador (2)");
         int opcion = 0;
         opcion = Integer.parseInt(System.console().readLine());
@@ -48,7 +54,7 @@ public class MainMenu extends Operation {
         }
     }
 
-    private void registrarJugador() {
+    private void registrarJugador() throws IOException {
         String Letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         System.out.println("Introduzca su nombre: ");
         String nombre = System.console().readLine();
@@ -77,9 +83,10 @@ public class MainMenu extends Operation {
         Multiplex.getClientes().put(registro, new Cliente(this.getMultiplex(), nombre, nick, registro, contrasena, null, false));
         Multiplex.getNicknames().add(nick);
         System.out.println("Registrado con éxito, bienvenido, " + nick);
+        Multiplex.serialize();
     }
 
-    private void registrarOperador() {
+    private void registrarOperador() throws IOException {
         System.out.println("Introduzca su nombre: ");
         String nombre = System.console().readLine();
         System.out.println("Nick: ");
@@ -94,6 +101,7 @@ public class MainMenu extends Operation {
         Multiplex.getOperadores().put(nick, new Operador(this.getMultiplex(), nombre, nick, contrasena));
         Multiplex.getNicknames().add(nick);
         System.out.println("Registrado con éxito, bienvenido, " + nick);
+        Multiplex.serialize();
     }
 
     private void iniciarSesion() throws IOException {
