@@ -1,6 +1,5 @@
 import Datos.Arma;
 import Datos.Armadura;
-import Datos.Combate;
 import Datos.Equipo;
 
 import java.io.*;
@@ -16,7 +15,7 @@ public class Multiplex {
     private static ArrayList<String> nicknames; //Hace falta porque no se puede acceder al atributo de un objeto en un hashmap
     private static HashMap<String, Operador> operadores;
     private static ArrayList<Equipo> inventario;
-    private static ArrayList<Combate> desafios;
+    private static ArrayList<PerformCombat> desafios;
 
 
     public Multiplex(boolean modo) throws IOException, ClassNotFoundException {
@@ -27,10 +26,10 @@ public class Multiplex {
         if(f.exists()){
             Multiplex.deserialize();
         } else {
-            Multiplex.clientes = new HashMap<>(clientes);
-            Multiplex.nicknames = new ArrayList<>(nicknames);
-            Multiplex.operadores = new HashMap<>(operadores);
-            Multiplex.desafios = new ArrayList<Combate>(desafios);
+            Multiplex.clientes = new HashMap<>();
+            Multiplex.nicknames = new ArrayList<>();
+            Multiplex.operadores = new HashMap<>();
+            Multiplex.desafios = new ArrayList<>();
         }
 
         this.inicializarInventario();
