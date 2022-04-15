@@ -5,6 +5,7 @@ import java.util.List;
 public class PerformCombat extends Operation {
     private Cliente duelista1;
     private Cliente duelista2;
+    private int oro; // Oro que apuestan los jugadores
     private int estado;
     private int rondas;
     private String Fecha;
@@ -18,6 +19,13 @@ public class PerformCombat extends Operation {
             String duelista2 = System.console().readLine("A quién va a desafiar? ");
             if (Multiplex.getClientes().containsKey(duelista2)) {
                 this.duelista2 = Multiplex.getClientes().get(duelista2);
+                System.out.println("Introduzca el oro que quiere apostar: ");
+                int oroo = Integer.parseInt(System.console().readLine());
+                if (Multiplex.getClientes().get(duelista1).getOro() >= oroo) {
+                    this.oro = oroo;
+                } else {
+                    System.out.println("No tiene suficiente oro, desafío cancelado");
+                }
             } else {
                 throw new RuntimeException();
             }
@@ -71,8 +79,12 @@ public class PerformCombat extends Operation {
         return vencedor;
     }
 
-    public boolean getEsbirrosvivos() {
+    public boolean isEsbirrosvivos() {
         return Esbirrosvivos;
+    }
+
+    public int getOro() {
+        return oro;
     }
 
     @Override

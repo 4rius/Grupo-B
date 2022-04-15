@@ -78,7 +78,7 @@ public class Operador extends Operation{
         }
     }
 
-    public void eliminarPersonaje(){
+    public void eliminarPersonaje() throws IOException {
         System.out.println("Eliminación de personajes");
         System.out.println("Qué usuario tiene el personaje a eliminar?");
         String user = System.console().readLine();
@@ -86,6 +86,7 @@ public class Operador extends Operation{
             if (Multiplex.getClientes().get(user).getPersonaje() != null){
                 System.out.println("Eliminando al personaje de: " + user);
                 Multiplex.getClientes().get(user).setPersonaje(null);
+                Multiplex.serialize();
             } else {
                 System.out.println("El usuario no tiene un personaje");
             }
