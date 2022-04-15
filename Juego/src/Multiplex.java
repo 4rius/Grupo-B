@@ -12,6 +12,7 @@ import java.util.regex.*;
 public class Multiplex {
     private boolean modo;
     private static HashMap<String, Cliente> clientes; //String del tipo LNNLL
+    private static ArrayList<String> nicknames; //Hace falta porque no se puede acceder al atributo de un objeto en un hashmap
     private static HashMap<String, Operador> operadores;
     private static ArrayList<Equipo> inventario;
     private static ArrayList<PerformCombat> desafios;
@@ -25,9 +26,10 @@ public class Multiplex {
         if(f.exists()){
             Multiplex.deserialize();
         } else {
-            Multiplex.clientes = new HashMap<>(clientes);
-            Multiplex.operadores = new HashMap<>(operadores);
-            Multiplex.desafios = new ArrayList<PerformCombat>(desafios);
+            Multiplex.clientes = new HashMap<>();
+            Multiplex.nicknames = new ArrayList<>();
+            Multiplex.operadores = new HashMap<>();
+            Multiplex.desafios = new ArrayList<>();
         }
 
         this.inicializarInventario();
@@ -37,6 +39,7 @@ public class Multiplex {
         FileInputStream finputstream = new FileInputStream("Assets/estado.bin");
         ObjectInputStream inputstream = new ObjectInputStream(finputstream);
         Multiplex.clientes = (HashMap<String, Cliente>) inputstream.readObject();
+        Multiplex.nicknames = (ArrayList<String>) inputstream.readObject();
         Multiplex.operadores = (HashMap<String, Operador>) inputstream.readObject();
         Multiplex.desafios = (ArrayList<PerformCombat>) inputstream.readObject();
         inputstream.close();
@@ -46,6 +49,7 @@ public class Multiplex {
         FileOutputStream foutputstream = new FileOutputStream("Assets/estado.bin");
         ObjectOutputStream outputstream = new ObjectOutputStream(foutputstream);
         outputstream.writeObject(Multiplex.clientes);
+        outputstream.writeObject(Multiplex.nicknames);
         outputstream.writeObject(Multiplex.operadores);
         outputstream.writeObject(Multiplex.desafios);
         outputstream.close();
@@ -75,9 +79,15 @@ public class Multiplex {
         return desafios;
     }
 
+    public static ArrayList<String> getNicknames() {
+        return nicknames;
+    }
+
     public void Start() throws IOException {
         System.out.println("Not yet!");
         this.inicializarInventario();
+        MainMenu menu = new MainMenu(this);
+        menu.doOperation();
     }
 
     private void inicializarInventario() throws IOException {

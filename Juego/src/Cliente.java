@@ -1,24 +1,23 @@
-import Datos.Personaje;
+import Datos.*;
+import Datos.Vampiro;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
-public class Cliente extends Operation{
+public class Cliente{
     private Personaje personaje;
     private String name;
     private String nick;
-    private String password;
-    private int oro;
+    private String password;;
     private static String nRegistro;
     private boolean banned;
 
-    public Cliente(Multiplex Multiplex, String name, String nick, String password, Personaje personaje, boolean banned) {
-        super(Multiplex);
-        this.oro = 500;
+    public Cliente(String name, String nick, String nRegistro, String password) {
         this.name = name;
         this.nick = nick;
+        this.nRegistro = nRegistro;
         this.password = password;
-        this.personaje = personaje;
-        this.banned = banned;
+        this.banned = false;
     }
 
     public String getName() {
@@ -67,10 +66,6 @@ public class Cliente extends Operation{
         this.banned = false;
     }
 
-    public int getOro() {
-        return oro;
-    }
-
     public void verHistorial(){
         for(PerformCombat combate: Multiplex.getDesafios()){
             if(combate.getDuelista1().getNick().equals(nick) && combate.getEstado() == 4) {
@@ -96,16 +91,65 @@ public class Cliente extends Operation{
     }
 
     void seleccionarEquipo() {
-        System.out.println("Falta contenido para implementar esto");
-    }
-
-    @Override
-    public void doOperation() {
-
+        if (Multiplex.getClientes().get(nick).getPersonaje() != null) {
+            //Falta por implementar
+        } else {
+            System.out.println("Debes seleccionar un personaje antes de cambiar el equipo");
+        }
     }
 
     public Personaje getPeronaje() {
         return personaje;
     }
 
+    public void registrarPersonaje() throws IOException {
+        if (personaje != null) {
+            System.out.println("Ya hay un personaje registrado, elimínelo para crear uno nuevo");
+        } else {
+            System.out.println("Elige el tipo de personaje");
+            System.out.println("1. Vampiro");
+            System.out.println("2. Licantropo");
+            System.out.println("3. Cazador");
+            int opcion = 0;
+            opcion = Integer.parseInt(System.console().readLine());
+
+            switch(opcion){
+                case 1 -> {
+                    this.personaje = new Vampiro();
+                    this.personaje.setHabilidadEspecial(new Disciplina("murcielago", 2,2,2 ));
+                    this.personaje.getModificadores().add(new Modificador("luz solar", 5, 0));
+                }
+                case 2 -> {
+                    this.personaje = new Licantropo();
+                    this.personaje.setHabilidadEspecial(new Don("lobito", 3,1,2));
+                    this.personaje.getModificadores().add(new Modificador("luna llena", 2, 1));
+                }
+
+                case 3 -> {
+                    this.personaje = new Cazador();
+                    this.personaje.setHabilidadEspecial(new Talento("arco", 0, 0, 13));
+                }
+                default -> {
+                    System.out.println("Error: Opción no identificada");
+                    break;
+                }
+            }
+            System.out.println("Escribe el nombre de tu personaje");
+            String nombre = System.console().readLine();
+            this.personaje.setNombre(nombre);
+            this.personaje.setSalud(5);
+            int r = (int) (Math.random()*5 + 1);
+            this.personaje.setPoder(r);
+            this.personaje.setOro(500);
+            System.out.println("Personaje creado correctamente");
+        }
+    }
+
+    public void crearDesafio() {
+        if (Multiplex.getClientes().get(nick).getPersonaje().getOro() > 0) {
+            //Tdoo tuyo Yisus jejeje
+        } else {
+            System.out.println("No tienes oro suficiente para crear un desafío");
+        }
+    }
 }

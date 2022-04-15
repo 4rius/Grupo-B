@@ -13,24 +13,8 @@ public class Personaje {
     private int salud;
     private int poder;
     private ArrayList<Modificador> modificadores;
-    private List<Esbirro> esbirros;
+    private ArrayList<Esbirro> esbirros;
     private Habilidad habilidadEspecial;
-
-    public Personaje() throws IOException {
-        System.out.println("Creando tu nuevo personaje");
-        System.out.println("Nombre del personaje: ");
-        this.nombre = System.console().readLine();
-        this.oro = 500;
-        this.inventario = new ArrayList<Equipo>();
-        this.armaActual = null;
-        this.armaduraActual = null;
-        this.salud = 5;
-        this.poder = (int) (Math.random() * 4 + 1);
-        this.modificadores = new ArrayList<Modificador>();
-        this.esbirros = new ArrayList<Esbirro>();
-        this.habilidadEspecial = null;
-        System.out.println("Personaje creado");
-    }
 
     public String getNombre() {
         return nombre;
@@ -60,7 +44,7 @@ public class Personaje {
         return poder;
     }
 
-    public List<Modificador> getModificadores() {
+    public ArrayList<Modificador> getModificadores() {
         return modificadores;
     }
 

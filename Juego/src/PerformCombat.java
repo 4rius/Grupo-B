@@ -1,5 +1,6 @@
 import Datos.Esbirro;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PerformCombat extends Operation {
@@ -127,7 +128,7 @@ public class PerformCombat extends Operation {
 
     public int saludEsbirros(Cliente c){
         int hp = 0;
-        List<Esbirro> eList = c.getPersonaje().getEsbirros();
+        ArrayList<Esbirro> eList = new ArrayList(c.getPersonaje().getEsbirros());
         for (Esbirro e: eList) {
             hp = hp + e.getSalud();
         }
