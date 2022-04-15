@@ -13,7 +13,6 @@ public class Multiplex {
     private boolean modo;
     private static HashMap<String, Cliente> clientes; //String del tipo LNNLL
     private static HashMap<String, Operador> operadores;
-    private static ArrayList<Combate> combates;
     private static ArrayList<Equipo> inventario;
     private static ArrayList<PerformCombat> desafios;
 
@@ -28,7 +27,6 @@ public class Multiplex {
         } else {
             Multiplex.clientes = new HashMap<>(clientes);
             Multiplex.operadores = new HashMap<>(operadores);
-            Multiplex.combates = new ArrayList<Combate>(combates);
             Multiplex.desafios = new ArrayList<PerformCombat>(desafios);
         }
 
@@ -40,7 +38,6 @@ public class Multiplex {
         ObjectInputStream inputstream = new ObjectInputStream(finputstream);
         Multiplex.clientes = (HashMap<String, Cliente>) inputstream.readObject();
         Multiplex.operadores = (HashMap<String, Operador>) inputstream.readObject();
-        Multiplex.combates = (ArrayList<Combate>) inputstream.readObject();
         Multiplex.desafios = (ArrayList<PerformCombat>) inputstream.readObject();
         inputstream.close();
     }
@@ -50,7 +47,6 @@ public class Multiplex {
         ObjectOutputStream outputstream = new ObjectOutputStream(foutputstream);
         outputstream.writeObject(Multiplex.clientes);
         outputstream.writeObject(Multiplex.operadores);
-        outputstream.writeObject(Multiplex.combates);
         outputstream.writeObject(Multiplex.desafios);
         outputstream.close();
     }
@@ -73,10 +69,6 @@ public class Multiplex {
 
     public static HashMap<String, Operador> getOperadores() {
         return operadores;
-    }
-
-    public static ArrayList<Combate> getCombates() {
-        return combates;
     }
 
     public static ArrayList<PerformCombat> getDesafios() {
