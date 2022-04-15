@@ -4,24 +4,20 @@ import Datos.Vampiro;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Cliente extends Operation{
+public class Cliente{
     private Personaje personaje;
     private String name;
     private String nick;
-    private String password;
-    private int oro;
+    private String password;;
     private static String nRegistro;
     private boolean banned;
 
-    public Cliente(Multiplex Multiplex, String name, String nick, String nRegistro, String password, Personaje personaje, boolean banned) {
-        super(Multiplex);
-        this.oro = 500;
+    public Cliente(String name, String nick, String nRegistro, String password) {
         this.name = name;
         this.nick = nick;
         this.nRegistro = nRegistro;
         this.password = password;
-        this.personaje = personaje;
-        this.banned = banned;
+        this.banned = false;
     }
 
     public String getName() {
@@ -70,10 +66,6 @@ public class Cliente extends Operation{
         this.banned = false;
     }
 
-    public int getOro() {
-        return oro;
-    }
-
     public void verHistorial(){
         for(PerformCombat combate: Multiplex.getDesafios()){
             if(combate.getDuelista1().getNick().equals(nick) && combate.getEstado() == 4) {
@@ -104,11 +96,6 @@ public class Cliente extends Operation{
         } else {
             System.out.println("Debes seleccionar un personaje antes de cambiar el equipo");
         }
-    }
-
-    @Override
-    public void doOperation() {
-
     }
 
     public Personaje getPeronaje() {

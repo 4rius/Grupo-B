@@ -80,7 +80,7 @@ public class MainMenu extends Operation {
         }
 
         System.out.println("Tu identificación de registro es: " + registro);
-        Multiplex.getClientes().put(registro, new Cliente(this.getMultiplex(), nombre, nick, registro, contrasena, null, false));
+        Multiplex.getClientes().put(registro, new Cliente(nombre, nick, registro, contrasena));
         Multiplex.getNicknames().add(nick);
         System.out.println("Registrado con éxito, bienvenido, " + nick);
         Multiplex.serialize();
@@ -181,6 +181,5 @@ public class MainMenu extends Operation {
                     }
                     }
                 }
-
         }
     }
