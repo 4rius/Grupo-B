@@ -12,11 +12,12 @@ public class Cliente extends Operation{
     private static String nRegistro;
     private boolean banned;
 
-    public Cliente(Multiplex Multiplex, String name, String nick, String password, Personaje personaje, boolean banned) {
+    public Cliente(Multiplex Multiplex, String name, String nick, String nRegistro, String password, Personaje personaje, boolean banned) {
         super(Multiplex);
         this.oro = 500;
         this.name = name;
         this.nick = nick;
+        this.nRegistro = nRegistro;
         this.password = password;
         this.personaje = personaje;
         this.banned = banned;

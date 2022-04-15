@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class MainMenu extends Operation {
 
-    public MainMenu(Multiplex multiplex, ArrayList<Operation> operationList) {
+    public MainMenu(Multiplex multiplex) {
         super(multiplex);
     }
 
@@ -21,7 +21,13 @@ public class MainMenu extends Operation {
         int opcion = 0;
         opcion = Integer.parseInt(System.console().readLine());
         switch (opcion) {
-            case 1 -> iniciarSesion();
+            case 1 -> {
+                try {
+                    iniciarSesion();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
             case 2 -> registrarse();
             case 3 -> System.out.println("Saliendo...");
             default -> {
@@ -33,16 +39,88 @@ public class MainMenu extends Operation {
     }
 
     private void registrarse() {
+        System.out.println("Se va a registrar un operador (1) o un jugador (2)");
+        int opcion = 0;
+        opcion = Integer.parseInt(System.console().readLine());
+        switch (opcion) {
+            case 1 -> registrarOperador();
+            case 2 -> registrarJugador();
+        }
     }
 
-    private void iniciarSesion() {
+    private void registrarJugador() {
+        String Letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        System.out.println("Introduzca su nombre: ");
+        String nombre = System.console().readLine();
+        System.out.println("Nick: ");
+        String nick = System.console().readLine();
+        while (Multiplex.getNicknames().contains(nick)) {
+            System.out.println("Ese nick ya existe, introduzca otro: ");
+            nick = System.console().readLine();
+        }
+        System.out.println("Introduzca su contraseña: ");
+        String contrasena = System.console().readLine();
+        String registro = null;
+        while (Multiplex.getClientes().containsKey(registro) || registro == null) { //LNNLL
+            StringBuilder sb = new StringBuilder();
+            sb.append((int) (Letras.length() * Math.random()));
+            for (int i = 0; i < 2; i++) {
+                sb.append(Math.random() * 9);
+            }
+            for (int i = 0; i < 2; i++) {
+                sb.append(Letras.charAt((int) (Math.random() * Letras.length())));
+            }
+            registro = sb.toString();
+        }
+
+        System.out.println("Tu identificación de registro es: " + registro);
+        Multiplex.getClientes().put(registro, new Cliente(this.getMultiplex(), nombre, nick, registro, contrasena, null, false));
+        Multiplex.getNicknames().add(nick);
+        System.out.println("Registrado con éxito, bienvenido, " + nick);
+    }
+
+    private void registrarOperador() {
+        System.out.println("Introduzca su nombre: ");
+        String nombre = System.console().readLine();
+        System.out.println("Nick: ");
+        String nick = System.console().readLine();
+        while (Multiplex.getNicknames().contains(nick)) {
+            System.out.println("Ese nick ya existe, introduzca otro: ");
+            nick = System.console().readLine();
+        }
+        System.out.println("Introduzca su contraseña: ");
+        String contrasena = System.console().readLine();
+
+        Multiplex.getOperadores().put(nick, new Operador(this.getMultiplex(), nombre, nick, contrasena));
+        Multiplex.getNicknames().add(nick);
+        System.out.println("Registrado con éxito, bienvenido, " + nick);
+    }
+
+    private void iniciarSesion() throws IOException {
+        System.out.println("Introduzca su identificador/nick: ");
+        String nick = System.console().readLine();
+        System.out.println("Introduzca su contraseña: ");
+        String contrasena = System.console().readLine();
+        if (Multiplex.getClientes().containsKey(nick)) {
+            Cliente cliente = Multiplex.getClientes().get(nick);
+            if (cliente.getPassword().equals(contrasena)) {
+                this.mainMenu(nick);
+            } else {
+                System.out.println("Contraseña incorrecta");
+            }
+        } else if (Multiplex.getOperadores().containsKey(nick)) {
+            Operador operador = Multiplex.getOperadores().get(nick);
+            if (operador.getContraseña().equals(contrasena)) {
+                this.mainMenu(nick);
+            } else {
+                System.out.println("Contraseña incorrecta");
+            }
+        } else {
+            System.out.println("Ese usuario no existe");
+        }
     }
 
     public void mainMenu(String nick) throws IOException {
-        if (nick.equals("null")) {
-            System.out.println("Ocurrió un problema con su usuario/contraseña");
-            this.doOperation();
-        } else {
             System.out.println("Bienvenido " + nick);
             if (Multiplex.getClientes().containsKey(nick)) {  //Si es un cliente
                 System.out.println("1. Registrar personaje");
@@ -93,7 +171,6 @@ public class MainMenu extends Operation {
                     }
                     }
                 }
-            }
 
         }
     }
