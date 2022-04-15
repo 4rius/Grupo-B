@@ -1,5 +1,6 @@
 import Datos.Personaje;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Cliente extends Operation{
@@ -84,7 +85,11 @@ public class Cliente extends Operation{
     }
 
     void seleccionarEquipo() {
-        System.out.println("Falta contenido para implementar esto");
+        if (Multiplex.getClientes().get(nick).getPersonaje() != null) {
+            //Falta por implementar
+        } else {
+            System.out.println("Debes seleccionar un personaje antes de cambiar el equipo");
+        }
     }
 
     @Override
@@ -96,4 +101,19 @@ public class Cliente extends Operation{
         return personaje;
     }
 
+    public void registrarPersonaje() throws IOException {
+        if (Multiplex.getClientes().get(nick).getPersonaje() == null) {
+            System.out.println("Ya hay un personaje registrado, elimínelo para crear uno nuevo");
+        } else {
+            Multiplex.getClientes().get(nick).setPersonaje(new Personaje());
+        }
+    }
+
+    public void crearDesafio() {
+        if (Multiplex.getClientes().get(nick).getPersonaje().getOro() > 0) {
+            //Tdoo tuyo Yisus jejeje
+        } else {
+            System.out.println("No tienes oro suficiente para crear un desafío");
+        }
+    }
 }

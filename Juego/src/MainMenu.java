@@ -55,31 +55,13 @@ public class MainMenu extends Operation {
                 int opcion = 0;
                 opcion = Integer.parseInt(System.console().readLine());
                 switch (opcion) {
-                    case 1 -> {
-                        if (Multiplex.getClientes().get(nick).getPersonaje() == null) {
-                            System.out.println("Ya hay un personaje registrado, elimínelo para crear uno nuevo");
-                        } else {
-                            Multiplex.getClientes().get(nick).setPersonaje(new Personaje());
-                        }
-                    }
+                    case 1 -> Multiplex.getClientes().get(nick).registrarPersonaje();
                     case 2 -> {
                         Multiplex.getClientes().get(nick).setPersonaje(null);
                         System.out.println("Personaje eliminado");
                     }
-                    case 3 -> {
-                        if (Multiplex.getClientes().get(nick).getPersonaje() != null) {
-                            Multiplex.getClientes().get(nick).seleccionarEquipo();
-                        } else {
-                            System.out.println("Debes seleccionar un personaje antes de cambiar el equipo");
-                        }
-                    }
-                    case 4 -> {
-                        if (Multiplex.getClientes().get(nick).getPersonaje().getOro() > 0) {
-                            //Tdoo tuyo Yisus jejeje
-                        } else {
-                            System.out.println("No tienes oro suficiente para crear un desafío");
-                        }
-                    }
+                    case 3 -> Multiplex.getClientes().get(nick).seleccionarEquipo();
+                    case 4 -> Multiplex.getClientes().get(nick).crearDesafio();
                     case 5 -> Multiplex.getClientes().get(nick).verDesafios();
                     case 6 -> Multiplex.getClientes().get(nick).verHistorial();
                     default -> {
