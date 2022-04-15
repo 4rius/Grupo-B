@@ -84,6 +84,7 @@ public class MainMenu extends Operation {
         Multiplex.getNicknames().add(nick);
         System.out.println("Registrado con éxito, bienvenido, " + nick);
         Multiplex.serialize();
+        this.doOperation();
     }
 
     private void registrarOperador() throws IOException {
@@ -102,6 +103,7 @@ public class MainMenu extends Operation {
         Multiplex.getNicknames().add(nick);
         System.out.println("Registrado con éxito, bienvenido, " + nick);
         Multiplex.serialize();
+        this.doOperation();
     }
 
     private void iniciarSesion() throws IOException {
