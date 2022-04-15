@@ -3,11 +3,11 @@ import Datos.Personaje;
 import java.util.ArrayList;
 
 public class Cliente extends Operation{
+    private Personaje personaje;
     private String name;
     private String nick;
     private String password;
     private static String nRegistro;
-    private Personaje personaje;
     private boolean banned;
     private ArrayList<Combate> combatespersonales;
 
@@ -53,13 +53,11 @@ public class Cliente extends Operation{
         this.nRegistro = nRegistro;
     }
 
-    public Personaje getPersonaje() {
-        return personaje;
-    }
-
     public void setPersonaje(Personaje personaje) {
         this.personaje = personaje;
     }
+
+    public Personaje getPersonaje(){ return personaje;}
 
     public boolean isBanned() {
         return banned;
@@ -93,4 +91,9 @@ public class Cliente extends Operation{
     public void doOperation() {
 
     }
+
+    public Personaje getPeronaje() {
+        return personaje;
+    }
+
 }

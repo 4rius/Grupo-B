@@ -1,6 +1,5 @@
 package Datos;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +13,7 @@ public class Personaje {
     private int salud;
     private int poder;
     private ArrayList<Modificador> modificadores;
-    private ArrayList<Esbirro> esbirros;
+    private List<Esbirro> esbirros;
     private Habilidad habilidadEspecial;
 
     public Personaje() throws IOException {
@@ -113,4 +112,11 @@ public class Personaje {
         this.habilidadEspecial = habilidadEspecial;
     }
 
+    public int atkTotal() {
+        return 0;
+    }
+
+    public int defTotal() {
+        return 0;
+    }
 }
