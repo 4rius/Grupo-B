@@ -8,18 +8,18 @@ public class Cliente extends Operation{
     private String name;
     private String nick;
     private String password;
+    private int oro;
     private static String nRegistro;
     private boolean banned;
-    private ArrayList<Combate> combatespersonales;
 
-    public Cliente(Multiplex Multiplex, String name, String nick, String password, Personaje personaje, boolean banned, ArrayList<Combate> combatespersonales, ArrayList<PerformCombat> desafios) {
+    public Cliente(Multiplex Multiplex, String name, String nick, String password, Personaje personaje, boolean banned) {
         super(Multiplex);
+        this.oro = 500;
         this.name = name;
         this.nick = nick;
         this.password = password;
         this.personaje = personaje;
         this.banned = banned;
-        this.combatespersonales = combatespersonales;
     }
 
     public String getName() {
@@ -68,19 +68,31 @@ public class Cliente extends Operation{
         this.banned = false;
     }
 
-    public ArrayList<Combate> getCombatespersonales() {
-        return combatespersonales;
+    public int getOro() {
+        return oro;
     }
 
     public void verHistorial(){
-        for(Combate combate: this.combatespersonales){
-            System.out.println(combate.toString());
+        for(PerformCombat combate: Multiplex.getDesafios()){
+            if(combate.getDuelista1().getNick().equals(nick) && combate.getEstado() == 4) {
+                System.out.println(combate.getDuelista1().getNick() + " vs " + combate.getDuelista2().getNick());
+                System.out.println("Fecha: " + combate.getFecha());
+                System.out.println("Rondas jugadas: " + combate.getRondas());
+                System.out.println("Ganador: " + combate.getVencedor());
+            }
         }
     }
 
     public void verDesafios(){
+        //1 en espera, 2 en espera de ser aceptado, 3 en ejecución, 4 finalizado
         for(PerformCombat desafio: Multiplex.getDesafios()){
-            System.out.println(desafio.toString());
+            if (desafio.getEstado() == 1) { //1 es en espera de ser aceptado
+                System.out.println("Introduzca el nick del usuario del que quiere aceptar el desafío: ");
+                System.out.println(desafio.getDuelista1().getNick() + " vs " + desafio.getDuelista2().getNick());
+                System.out.println("Oro apostado: " + desafio.getOro());
+            } else if (desafio.getEstado() == 0) { //2 es en espera de ser aceptado;
+                System.out.println(desafio.getDuelista1().getNick() + " vs " + desafio.getDuelista2().getNick() + " esta pendiente de ser aceptado por un operador");
+            }
         }
     }
 
