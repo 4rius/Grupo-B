@@ -1,4 +1,5 @@
-import Datos.Personaje;
+import Datos.*;
+import Datos.Vampiro;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -115,10 +116,32 @@ public class Cliente extends Operation{
     }
 
     public void registrarPersonaje() throws IOException {
-        if (Multiplex.getClientes().get(nick).getPersonaje() == null) {
+        if (personaje != null) {
             System.out.println("Ya hay un personaje registrado, elimínelo para crear uno nuevo");
         } else {
-            Multiplex.getClientes().get(nick).setPersonaje(new Personaje());
+            System.out.println("Elige el tipo de personaje");
+            System.out.println("1. Vampiro");
+            System.out.println("2. Licantropo");
+            System.out.println("3. Cazador");
+            int opcion = 0;
+            opcion = Integer.parseInt(System.console().readLine());
+
+            switch(opcion){
+                case 1 -> {
+                    this.personaje = new Vampiro();
+                    //this.personaje.setHabilidadEspecial(new Disciplina());
+
+                }
+                case 2 -> this.personaje = new Licantropo();
+                case 3 -> this.personaje = new Cazador();
+                default -> {
+                    System.out.println("Error: Opción no identificada");
+                    break;
+                }
+            }
+
+            System.out.println("");
+            System.out.println("");
         }
     }
 

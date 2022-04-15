@@ -1,12 +1,13 @@
 package Datos;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Demonio extends Esbirro{
     private String Pacto;
-    private List<Esbirro> Esbirros;
+    private ArrayList<Esbirro> Esbirros;
 
-    public Demonio(String nombre, int salud, String pacto, List<Esbirro> esbirros) {
+    public Demonio(String nombre, int salud, String pacto, ArrayList<Esbirro> esbirros) {
         super(nombre, salud);
         Pacto = pacto;
         Esbirros = esbirros;
@@ -24,7 +25,7 @@ public class Demonio extends Esbirro{
         return Esbirros;
     }
 
-    public void setEsbirros(List<Esbirro> esbirros) {
+    public void setEsbirros(ArrayList<Esbirro> esbirros) {
         Esbirros = esbirros;
     }
 }
