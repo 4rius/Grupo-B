@@ -3,9 +3,9 @@ package Datos;
 public class Modificador {
     private String Nombre;
     private int mod;
-    private boolean tipomod;
+    private int tipomod;
 
-    public Modificador(String nombre, int mod, boolean tipomod) {
+    public Modificador(String nombre, int mod, int tipomod) {
         Nombre = nombre;
         this.mod = mod;
         this.tipomod = tipomod;
@@ -27,11 +27,11 @@ public class Modificador {
         this.mod = mod;
     }
 
-    public boolean isTipomod() {
+    public int isTipomod() {
         return tipomod;
     }
 
-    public void setTipomod(boolean tipomod) {
+    public void setTipomod(int tipomod) {
         this.tipomod = tipomod;
     }
 }

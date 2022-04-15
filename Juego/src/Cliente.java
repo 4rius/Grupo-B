@@ -129,19 +129,32 @@ public class Cliente extends Operation{
             switch(opcion){
                 case 1 -> {
                     this.personaje = new Vampiro();
-                    //this.personaje.setHabilidadEspecial(new Disciplina());
-
+                    this.personaje.setHabilidadEspecial(new Disciplina("murcielago", 2,2,2 ));
+                    this.personaje.getModificadores().add(new Modificador("luz solar", 5, 0));
                 }
-                case 2 -> this.personaje = new Licantropo();
-                case 3 -> this.personaje = new Cazador();
+                case 2 -> {
+                    this.personaje = new Licantropo();
+                    this.personaje.setHabilidadEspecial(new Don("lobito", 3,1,2));
+                    this.personaje.getModificadores().add(new Modificador("luna llena", 2, 1));
+                }
+
+                case 3 -> {
+                    this.personaje = new Cazador();
+                    this.personaje.setHabilidadEspecial(new Talento("arco", 0, 0, 13));
+                }
                 default -> {
                     System.out.println("Error: Opción no identificada");
                     break;
                 }
             }
-
-            System.out.println("");
-            System.out.println("");
+            System.out.println("Escribe el nombre de tu personaje");
+            String nombre = System.console().readLine();
+            this.personaje.setNombre(nombre);
+            this.personaje.setSalud(5);
+            int r = (int) (Math.random()*5 + 1);
+            this.personaje.setPoder(r);
+            this.personaje.setOro(500);
+            System.out.println("Personaje creado correctamente");
         }
     }
 

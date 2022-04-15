@@ -44,7 +44,7 @@ public class Personaje {
         return poder;
     }
 
-    public List<Modificador> getModificadores() {
+    public ArrayList<Modificador> getModificadores() {
         return modificadores;
     }
 
