@@ -60,14 +60,14 @@ public class MainMenu extends Operation {
         String nombre = System.console().readLine();
         System.out.println("Nick: ");
         String nick = System.console().readLine();
-        while (Multiplex.getNicknames().contains(nick)) {
+        while (Multiplex.getClientes().containsKey(nick)) {
             System.out.println("Ese nick ya existe, introduzca otro: ");
             nick = System.console().readLine();
         }
         System.out.println("Introduzca su contraseña: ");
         String contrasena = System.console().readLine();
         String registro = null;
-        while (Multiplex.getClientes().containsKey(registro) || registro == null) { //LNNLL
+        while (Multiplex.getRegistros().contains(registro) || registro == null) { //LNNLL
             StringBuilder sb = new StringBuilder();
             sb.append((int) (Letras.length() * Math.random()));
             for (int i = 0; i < 2; i++) {
@@ -80,9 +80,9 @@ public class MainMenu extends Operation {
         }
 
         System.out.println("Tu identificación de registro es: " + registro);
-        Multiplex.getClientes().put(registro, new Cliente(nombre, nick, registro, contrasena));
-        Multiplex.getNicknames().add(nick);
-        System.out.println("Registrado con éxito, bienvenido, " + nick);
+        Multiplex.getClientes().put(nick, new Cliente(nombre, nick, registro, contrasena));
+        Multiplex.getRegistros().add(registro);
+        System.out.println("Registrado con éxito, bienvenido, " + nick + "! Ya puedes iniciar sesión");
         Multiplex.serialize();
         this.doOperation();
     }
@@ -92,7 +92,7 @@ public class MainMenu extends Operation {
         String nombre = System.console().readLine();
         System.out.println("Nick: ");
         String nick = System.console().readLine();
-        while (Multiplex.getNicknames().contains(nick)) {
+        while (Multiplex.getClientes().containsKey(nick) || Multiplex.getOperadores().containsKey(nick)) {
             System.out.println("Ese nick ya existe, introduzca otro: ");
             nick = System.console().readLine();
         }
@@ -100,28 +100,27 @@ public class MainMenu extends Operation {
         String contrasena = System.console().readLine();
 
         Multiplex.getOperadores().put(nick, new Operador(this.getMultiplex(), nombre, nick, contrasena));
-        Multiplex.getNicknames().add(nick);
-        System.out.println("Registrado con éxito, bienvenido, " + nick);
+        System.out.println("Registrado con éxito, bienvenido, " + nick + "! Ya puedes iniciar sesión");
         Multiplex.serialize();
         this.doOperation();
     }
 
     private void iniciarSesion() throws IOException {
-        System.out.println("Introduzca su identificador/nick: ");
+        System.out.println("Introduzca su nick: ");
         String nick = System.console().readLine();
         System.out.println("Introduzca su contraseña: ");
         String contrasena = System.console().readLine();
         if (Multiplex.getClientes().containsKey(nick)) {
             Cliente cliente = Multiplex.getClientes().get(nick);
             if (cliente.getPassword().equals(contrasena)) {
-                this.mainMenu(nick);
+                this.mainMenu(1, nick);
             } else {
                 System.out.println("Contraseña incorrecta");
             }
         } else if (Multiplex.getOperadores().containsKey(nick)) {
             Operador operador = Multiplex.getOperadores().get(nick);
             if (operador.getContraseña().equals(contrasena)) {
-                this.mainMenu(nick);
+                this.mainMenu(2, nick);
             } else {
                 System.out.println("Contraseña incorrecta");
             }
@@ -130,15 +129,17 @@ public class MainMenu extends Operation {
         }
     }
 
-    public void mainMenu(String nick) throws IOException {
+    public void mainMenu(int tipo, String nick) throws IOException {
             System.out.println("Bienvenido " + nick);
-            if (Multiplex.getClientes().containsKey(nick)) {  //Si es un cliente
+            if (tipo == 1) {  //Si es un cliente
                 System.out.println("1. Registrar personaje");
                 System.out.println("2. Eliminar el personaje actual");
                 System.out.println("3. Seleccionar equipo");
                 System.out.println("4. Crear desafío");
                 System.out.println("5. Ver desafíos pendientes");
                 System.out.println("6. Ver historial de combates");
+                System.out.println("7. Suscribirse a resultados");
+                System.out.println("8. Cerrar sesión");
                 System.out.println("Introduzca una opción: ");
                 int opcion = 0;
                 opcion = Integer.parseInt(System.console().readLine());
@@ -152,6 +153,8 @@ public class MainMenu extends Operation {
                     case 4 -> Multiplex.getClientes().get(nick).crearDesafio();
                     case 5 -> Multiplex.getClientes().get(nick).verDesafios();
                     case 6 -> Multiplex.getClientes().get(nick).verHistorial();
+                    case 7 -> Multiplex.getClientes().get(nick).suscribirse();
+                    case 8 -> this.doOperation();
                     default -> {
                         System.out.println("Esa no es una opción válida");
                     }
@@ -165,6 +168,7 @@ public class MainMenu extends Operation {
                 System.out.println("5. Validar desafíos pendientes");
                 System.out.println("6. Banear jugador");
                 System.out.println("7. Desbanear jugador");
+                System.out.println("8. Cerrar sesión");
                 System.out.println("Introduzca una opción: ");
                 int opcion = 0;
                 opcion = Integer.parseInt(System.console().readLine());
@@ -176,6 +180,7 @@ public class MainMenu extends Operation {
                     case 5 -> Multiplex.getOperadores().get(nick).validarDesafios();
                     case 6 -> Multiplex.getOperadores().get(nick).banearJugador();
                     case 7 -> Multiplex.getOperadores().get(nick).desbanearJugador();
+                    case 8 -> this.doOperation();
                     default -> {
                         System.out.println("Esa no es una opción válida");
                     }

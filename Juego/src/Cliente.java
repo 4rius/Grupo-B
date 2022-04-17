@@ -12,6 +12,8 @@ public class Cliente{
     private static String nRegistro;
     private boolean banned;
 
+    private Notificador notificador;
+
     public Cliente(String name, String nick, String nRegistro, String password) {
         this.name = name;
         this.nick = nick;
@@ -64,6 +66,10 @@ public class Cliente{
 
     public void setBanned(boolean banned) {
         this.banned = false;
+    }
+
+    public Notificador getNotificador() {
+        return notificador;
     }
 
     public void verHistorial(){
@@ -151,5 +157,20 @@ public class Cliente{
         } else {
             System.out.println("No tienes oro suficiente para crear un desafío");
         }
+    }
+
+    public void suscribirse() { //Cada clioente tiene su propio notificador, los que se suscriban a su perfil recibiran una notificación cada vez que este termine un desafío
+        System.out.println("Escribe el nick del duelista que quieres conocer sus resultados al instante: ");
+        String nick = System.console().readLine();
+        if (Multiplex.getClientes().containsKey(nick)) {
+            Multiplex.getClientes().get(nick).getNotificador().agregarCliente(this);
+            System.out.println("Suscrito a los resultados de: " + nick);
+        } else {
+            System.out.println("El usuario especificado no existe");
+        }
+    }
+
+    public void recibirNotificacion(String mensaje) {
+        System.out.println(mensaje);
     }
 }
