@@ -91,8 +91,8 @@ public class Multiplex {
     }
 
     private void inicializarInventario() throws IOException {
-        File f = new File("Assets/Armas.txt");
-        File f2 = new File("Assets/Armadura.txt");
+        File f = new File("./Assets/Armas.txt");
+        File f2 = new File("./Assets/Armadura.txt");
         Scanner sc = new Scanner(f);
         Pattern p1 = Pattern.compile("[a-zA-Z]");
         Pattern p2 = Pattern.compile("[0-9]");

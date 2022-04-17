@@ -22,7 +22,7 @@ public class PerformCombat extends Operation {
                 this.duelista2 = Multiplex.getClientes().get(duelista2);
                 System.out.println("Introduzca el oro que quiere apostar: ");
                 int oroo = Integer.parseInt(System.console().readLine());
-                if (Multiplex.getClientes().get(duelista1).getOro() >= oroo) {
+                if (Multiplex.getClientes().get(duelista1).getPersonaje().getOro() >= oroo ){ // Comprobamos que el oro es suficiente
                     this.oro = oroo;
                 } else {
                     System.out.println("No tiene suficiente oro, desafío cancelado");
