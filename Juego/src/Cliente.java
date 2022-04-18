@@ -2,6 +2,9 @@ import Datos.*;
 import Datos.Vampiro;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Cliente{
     private Personaje personaje;
@@ -151,10 +154,19 @@ public class Cliente{
     }
 
     public void crearDesafio() {
-        if (Multiplex.getClientes().get(nick).getPersonaje().getOro() > 0) {
-            //Tdoo tuyo Yisus jejeje
-        } else {
-            System.out.println("No tienes oro suficiente para crear un desafío");
+        System.out.println("Escribe el nick del usuario que quiere desafiar");
+        String nickUsuario = System.console().readLine();
+        System.out.println("Escribe la cantidad de oro que quiere apostar");
+        int oroApostado = Integer.parseInt(System.console().readLine());
+        if (this.personaje.getOro() < oroApostado){
+            System.out.println("No tienes suficiente oro");
+        }
+        else {
+            Combate desafio = new Combate();
+            desafio.setDuelista1(this);
+            desafio.setDuelista2(Multiplex.getClientes().get(nickUsuario));
+            desafio.setOro(oroApostado);
+            Multiplex.getDesafios().add(desafio);
         }
     }
 
