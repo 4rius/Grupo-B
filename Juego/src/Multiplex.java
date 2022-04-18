@@ -94,8 +94,9 @@ public class Multiplex {
         File f = new File("Juego/Assets/Armas.txt");
         File f2 = new File("Juego/Assets/Armadura.txt");
         Scanner sc = new Scanner(f);
-        Pattern p1 = Pattern.compile("[a-zA-Z]");
+        Pattern p1 = Pattern.compile(" [\\w\\s]+");
         Pattern p2 = Pattern.compile("[0-9]");
+
         while (sc.hasNextLine()) {
             String nombre = sc.findInLine(p1);
             sc.nextLine();
@@ -103,8 +104,11 @@ public class Multiplex {
             sc.nextLine();
             String def = sc.findInLine(p2);
             sc.nextLine();
-            String dosManos = sc.findInLine(p2);
-            sc.nextLine();
+            String dosManos = sc.findInLine(p1);
+            if(sc.hasNextLine()) {
+                sc.nextLine();
+                sc.nextLine();
+            }
             Arma a = new Arma(nombre, Integer.parseInt(atq), Integer.parseInt(def), Boolean.parseBoolean(dosManos));
             inventario.add(a);
         }
@@ -116,7 +120,10 @@ public class Multiplex {
             String atq = sc2.findInLine(p2);
             sc2.nextLine();
             String def = sc2.findInLine(p2);
-            sc2.nextLine();
+            if(sc2.hasNextLine()) {
+                sc2.nextLine();
+                sc2.nextLine();
+            }
             Armadura a = new Armadura(nombre, Integer.parseInt(atq), Integer.parseInt(def));
             inventario.add(a);
         }
