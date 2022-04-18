@@ -68,6 +68,10 @@ public class Personaje {
         this.oro = oro;
     }
 
+    public void addOro(int o){
+        this.oro = this.oro + o;
+    }
+
     public void setInventario(ArrayList<Equipo> inventario) {
         this.inventario = inventario;
     }

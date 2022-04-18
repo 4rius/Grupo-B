@@ -15,7 +15,7 @@ public class Multiplex {
     private static ArrayList<String> registros; //Hace falta porque no se puede acceder al atributo de un objeto en un hashmap
     private static HashMap<String, Operador> operadores;
     private static ArrayList<Equipo> inventario;
-    private static ArrayList<PerformCombat> desafios;
+    private static ArrayList<Combate> desafios;
 
 
     public Multiplex(boolean modo) throws IOException, ClassNotFoundException {
@@ -41,7 +41,7 @@ public class Multiplex {
         Multiplex.clientes = (HashMap<String, Cliente>) inputstream.readObject();
         Multiplex.registros = (ArrayList<String>) inputstream.readObject();
         Multiplex.operadores = (HashMap<String, Operador>) inputstream.readObject();
-        Multiplex.desafios = (ArrayList<PerformCombat>) inputstream.readObject();
+        Multiplex.desafios = (ArrayList<Combate>) inputstream.readObject();
         inputstream.close();
     }
 
@@ -75,7 +75,7 @@ public class Multiplex {
         return operadores;
     }
 
-    public static ArrayList<PerformCombat> getDesafios() {
+    public static ArrayList<Combate> getDesafios() {
         return desafios;
     }
 

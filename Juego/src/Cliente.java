@@ -2,7 +2,6 @@ import Datos.*;
 import Datos.Vampiro;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class Cliente{
     private Personaje personaje;
@@ -73,7 +72,7 @@ public class Cliente{
     }
 
     public void verHistorial(){
-        for(PerformCombat combate: Multiplex.getDesafios()){
+        for(Combate combate: Multiplex.getDesafios()){
             if(combate.getDuelista1().getNick().equals(nick) && combate.getEstado() == 4) {
                 System.out.println(combate.getDuelista1().getNick() + " vs " + combate.getDuelista2().getNick());
                 System.out.println("Fecha: " + combate.getFecha());
@@ -85,7 +84,7 @@ public class Cliente{
 
     public void verDesafios(){
         //1 en espera, 2 en espera de ser aceptado, 3 en ejecución, 4 finalizado
-        for(PerformCombat desafio: Multiplex.getDesafios()){
+        for(Combate desafio: Multiplex.getDesafios()){
             if (desafio.getEstado() == 1) { //1 es en espera de ser aceptado
                 System.out.println("Introduzca el nick del usuario del que quiere aceptar el desafío: ");
                 System.out.println(desafio.getDuelista1().getNick() + " vs " + desafio.getDuelista2().getNick());
