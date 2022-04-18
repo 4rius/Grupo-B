@@ -104,7 +104,7 @@ public class MainMenu extends Operation {
         System.out.println("Introduzca su contraseña: ");
         String contrasena = br.readLine();
 
-        Multiplex.getOperadores().put(nick, new Operador(this.getMultiplex(), nombre, nick, contrasena));
+        Multiplex.getOperadores().put(nick, new Operador(nombre, nick, contrasena));
         System.out.println("Registrado con éxito, bienvenido, " + nick + "! Ya puedes iniciar sesión");
         Multiplex.serialize();
         this.doOperation();

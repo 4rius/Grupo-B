@@ -2,15 +2,22 @@ import Datos.Personaje;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Serial;
 import java.io.Serializable;
 
-public class Operador extends Operation implements Serializable {
+public class Operador implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
     private String Nombre;
     private String Nick;
     private String Contraseña;
 
-    public Operador(Multiplex Multiplex, String nombre, String nick, String contraseña) {
-        super(Multiplex);
+    /**
+     * Constructor noargs para la serialización
+     *
+     */
+    public Operador(String nombre, String nick, String contraseña) {
         Nombre = nombre;
         Nick = nick;
         Contraseña = contraseña;
@@ -113,18 +120,13 @@ public class Operador extends Operation implements Serializable {
             if (opcion < Multiplex.getDesafios().size()){
                 Multiplex.getDesafios().get(opcion).setEstado(1);
                 System.out.println("Desafío validado");
-                Multiplex.getDesafios().get(opcion).getDuelista1().recibirNotificacion("La batalla contra" + Multiplex.getDesafios().get(opcion).getDuelista2().getNick() + "va a comenzar");
-                Multiplex.getDesafios().get(opcion).getDuelista2().recibirNotificacion("La batalla contra" + Multiplex.getDesafios().get(opcion).getDuelista1().getNick() + "va a comenzar");
+                Multiplex.getDesafios().get(opcion).getDuelista1().recibirNotificacion("La batalla contra" + Multiplex.getDesafios().get(opcion).getDuelista2().getNick() + "ha sido validada");
+                Multiplex.getDesafios().get(opcion).getDuelista2().recibirNotificacion(Multiplex.getDesafios().get(opcion).getDuelista1().getNick() + "Te ha desafiado, ¡ve a desafíos pendientes para aceptarlo!");
                 Multiplex.serialize();
             }
         } else {
             System.out.println("No hay desafios pendientes");
         }
-    }
-
-    @Override
-    public void doOperation() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void banearJugador() throws IOException {

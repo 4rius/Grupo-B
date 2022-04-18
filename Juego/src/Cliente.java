@@ -1,21 +1,29 @@
 import Datos.*;
 import Datos.Vampiro;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 
 public class Cliente implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 2L;
     private Personaje personaje;
     private String name;
     private String nick;
     private String password;;
     private static String nRegistro;
     private boolean banned;
-
     private Notificador notificador;
+
+    public Cliente(Personaje personaje, String name, String nick, String password, boolean banned, Notificador notificador) {
+        this.personaje = personaje;
+        this.name = name;
+        this.nick = nick;
+        this.password = password;
+        this.banned = banned;
+        this.notificador = notificador;
+    }
 
     public Cliente(String name, String nick, String nRegistro, String password) {
         this.name = name;
@@ -86,15 +94,26 @@ public class Cliente implements Serializable {
         }
     }
 
-    public void verDesafios(){
+    public void verDesafios() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         //1 en espera, 2 en espera de ser aceptado, 3 en ejecución, 4 finalizado
         for(Combate desafio: Multiplex.getDesafios()){
             if (desafio.getEstado() == 1) { //1 es en espera de ser aceptado por el otro jugador
                 System.out.println("Introduzca el nick del usuario del que quiere aceptar el desafío: ");
                 System.out.println(desafio.getDuelista1().getNick() + " vs " + desafio.getDuelista2().getNick());
                 System.out.println("Oro apostado: " + desafio.getOro());
-            } else if (desafio.getEstado() == 0) { //2 es en espera de ser aceptado por el operador;
+            } else if (desafio.getEstado() == 0) { //0 es en espera de ser aceptado por el operador;
                 System.out.println(desafio.getDuelista1().getNick() + " vs " + desafio.getDuelista2().getNick() + " esta pendiente de ser aceptado por un operador");
+            }
+        }
+        String nick = br.readLine();
+        for(Combate desafio: Multiplex.getDesafios()){
+            if(desafio.getDuelista1().getNick().equals(this.nick) && desafio.getDuelista2().getNick().equals(nick) && desafio.getEstado() == 1){
+                System.out.println("El desafio ha sido aceptado, comenzando la batalla");
+                desafio.setEstado(2); //2 es en ejecucion
+                //Aquí hay que llamar a peformcombat y luego actualizar el resultado de este desafío
+            } else {
+                System.out.println("Ese desafío no existe / no está validado");
             }
         }
     }
@@ -161,12 +180,13 @@ public class Cliente implements Serializable {
         if (personaje != null) {
             System.out.println("Ya hay un personaje registrado, elimínelo para crear uno nuevo");
         } else {
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             System.out.println("Elige el tipo de personaje");
             System.out.println("1. Vampiro");
             System.out.println("2. Licantropo");
             System.out.println("3. Cazador");
             int opcion = 0;
-            opcion = Integer.parseInt(System.console().readLine());
+            opcion = Integer.parseInt(br.readLine());
 
             switch(opcion){
                 case 1 -> {
@@ -190,7 +210,7 @@ public class Cliente implements Serializable {
                 }
             }
             System.out.println("Escribe el nombre de tu personaje");
-            String nombre = System.console().readLine();
+            String nombre = br.readLine();
             this.personaje.setNombre(nombre);
             this.personaje.setSalud(5);
             int r = (int) (Math.random()*5 + 1);
@@ -200,11 +220,12 @@ public class Cliente implements Serializable {
         }
     }
 
-    public void crearDesafio() {
+    public void crearDesafio() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Escribe el nick del usuario que quiere desafiar");
-        String nickUsuario = System.console().readLine();
+        String nickUsuario = br.readLine();
         System.out.println("Escribe la cantidad de oro que quiere apostar");
-        int oroApostado = Integer.parseInt(System.console().readLine());
+        int oroApostado = Integer.parseInt(br.readLine());
         if (this.personaje.getOro() < oroApostado){
             System.out.println("No tienes suficiente oro");
         }

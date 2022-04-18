@@ -7,6 +7,9 @@ public abstract class Operation {
         this.multiplex = multiplex;
     }
 
+    protected Operation() {
+    }
+
     public Multiplex getMultiplex() {
         return multiplex;
     }
