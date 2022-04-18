@@ -32,9 +32,21 @@ public class Vampiro extends Personaje{
                 this.getArmaActual1().getModataque() + this.getArmaActual2().getModataque() +
                 this.getArmaduraActual().getModataque();
         if (this.ptossangre >= 5){
-            ptossangre = ptossangre - this.disciplina.getCosteSangre();
             atk = atk + 2;
         }
         return atk;
+    }
+
+    @Override
+    public int defTotal(){
+        int def = 0;
+        def = this.getPoder() + this.disciplina.getDfs() +
+                this.getArmaActual1().getModdef() + this.getArmaActual2().getModdef() +
+                this.getArmaduraActual().getModdef();
+        if (this.ptossangre >= 5){
+            ptossangre = ptossangre - this.disciplina.getCosteSangre();
+            def = def + 2;
+        }
+        return def;
     }
 }
