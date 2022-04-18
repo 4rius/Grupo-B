@@ -88,11 +88,11 @@ public class Cliente{
     public void verDesafios(){
         //1 en espera, 2 en espera de ser aceptado, 3 en ejecución, 4 finalizado
         for(Combate desafio: Multiplex.getDesafios()){
-            if (desafio.getEstado() == 1) { //1 es en espera de ser aceptado
+            if (desafio.getEstado() == 1) { //1 es en espera de ser aceptado por el otro jugador
                 System.out.println("Introduzca el nick del usuario del que quiere aceptar el desafío: ");
                 System.out.println(desafio.getDuelista1().getNick() + " vs " + desafio.getDuelista2().getNick());
                 System.out.println("Oro apostado: " + desafio.getOro());
-            } else if (desafio.getEstado() == 0) { //2 es en espera de ser aceptado;
+            } else if (desafio.getEstado() == 0) { //2 es en espera de ser aceptado por el operador;
                 System.out.println(desafio.getDuelista1().getNick() + " vs " + desafio.getDuelista2().getNick() + " esta pendiente de ser aceptado por un operador");
             }
         }
