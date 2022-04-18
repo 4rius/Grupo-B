@@ -76,8 +76,11 @@ public class Personaje {
         this.inventario = inventario;
     }
 
-    public void setArmaActual(Arma armaActual) {
-        this.armaActual1 = armaActual;
+    public void setArmaActual1(Arma armaActual1) {
+        this.armaActual1 = armaActual1;
+    }
+    public void setArmaActual2(Arma armaActual2) {
+        this.armaActual2 = armaActual2;
     }
 
     public void setArmaduraActual(Armadura armaduraActual) {
