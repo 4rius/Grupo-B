@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 public abstract class Operation {
     private Multiplex multiplex;
 
@@ -9,5 +11,5 @@ public abstract class Operation {
         return multiplex;
     }
 
-    public abstract void doOperation();
+    public abstract void doOperation() throws IOException;
 }

@@ -1,25 +1,18 @@
 import Datos.Esbirro;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class PerformCombat extends Operation {
-    private Cliente duelista1;
-    private Cliente duelista2;
-    private int oro; // Oro que apuestan los jugadores
-    private int estado;
-    private int rondas;
-    private String Fecha;
-    private Cliente vencedor;
-    private boolean Esbirrosvivos;
 
-    public PerformCombat(Multiplex multiplex, Cliente duelista1) {
+    private Combate combate;
+    private Multiplex multiplex;
+
+    public PerformCombat(Multiplex multiplex) {
         super(multiplex);
-        this.duelista1 = duelista1;
-        try {
+       /* try {
             String duelista2 = System.console().readLine("A quién va a desafiar? ");
             if (Multiplex.getClientes().containsKey(duelista2)) {
-                this.duelista2 = Multiplex.getClientes().get(duelista2);
+                this.combate.getDuelista1() = Multiplex.getClientes().get(duelista2);
                 System.out.println("Introduzca el oro que quiere apostar: ");
                 int oroo = Integer.parseInt(System.console().readLine());
                 if (Multiplex.getClientes().get(duelista1).getPersonaje().getOro() >= oroo ){ // Comprobamos que el oro es suficiente
@@ -32,74 +25,29 @@ public class PerformCombat extends Operation {
             }
         } catch (RuntimeException e) {
             System.out.println("No existe el cliente, desafío cancelado");
-        }
-        estado = 0;
-        rondas = Integer.parseInt(System.console().readLine());
-        Fecha = System.currentTimeMillis() + "";
-        vencedor = null;
-        Esbirrosvivos = true; //Aqui hay que llamar  a algo que compruebe cuantos esbirros quedan
+        }*/
     }
 
-    public Cliente getDuelista1() {
-        return duelista1;
+    public Combate getCombate() {
+        return combate;
     }
 
-    public void setDuelista1(Cliente duelista1) {
-        this.duelista1 = duelista1;
-    }
-
-    public Cliente getDuelista2() {
-        return duelista2;
-    }
-
-    public void setDuelista2(Cliente duelista2) {
-        this.duelista2 = duelista2;
-    }
-
-    public int getEstado() {
-        return estado;
-    }
-
-   public void setEstado(int estado) {
-        estado = estado;
-    }
-
-    public int getRondas() {
-        return rondas;
-    }
-
-    public String getFecha() {
-        return Fecha;
-    }
-
-    public void setFecha(String fecha) {
-        Fecha = fecha;
-    }
-
-    public Cliente getVencedor() {
-        return vencedor;
-    }
-
-    public boolean isEsbirrosvivos() {
-        return Esbirrosvivos;
-    }
-
-    public int getOro() {
-        return oro;
+    public void setCombate(Combate combate) {
+        this.combate = combate;
     }
 
     @Override
     public void doOperation() {
-        rondas = 0;
-        int hp_Esb1 = saludEsbirros(duelista1);
-        int hp_Per1 = duelista1.getPeronaje().getSalud();
-        int hp_Esb2 = saludEsbirros(duelista2);
-        int hp_Per2 = duelista2.getPeronaje().getSalud();
-        while(estado != 0){
-            int atk1 = calcularAtk(duelista1);
-            int atk2 = calcularAtk(duelista2);
-            int def1 = calcularDef(duelista1);
-            int def2 = calcularDef(duelista2);
+        combate.setRondas(0);
+        int hp_Esb1 = saludEsbirros(combate.getDuelista1());
+        int hp_Per1 = combate.getDuelista1().getPeronaje().getSalud();
+        int hp_Esb2 = saludEsbirros(combate.getDuelista2());
+        int hp_Per2 = combate.getDuelista2().getPeronaje().getSalud();
+        while(combate.getEstado() != 0){
+            int atk1 = calcularAtk(combate.getDuelista1());
+            int atk2 = calcularAtk(combate.getDuelista2());
+            int def1 = calcularDef(combate.getDuelista1());
+            int def2 = calcularDef(combate.getDuelista2());
             atk1 = rolearDados(atk1);
             atk2 = rolearDados(atk2);
             def1 = rolearDados(def1);
@@ -122,8 +70,9 @@ public class PerformCombat extends Operation {
                 }
             }
             comprobarEstado(hp_Per1, hp_Per2);
-            rondas++;
+            combate.setRondas(combate.getRondas() + 1);
         }
+        combate.setEsbirrosVivos(this.isEsbirrosVivos(hp_Esb1, hp_Esb2));
     }
 
     public int saludEsbirros(Cliente c){
@@ -159,15 +108,24 @@ public class PerformCombat extends Operation {
     public void comprobarEstado(int hp1, int hp2){
         if (hp1 <= 0 || hp2 <= 0){
             if (hp1 > 0){
-                vencedor = duelista2;
+                combate.setVencedor(combate.getDuelista2());
+                combate.getDuelista2().getPersonaje().addOro(combate.getOro());
             }
             else if (hp2 > 0){
-                vencedor = duelista1;
+                combate.setVencedor(combate.getDuelista2());
+                combate.getDuelista1().getPersonaje().addOro(combate.getOro());
             }
             else{
-                vencedor = null;
+                combate.setVencedor(null);
             }
-            estado = 0;
+            combate.setEstado(0);
         }
+    }
+
+    public boolean isEsbirrosVivos(int hp1, int hp2){
+        if (hp1 != 0 || hp2 != 0){
+            return true;
+        }
+        return false;
     }
 }

@@ -3,6 +3,8 @@ import Datos.Vampiro;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Cliente{
     private Personaje personaje;
@@ -11,6 +13,8 @@ public class Cliente{
     private String password;;
     private static String nRegistro;
     private boolean banned;
+
+    private Notificador notificador;
 
     public Cliente(String name, String nick, String nRegistro, String password) {
         this.name = name;
@@ -66,8 +70,12 @@ public class Cliente{
         this.banned = false;
     }
 
+    public Notificador getNotificador() {
+        return notificador;
+    }
+
     public void verHistorial(){
-        for(PerformCombat combate: Multiplex.getDesafios()){
+        for(Combate combate: Multiplex.getDesafios()){
             if(combate.getDuelista1().getNick().equals(nick) && combate.getEstado() == 4) {
                 System.out.println(combate.getDuelista1().getNick() + " vs " + combate.getDuelista2().getNick());
                 System.out.println("Fecha: " + combate.getFecha());
@@ -79,7 +87,7 @@ public class Cliente{
 
     public void verDesafios(){
         //1 en espera, 2 en espera de ser aceptado, 3 en ejecución, 4 finalizado
-        for(PerformCombat desafio: Multiplex.getDesafios()){
+        for(Combate desafio: Multiplex.getDesafios()){
             if (desafio.getEstado() == 1) { //1 es en espera de ser aceptado
                 System.out.println("Introduzca el nick del usuario del que quiere aceptar el desafío: ");
                 System.out.println(desafio.getDuelista1().getNick() + " vs " + desafio.getDuelista2().getNick());
@@ -146,10 +154,34 @@ public class Cliente{
     }
 
     public void crearDesafio() {
-        if (Multiplex.getClientes().get(nick).getPersonaje().getOro() > 0) {
-            //Tdoo tuyo Yisus jejeje
-        } else {
-            System.out.println("No tienes oro suficiente para crear un desafío");
+        System.out.println("Escribe el nick del usuario que quiere desafiar");
+        String nickUsuario = System.console().readLine();
+        System.out.println("Escribe la cantidad de oro que quiere apostar");
+        int oroApostado = Integer.parseInt(System.console().readLine());
+        if (this.personaje.getOro() < oroApostado){
+            System.out.println("No tienes suficiente oro");
         }
+        else {
+            Combate desafio = new Combate();
+            desafio.setDuelista1(this);
+            desafio.setDuelista2(Multiplex.getClientes().get(nickUsuario));
+            desafio.setOro(oroApostado);
+            Multiplex.getDesafios().add(desafio);
+        }
+    }
+
+    public void suscribirse() { //Cada clioente tiene su propio notificador, los que se suscriban a su perfil recibiran una notificación cada vez que este termine un desafío
+        System.out.println("Escribe el nick del duelista que quieres conocer sus resultados al instante: ");
+        String nick = System.console().readLine();
+        if (Multiplex.getClientes().containsKey(nick)) {
+            Multiplex.getClientes().get(nick).getNotificador().agregarCliente(this);
+            System.out.println("Suscrito a los resultados de: " + nick);
+        } else {
+            System.out.println("El usuario especificado no existe");
+        }
+    }
+
+    public void recibirNotificacion(String mensaje) {
+        System.out.println(mensaje);
     }
 }
