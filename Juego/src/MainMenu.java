@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.io.Console.*;
 
 public class MainMenu extends Operation {
 
@@ -12,14 +13,15 @@ public class MainMenu extends Operation {
     }
 
     @Override
-    public void doOperation() {
+    public void doOperation() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Bienvenido al competidor del mismisimo The Witcher");
         System.out.println("1. Iniciar sesión");
         System.out.println("2. Registrarse");
         System.out.println("3. Salir");
         System.out.println("Introduzca una opción: ");
         int opcion = 0;
-        opcion = Integer.parseInt(System.console().readLine());
+        opcion = Integer.parseInt(br.readLine());
         switch (opcion) {
             case 1 -> {
                 try {
@@ -45,9 +47,10 @@ public class MainMenu extends Operation {
     }
 
     private void registrarse() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Se va a registrar un operador (1) o un jugador (2)");
         int opcion = 0;
-        opcion = Integer.parseInt(System.console().readLine());
+        opcion = Integer.parseInt(br.readLine());
         switch (opcion) {
             case 1 -> registrarOperador();
             case 2 -> registrarJugador();
@@ -55,17 +58,18 @@ public class MainMenu extends Operation {
     }
 
     private void registrarJugador() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String Letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         System.out.println("Introduzca su nombre: ");
-        String nombre = System.console().readLine();
+        String nombre = br.readLine();
         System.out.println("Nick: ");
-        String nick = System.console().readLine();
+        String nick = br.readLine();
         while (Multiplex.getClientes().containsKey(nick)) {
             System.out.println("Ese nick ya existe, introduzca otro: ");
-            nick = System.console().readLine();
+            nick = br.readLine();
         }
         System.out.println("Introduzca su contraseña: ");
-        String contrasena = System.console().readLine();
+        String contrasena =br.readLine();
         String registro = null;
         while (Multiplex.getRegistros().contains(registro) || registro == null) { //LNNLL
             StringBuilder sb = new StringBuilder();
@@ -88,16 +92,17 @@ public class MainMenu extends Operation {
     }
 
     private void registrarOperador() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Introduzca su nombre: ");
-        String nombre = System.console().readLine();
+        String nombre = br.readLine();
         System.out.println("Nick: ");
-        String nick = System.console().readLine();
+        String nick = br.readLine();
         while (Multiplex.getClientes().containsKey(nick) || Multiplex.getOperadores().containsKey(nick)) {
             System.out.println("Ese nick ya existe, introduzca otro: ");
-            nick = System.console().readLine();
+            nick = br.readLine();
         }
         System.out.println("Introduzca su contraseña: ");
-        String contrasena = System.console().readLine();
+        String contrasena = br.readLine();
 
         Multiplex.getOperadores().put(nick, new Operador(this.getMultiplex(), nombre, nick, contrasena));
         System.out.println("Registrado con éxito, bienvenido, " + nick + "! Ya puedes iniciar sesión");
@@ -106,10 +111,11 @@ public class MainMenu extends Operation {
     }
 
     private void iniciarSesion() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Introduzca su nick: ");
-        String nick = System.console().readLine();
+        String nick = br.readLine();
         System.out.println("Introduzca su contraseña: ");
-        String contrasena = System.console().readLine();
+        String contrasena = br.readLine();
         if (Multiplex.getClientes().containsKey(nick)) {
             Cliente cliente = Multiplex.getClientes().get(nick);
             if (cliente.getPassword().equals(contrasena)) {
