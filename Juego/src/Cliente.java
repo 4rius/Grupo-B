@@ -1,10 +1,10 @@
 import Datos.*;
 import Datos.Vampiro;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Cliente{
     private Personaje personaje;
@@ -98,9 +98,55 @@ public class Cliente{
         }
     }
 
-    void seleccionarEquipo() {
+    public void seleccionarEquipo() throws IOException {
         if (Multiplex.getClientes().get(nick).getPersonaje() != null) {
-            //Falta por implementar
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            ArrayList<Equipo> Inventario = (ArrayList) Multiplex.getClientes().get(nick).getPersonaje().getInventario();
+            int i=0;
+            for (Equipo mochila: Inventario){
+                System.out.println("Equipo " + i);
+                System.out.println("-------------------------");
+                System.out.println(mochila.getNombre());
+                System.out.println(mochila.getModataque());
+                System.out.println(mochila.getModdef());
+                if (mochila instanceof Arma) {
+                    Arma mochila2 = (Arma) mochila;
+                    System.out.println(mochila2.isAdosmanos());
+                }
+                System.out.println();
+                i+=1;
+            }
+            boolean armadura = false;
+            boolean arma1 = false;
+            boolean arma2 = false;
+            while (( !armadura) || (!arma1) || (!arma2)){
+                System.out.println("Seleccione un numero del 1 al " + i);
+                int opt= Integer.parseInt(br.readLine());
+                if (Inventario.get(opt) instanceof Armadura){
+                        if (!armadura) {
+                            getPersonaje().setArmaduraActual((Armadura) Inventario.get(opt));
+                            System.out.println("Armadura seleccionada.");
+                            armadura = true;
+                        }else{
+                            System.out.println("Ya tienes una Armadura seleccionada.");
+                        }
+                }else{
+                    getPersonaje().setArmaActual1((Arma) Inventario.get(opt));
+                    if (getPeronaje().getArmaActual1().isAdosmanos()) {
+                        getPeronaje().setArmaActual2(null);
+                        System.out.println("Arma a dos manos seleccionada");
+                        arma1 = true;
+                        arma2 = true;
+                    } else if (!arma1){
+                        System.out.println("Arma 1 seleccionada.");
+                        arma1 = true;
+                        System.out.println("Seleccione otro arma: ");
+                    } else{
+                        System.out.println("Arma 2 seleccionada.");
+                        arma2 = true;
+                    }
+                }
+            }
         } else {
             System.out.println("Debes seleccionar un personaje antes de cambiar el equipo");
         }

@@ -122,12 +122,6 @@ public class Operador extends Operation{
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public void editarEquipo() {
-    }
-
-    public void editarModificador() {
-    }
-
     public void banearJugador() throws IOException {
         System.out.println("Baneo de jugadores");
         System.out.println("Número de registro del usuario a banear: ");
@@ -153,4 +147,9 @@ public class Operador extends Operation{
             System.out.println("El usuario no existe o no está baneado");
         }
     }
+
+    public void editarEquipo(){}
+
+    public void editarModificador(){}
+
 }
