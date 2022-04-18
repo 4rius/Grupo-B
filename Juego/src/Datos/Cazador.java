@@ -7,6 +7,8 @@ public class Cazador extends Personaje{
     private int ptosvoluntad;
     private int edad;
 
+    private Talento talento;
+
     public int getPtosvoluntad() {
         return ptosvoluntad;
     }
@@ -21,5 +23,14 @@ public class Cazador extends Personaje{
 
     public void setEdad(int edad) {
         this.edad = edad;
+    }
+
+    @Override
+    public int atkTotal(){
+        int atk = 0;
+        atk = this.getPoder() + this.ptosvoluntad + this.talento.getAtq() +
+                this.getArmaActual1().getModataque() + this.getArmaActual2().getModataque() +
+                this.getArmaduraActual().getModataque();
+        return atk;
     }
 }
