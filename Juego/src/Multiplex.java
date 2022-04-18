@@ -9,7 +9,7 @@ import java.util.Scanner;
 import java.util.regex.*;
 
 
-public class Multiplex {
+public class Multiplex implements Serializable {
     private boolean modo;
     private static HashMap<String, Cliente> clientes; //String del tipo LNNLL
     private static ArrayList<String> registros; //Hace falta porque no se puede acceder al atributo de un objeto en un hashmap

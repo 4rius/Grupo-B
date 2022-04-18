@@ -136,6 +136,7 @@ public class MainMenu extends Operation {
     }
 
     public void mainMenu(int tipo, String nick) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Bienvenido " + nick);
         if (tipo == 1) {  //Si es un cliente
             System.out.println("1. Registrar personaje");
@@ -148,7 +149,7 @@ public class MainMenu extends Operation {
             System.out.println("8. Cerrar sesión");
             System.out.println("Introduzca una opción: ");
             int opcion = 0;
-            opcion = Integer.parseInt(System.console().readLine());
+            opcion = Integer.parseInt(br.readLine());
             switch (opcion) {
                 case 1 -> Multiplex.getClientes().get(nick).registrarPersonaje();
                 case 2 -> {
@@ -177,7 +178,7 @@ public class MainMenu extends Operation {
             System.out.println("8. Cerrar sesión");
             System.out.println("Introduzca una opción: ");
             int opcion = 0;
-            opcion = Integer.parseInt(System.console().readLine());
+            opcion = Integer.parseInt(br.readLine());
             switch (opcion) {
                 case 1 -> Multiplex.getOperadores().get(nick).editarPersonaje();
                 case 2 -> Multiplex.getOperadores().get(nick).eliminarPersonaje();

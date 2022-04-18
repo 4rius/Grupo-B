@@ -1,8 +1,10 @@
 import Datos.Personaje;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Serializable;
 
-public class Operador extends Operation{
+public class Operador extends Operation implements Serializable {
     private String Nombre;
     private String Nick;
     private String Contraseña;
@@ -38,10 +40,11 @@ public class Operador extends Operation{
         Contraseña = contraseña;
     }
 
-    public void editarPersonaje(){
+    public void editarPersonaje() throws IOException {
+        BufferedReader br = new BufferedReader(new java.io.InputStreamReader(System.in));
         System.out.println("Modo edicion de personaje");
         System.out.println("Qué usuario tiene el personaje a modificar?");
-        String user = System.console().readLine();
+        String user = br.readLine();
         if (Multiplex.getClientes().containsKey(user)){
             if (Multiplex.getClientes().get(user).getPersonaje() != null){
                 System.out.println("Modificando al personaje de: " + user);
@@ -79,9 +82,10 @@ public class Operador extends Operation{
     }
 
     public void eliminarPersonaje() throws IOException {
+        BufferedReader br = new BufferedReader(new java.io.InputStreamReader(System.in));
         System.out.println("Eliminación de personajes");
         System.out.println("Qué usuario tiene el personaje a eliminar?");
-        String user = System.console().readLine();
+        String user = br.readLine();
         if (Multiplex.getClientes().containsKey(user)){
             if (Multiplex.getClientes().get(user).getPersonaje() != null){
                 System.out.println("Eliminando al personaje de: " + user);
@@ -96,6 +100,7 @@ public class Operador extends Operation{
     }
 
     public void validarDesafios() throws IOException {
+        BufferedReader br = new BufferedReader(new java.io.InputStreamReader(System.in));
         if (Multiplex.getDesafios().size() > 0){
             System.out.println("Desafios a validar: ");
             for (int i = 0; i < Multiplex.getDesafios().size(); i++){
@@ -104,7 +109,7 @@ public class Operador extends Operation{
                 }
             }
             System.out.println("Numero del desafío a validar: ");
-            int opcion = Integer.parseInt(System.console().readLine());
+            int opcion = Integer.parseInt(br.readLine());
             if (opcion < Multiplex.getDesafios().size()){
                 Multiplex.getDesafios().get(opcion).setEstado(1);
                 System.out.println("Desafío validado");
@@ -123,9 +128,10 @@ public class Operador extends Operation{
     }
 
     public void banearJugador() throws IOException {
+        BufferedReader br = new BufferedReader(new java.io.InputStreamReader(System.in));
         System.out.println("Baneo de jugadores");
         System.out.println("Número de registro del usuario a banear: ");
-        String user = System.console().readLine();
+        String user = br.readLine();
         if (Multiplex.getClientes().containsKey(user)){
             Multiplex.getClientes().get(user).setBanned(true);
             System.out.println("Usuario baneado");
@@ -136,9 +142,10 @@ public class Operador extends Operation{
     }
 
     public void desbanearJugador() throws IOException {
+        BufferedReader br = new BufferedReader(new java.io.InputStreamReader(System.in));
         System.out.println("Desbaneo de jugadores");
         System.out.println("Número de registro del usuario a desbanear: ");
-        String user = System.console().readLine();
+        String user = br.readLine();
         if ((Multiplex.getClientes().containsKey(user)) && (Multiplex.getClientes().get(user).isBanned())){
             Multiplex.getClientes().get(user).setBanned(false);
             System.out.println("Usuario desbaneado");

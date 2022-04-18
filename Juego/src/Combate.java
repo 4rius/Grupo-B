@@ -1,4 +1,6 @@
-public class Combate {
+import java.io.Serializable;
+
+public class Combate implements Serializable {
 
     private Cliente duelista1;
     private Cliente duelista2;
