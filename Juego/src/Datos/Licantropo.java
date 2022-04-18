@@ -26,4 +26,16 @@ public class Licantropo extends Personaje{
         }
         return atk;
     }
+
+    @Override
+    public int defTotal(){
+        int def = 0;
+        def = this.getPoder() + this.don.getDfs() +
+                this.getArmaActual1().getModdef() + getArmaActual2().getModdef() +
+                this.getArmaduraActual().getModdef();
+        if (this.rabia >= this.don.getMinRabia()){
+            def = def + this.rabia;
+        }
+        return def;
+    }
 }
