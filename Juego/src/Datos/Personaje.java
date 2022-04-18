@@ -8,7 +8,8 @@ public class Personaje {
     private String nombre;
     private int oro;
     private ArrayList<Equipo> inventario;
-    private Arma armaActual;
+    private Arma armaActual1;
+    private Arma armaActual2;
     private Armadura armaduraActual;
     private int salud;
     private int poder;
@@ -28,8 +29,11 @@ public class Personaje {
         return inventario;
     }
 
-    public Arma getArmaActual() {
-        return armaActual;
+    public Arma getArmaActual1() {
+        return armaActual1;
+    }
+    public Arma getArmaActual2() {
+        return armaActual2;
     }
 
     public Armadura getArmaduraActual() {
@@ -69,7 +73,7 @@ public class Personaje {
     }
 
     public void setArmaActual(Arma armaActual) {
-        this.armaActual = armaActual;
+        this.armaActual1 = armaActual;
     }
 
     public void setArmaduraActual(Armadura armaduraActual) {

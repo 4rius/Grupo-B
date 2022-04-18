@@ -6,6 +6,7 @@ import java.util.List;
 public class Vampiro extends Personaje{
     private int ptossangre;
     private int edad;
+    private Disciplina disciplina;
 
 
     public int getPtossangre() {
@@ -22,5 +23,18 @@ public class Vampiro extends Personaje{
 
     public void setEdad(int edad) {
         this.edad = edad;
+    }
+
+    @Override
+    public int atkTotal(){
+        int atk = 0;
+        atk = this.getPoder() + this.disciplina.getAtq() +
+                this.getArmaActual1().getModataque() + this.getArmaActual2().getModataque() +
+                this.getArmaduraActual().getModataque();
+        if (this.ptossangre >= 5){
+            ptossangre = ptossangre - this.disciplina.getCosteSangre();
+            atk = atk + 2;
+        }
+        return atk;
     }
 }
