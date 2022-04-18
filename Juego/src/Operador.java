@@ -108,6 +108,8 @@ public class Operador extends Operation{
             if (opcion < Multiplex.getDesafios().size()){
                 Multiplex.getDesafios().get(opcion).setEstado(1);
                 System.out.println("Desafío validado");
+                Multiplex.getDesafios().get(opcion).getDuelista1().recibirNotificacion("La batalla contra" + Multiplex.getDesafios().get(opcion).getDuelista2().getNick() + "va a comenzar");
+                Multiplex.getDesafios().get(opcion).getDuelista2().recibirNotificacion("La batalla contra" + Multiplex.getDesafios().get(opcion).getDuelista1().getNick() + "va a comenzar");
                 Multiplex.serialize();
             }
         } else {
