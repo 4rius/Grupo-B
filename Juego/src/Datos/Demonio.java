@@ -13,6 +13,16 @@ public class Demonio extends Esbirro{
         Esbirros = esbirros;
     }
 
+    @Override
+    public int getSalud(){
+        int hp = 0;
+        ArrayList<Esbirro> eList = new ArrayList(this.getEsbirros());
+        for (Esbirro e: eList) {
+             hp = hp + e.getSalud();
+        }
+        return hp;
+    }
+
     public String getPacto() {
         return Pacto;
     }
