@@ -9,23 +9,6 @@ public class PerformCombat extends Operation {
 
     public PerformCombat(Multiplex multiplex) {
         super(multiplex);
-       /* try {
-            String duelista2 = System.console().readLine("A quién va a desafiar? ");
-            if (Multiplex.getClientes().containsKey(duelista2)) {
-                this.combate.getDuelista1() = Multiplex.getClientes().get(duelista2);
-                System.out.println("Introduzca el oro que quiere apostar: ");
-                int oroo = Integer.parseInt(System.console().readLine());
-                if (Multiplex.getClientes().get(duelista1).getPersonaje().getOro() >= oroo ){ // Comprobamos que el oro es suficiente
-                    this.oro = oroo;
-                } else {
-                    System.out.println("No tiene suficiente oro, desafío cancelado");
-                }
-            } else {
-                throw new RuntimeException();
-            }
-        } catch (RuntimeException e) {
-            System.out.println("No existe el cliente, desafío cancelado");
-        }*/
     }
 
     public Combate getCombate() {
