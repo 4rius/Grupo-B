@@ -15,6 +15,8 @@ public class Cliente implements Serializable {
     private static String nRegistro;
     private boolean banned;
     private final Notificador notificador;
+    private int overall; //Para el ranking global
+
 
     public Cliente(Personaje personaje, String name, String nick, String nRegistro, String password) {
         this.personaje = personaje;

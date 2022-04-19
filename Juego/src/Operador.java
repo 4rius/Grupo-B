@@ -45,21 +45,20 @@ public class Operador implements Serializable {
         Contraseña = contraseña;
     }
 
-    public void editarPersonaje() throws IOException {
+    public void editarDatosPersonaje() throws IOException {
         BufferedReader br = new BufferedReader(new java.io.InputStreamReader(System.in));
-        System.out.println("Modo edicion de personaje");
-        System.out.println("Qué usuario tiene el personaje a modificar?");
+        System.out.println("Modo edicion de datos del personaje");
+        System.out.println("Escriba el nombre de usuario del personaje a editar");
         String user = br.readLine();
         if (Multiplex.getClientes().containsKey(user)){
             if (Multiplex.getClientes().get(user).getPersonaje() != null){
                 System.out.println("Modificando al personaje de: " + user);
                 System.out.println("1. Modificar nombre");
                 System.out.println("2. Modificar oro");
-                System.out.println("3. Modificar equipo");
-                System.out.println("4. Modificar salud");
-                System.out.println("5. Modificar poder");
-                System.out.println("6. Modificar modificadores");
-                System.out.println("7. Cancelar");
+                System.out.println("3. Modificar salud");
+                System.out.println("4. Modificar poder");
+                System.out.println("5. Modificar habilidadEspecial");
+                System.out.println("5. Cancelar");
                 int opcion = Integer.parseInt(br.readLine());
                 switch (opcion){
                     case 1 -> {
@@ -73,6 +72,16 @@ public class Operador implements Serializable {
                         Multiplex.getClientes().get(user).getPersonaje().setOro(oro);
                     }
                     case 3 -> {
+                        System.out.println("Nueva cantidad de salud: ");
+                        int salud = Integer.parseInt(System.console().readLine());
+                        Multiplex.getClientes().get(user).getPersonaje().setSalud(salud);
+                    }
+                    case 4 -> {
+                        System.out.println("Nueva cantidad de poder: ");
+                        int poder = Integer.parseInt(System.console().readLine());
+                        Multiplex.getClientes().get(user).getPersonaje().setPoder(poder);
+                    }
+                    case 5 -> {
 
                     }
                     default -> System.out.println("Saliendo / Opción no válida");
@@ -165,9 +174,33 @@ public class Operador implements Serializable {
         }
     }
 
-    public void editarEquipo(){}
+    public void editarEquipoPersonaje() throws IOException {
+        BufferedReader br = new BufferedReader(new java.io.InputStreamReader(System.in));
+        System.out.println("Modo edicion de equipo del personaje");
+        System.out.println("Escriba el nombre de usuario del personaje a editar");
+        String user = br.readLine();
+        if (Multiplex.getClientes().containsKey(user)){
+            if (Multiplex.getClientes().get(user).getPersonaje() != null){
+                System.out.println("Modificando al personaje de: " + user);
+                System.out.println("1. Modificar armas");
+                System.out.println("2. Editar modificadores");
+                System.out.println("3. Editar esbirros");
+                System.out.println("4. Cancelar");
+                int opcion = Integer.parseInt(br.readLine());
+                switch (opcion){
 
-    public void editarModificador() throws IOException {
+                    default -> System.out.println("Saliendo / Opción no válida");
+                }
+
+            } else {
+                System.out.println("El usuario no tiene un personaje");
+            }
+        } else {
+            System.out.println("El usuario no existe");
+        }
+    }
+
+   /* public void editarModificador() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         for (Cliente cliente: Multiplex.getClientes().values()){
             System.out.println(cliente.getNick());
@@ -220,7 +253,9 @@ public class Operador implements Serializable {
             System.out.println("Nick Incorrecto. El cliente no existe.");
         }
     }
+        */
 
-    public void editarEsbirros() {
-    }
+
+
+
 }
