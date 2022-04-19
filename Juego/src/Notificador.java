@@ -16,4 +16,7 @@ public class Notificador {
     public void agregarCliente(Cliente cliente) {
         clientes.add(cliente);
     }
+
+
+
 }
