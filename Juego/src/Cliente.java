@@ -141,17 +141,17 @@ public class Cliente implements Serializable {
                         }else{
                             System.out.println("Ya tienes una Armadura seleccionada.");
                         }
-                }else{
+                }else{// Este else no funciona bien
                     getPersonaje().setArmaActual1((Arma) Multiplex.getInventario().get(opt));
                     if (getPeronaje().getArmaActual1().isAdosmanos()) {
                         getPeronaje().setArmaActual2(null);
                         System.out.println("Arma a dos manos seleccionada");
                         arma1 = true;
                         arma2 = true;
-                    } else if (!arma1){
+                    } else if (!arma1) &&{
                         System.out.println("Arma 1 seleccionada.");
                         arma1 = true;
-                        System.out.println("Seleccione otro arma: ");
+                        System.out.println("Seleccione otro equipo: ");
                     } else{
                         System.out.println("Arma 2 seleccionada.");
                         arma2 = true;
