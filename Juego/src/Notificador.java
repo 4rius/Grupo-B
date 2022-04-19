@@ -1,10 +1,11 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Notificador {
+public class Notificador implements Serializable {
     private ArrayList<Cliente> clientes;
 
     public Notificador() {
-        clientes = new ArrayList<Cliente>();
+        clientes = new ArrayList<>();
     }
 
     public void notificar(String mensaje) {

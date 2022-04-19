@@ -14,23 +14,16 @@ public class Cliente implements Serializable {
     private String password;;
     private static String nRegistro;
     private boolean banned;
-    private Notificador notificador;
+    private final Notificador notificador;
 
-    public Cliente(Personaje personaje, String name, String nick, String password, boolean banned, Notificador notificador) {
+    public Cliente(Personaje personaje, String name, String nick, String nRegistro, String password) {
         this.personaje = personaje;
         this.name = name;
         this.nick = nick;
         this.password = password;
+        Cliente.nRegistro = nRegistro;
         this.banned = false;
-        this.notificador = notificador;
-    }
-
-    public Cliente(String name, String nick, String nRegistro, String password) {
-        this.name = name;
-        this.nick = nick;
-        this.nRegistro = nRegistro;
-        this.password = password;
-        this.banned = false;
+        this.notificador = new Notificador();
     }
 
     public String getName() {
@@ -221,6 +214,12 @@ public class Cliente implements Serializable {
     }
 
     public void crearDesafio() throws IOException {
+        System.out.println("Usuarios disponibles para desafiar:");
+        for (String nick : Multiplex.getClientes().keySet()) {
+            if (Multiplex.getClientes().get(nick).getPersonaje() != null && !Multiplex.getClientes().get(nick).isBanned() && !nick.equals(this.nick)) {
+                System.out.println((nick));
+            }
+        }
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Escribe el nick del usuario que quiere desafiar");
         String nickUsuario = br.readLine();
@@ -228,6 +227,12 @@ public class Cliente implements Serializable {
         int oroApostado = Integer.parseInt(br.readLine());
         if (this.personaje.getOro() < oroApostado){
             System.out.println("No tienes suficiente oro");
+        } else if (Multiplex.getClientes().get(nickUsuario).getPersonaje() == null){
+            System.out.println("El usuario no tiene un personaje registrado");
+        } else if (Multiplex.getClientes().get(nickUsuario).isBanned()){
+            System.out.println("El usuario está baneado");
+        } else if (nickUsuario.equals(this.nick)){
+            System.out.println("No puedes desafiarte a ti mismo");
         }
         else {
             Combate desafio = new Combate();
@@ -239,16 +244,23 @@ public class Cliente implements Serializable {
     }
 
     public void suscribirse() throws IOException { //Cada clioente tiene su propio notificador, los que se suscriban a su perfil recibiran una notificación cada vez que este termine un desafío
+        System.out.println("Usuarios disponibles para suscribirse:");
+        for (String nick : Multiplex.getClientes().keySet()) {
+            if (!nick.equals(this.nick)) {
+                System.out.println(nick);
+            }
+        }
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Escribe el nick del duelista que quieres conocer sus resultados al instante: ");
-        String nick = br.readLine();
-        if (Multiplex.getClientes().containsKey(nick)) {
-            Multiplex.getClientes().get(nick).getNotificador().agregarCliente(this);
-            System.out.println("Suscrito a los resultados de: " + nick);
+        String nickname = br.readLine();
+        if (Multiplex.getClientes().containsKey(nickname) && !nickname.equals(this.nick)) {
+            Multiplex.getClientes().get(nickname).getNotificador().agregarCliente(this);
+            System.out.println("Suscrito a los resultados de: " + nickname);
         } else {
-            System.out.println("El usuario especificado no existe");
+            System.out.println("El usuario especificado no existe / No puedes suscribirte a ti mismo");
         }
     }
+
 
     public void recibirNotificacion(String mensaje) {
         System.out.println(mensaje);

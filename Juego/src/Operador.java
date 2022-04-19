@@ -131,8 +131,13 @@ public class Operador implements Serializable {
 
     public void banearJugador() throws IOException {
         BufferedReader br = new BufferedReader(new java.io.InputStreamReader(System.in));
-        System.out.println("Baneo de jugadores");
-        System.out.println("Número de registro del usuario a banear: ");
+        System.out.println("Baneo de jugadores - Usuarios registrados:");
+        for (String nick : Multiplex.getClientes().keySet()){
+            if (!Multiplex.getClientes().get(nick).isBanned()) {
+                System.out.println(nick);
+            }
+        }
+        System.out.println("Nick del usuario a banear: ");
         String user = br.readLine();
         if (Multiplex.getClientes().containsKey(user)){
             Multiplex.getClientes().get(user).setBanned(true);
@@ -145,8 +150,13 @@ public class Operador implements Serializable {
 
     public void desbanearJugador() throws IOException {
         BufferedReader br = new BufferedReader(new java.io.InputStreamReader(System.in));
-        System.out.println("Desbaneo de jugadores");
-        System.out.println("Número de registro del usuario a desbanear: ");
+        System.out.println("Desbaneo de jugadores - Usuarios baneados:");
+        for (String nick : Multiplex.getClientes().keySet()){
+            if (Multiplex.getClientes().get(nick).isBanned()) {
+                System.out.println(nick);
+            }
+        }
+        System.out.println("Nick del usuario a desbanear: ");
         String user = br.readLine();
         if ((Multiplex.getClientes().containsKey(user)) && (Multiplex.getClientes().get(user).isBanned())){
             Multiplex.getClientes().get(user).setBanned(false);

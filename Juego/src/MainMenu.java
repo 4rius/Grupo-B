@@ -15,32 +15,37 @@ public class MainMenu extends Operation {
     @Override
     public void doOperation() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Bienvenido al competidor del mismisimo The Witcher");
-        System.out.println("1. Iniciar sesión");
-        System.out.println("2. Registrarse");
-        System.out.println("3. Salir");
-        System.out.println("Introduzca una opción: ");
         int opcion = 0;
-        opcion = Integer.parseInt(br.readLine());
-        switch (opcion) {
-            case 1 -> {
-                try {
-                    iniciarSesion();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+        while (true) {
+            System.out.println("Bienvenido al competidor del mismisimo The Witcher");
+            System.out.println("1. Iniciar sesión");
+            System.out.println("2. Registrarse");
+            System.out.println("3. Salir");
+            System.out.println("Introduzca una opción: ");
+            opcion = Integer.parseInt(br.readLine());
+            switch (opcion) {
+                case 1 -> {
+                    try {
+                        iniciarSesion();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
-            }
-            case 2 -> {
-                try {
-                    registrarse();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                case 2 -> {
+                    try {
+                        registrarse();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
-            }
-            case 3 -> System.out.println("Saliendo...");
-            default -> {
-                System.out.println("Esa no es una opción válida");
-                doOperation();
+                case 3 -> {
+                    System.out.println("Saliendo...");
+                    System.exit(0);
+                }
+                default -> {
+                    System.out.println("Esa no es una opción válida");
+                    doOperation();
+                }
             }
         }
 
@@ -71,11 +76,11 @@ public class MainMenu extends Operation {
         System.out.println("Introduzca su contraseña: ");
         String contrasena =br.readLine();
         String registro = null;
-        while (Multiplex.getRegistros().contains(registro) || registro == null) { //LNNLL
+        while (Multiplex.getRegistros().contains(registro) || registro == null) { //LNNLL Tengo que solucionar esto. ^4r
             StringBuilder sb = new StringBuilder();
             sb.append((int) (Letras.length() * Math.random()));
             for (int i = 0; i < 2; i++) {
-                sb.append(Math.random() * 9);
+                sb.append(Integer.parseInt(String.valueOf((int) (9 * Math.random()))));
             }
             for (int i = 0; i < 2; i++) {
                 sb.append(Letras.charAt((int) (Math.random() * Letras.length())));
@@ -84,7 +89,7 @@ public class MainMenu extends Operation {
         }
 
         System.out.println("Tu identificación de registro es: " + registro);
-        Multiplex.getClientes().put(nick, new Cliente(nombre, nick, registro, contrasena));
+        Multiplex.getClientes().put(nick, new Cliente(null, nombre, nick, registro, contrasena));
         Multiplex.getRegistros().add(registro);
         System.out.println("Registrado con éxito, bienvenido, " + nick + "! Ya puedes iniciar sesión");
         Multiplex.serialize();
