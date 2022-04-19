@@ -13,7 +13,7 @@ public class Personaje implements Serializable {
     private Armadura armaduraActual;
     private int salud;
     private int poder;
-    private ArrayList<Modificador> modificadores = new ArrayList<>();
+    private Modificador modificador;
     private ArrayList<Esbirro> esbirros;
     private Habilidad habilidadEspecial;
 
@@ -45,8 +45,8 @@ public class Personaje implements Serializable {
         return poder;
     }
 
-    public ArrayList<Modificador> getModificadores() {
-        return modificadores;
+    public Modificador getModificador() {
+        return modificador;
     }
 
     public List<Esbirro> getEsbirros() {
@@ -88,8 +88,8 @@ public class Personaje implements Serializable {
         this.poder = poder;
     }
 
-    public void setModificadores(ArrayList<Modificador> modificadores) {
-        this.modificadores = modificadores;
+    public void setModificador(Modificador modificador) {
+        this.modificador = modificador;
     }
 
     public void setEsbirros(ArrayList<Esbirro> esbirros) {

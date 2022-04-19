@@ -113,6 +113,8 @@ public class Cliente implements Serializable {
 
     public void seleccionarEquipo() throws IOException {
         if (Multiplex.getClientes().get(nick).getPersonaje() != null) {
+            System.out.println("Elige una armadura y dos armas de una mano o un arma de dos manos:");
+            System.out.println();
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             int i=0;
             for (Equipo mochila: Multiplex.getInventario()){
@@ -143,16 +145,18 @@ public class Cliente implements Serializable {
                         }
                 }else{// Este else no funciona bien
                     getPersonaje().setArmaActual1((Arma) Multiplex.getInventario().get(opt));
-                    if (getPeronaje().getArmaActual1().isAdosmanos()) {
-                        getPeronaje().setArmaActual2(null);
+                    if ((getPersonaje().getArmaActual1().isAdosmanos()) && (!arma1)){
+                        getPersonaje().setArmaActual2(null);
                         System.out.println("Arma a dos manos seleccionada");
                         arma1 = true;
                         arma2 = true;
-                    } else if (!arma1) &&{
+                    }else if ((getPersonaje().getArmaActual1().isAdosmanos()) && (arma1)){
+                        System.out.println("Arma a una mano equipada. Tu segunda arma solo puede ir a una mano");
+                    }else if (!arma1){
                         System.out.println("Arma 1 seleccionada.");
                         arma1 = true;
                         System.out.println("Seleccione otro equipo: ");
-                    } else{
+                    } else if (!arma2){
                         System.out.println("Arma 2 seleccionada.");
                         arma2 = true;
                     }
@@ -161,10 +165,6 @@ public class Cliente implements Serializable {
         } else {
             System.out.println("Debes seleccionar un personaje antes de cambiar el equipo");
         }
-    }
-
-    public Personaje getPeronaje() {
-        return personaje;
     }
 
     public void registrarPersonaje() throws IOException {
@@ -183,14 +183,13 @@ public class Cliente implements Serializable {
                 case 1 -> {
                     this.personaje = new Vampiro();
                     this.personaje.setHabilidadEspecial(new Disciplina("murcielago", 2,2,2 ));
-                    this.personaje.getModificadores().add(new Modificador("luz solar", 5, 0));
+                    this.personaje.setModificador(new Modificador("luz solar", 5, 0));
                 }
                 case 2 -> {
                     this.personaje = new Licantropo();
                     this.personaje.setHabilidadEspecial(new Don("lobito", 3,1,2));
-                    this.personaje.getModificadores().add(new Modificador("luna llena", 2, 1));
+                    this.personaje.setModificador(new Modificador("luna llena", 2, 1));
                 }
-
                 case 3 -> {
                     this.personaje = new Cazador();
                     this.personaje.setHabilidadEspecial(new Talento("arco", 0, 0, 13));

@@ -1,9 +1,7 @@
+import Datos.Modificador;
 import Datos.Personaje;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.Serial;
-import java.io.Serializable;
+import java.io.*;
 
 public class Operador implements Serializable {
 
@@ -66,8 +64,8 @@ public class Operador implements Serializable {
                 switch (opcion){
                     case 1 -> {
                         System.out.println("Nuevo nombre: ");
-                        String nnombre = System.console().readLine();
-                        Multiplex.getClientes().get(user).getPersonaje().setNombre(nnombre);
+                        String nombre = System.console().readLine();
+                        Multiplex.getClientes().get(user).getPersonaje().setNombre(nombre);
                     }
                     case 2 -> {
                         System.out.println("Nueva cantidad de oro: ");
@@ -169,7 +167,59 @@ public class Operador implements Serializable {
 
     public void editarEquipo(){}
 
-    public void editarModificador(){}
+    public void editarModificador() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        for (Cliente cliente: Multiplex.getClientes().values()){
+            System.out.println(cliente.getNick());
+        }
+        System.out.println("Selecciona el Nick del cliente del que desea editar el modificador: ");
+        String opt = br.readLine();
+        if (Multiplex.getClientes().containsKey(opt)){
+            if (Multiplex.getClientes().get(opt).getPersonaje()!=null) {
+                Modificador mod = Multiplex.getClientes().get(opt).getPersonaje().getModificador();
+                System.out.println("Modificador Seleccionado: ");
+                System.out.println("Nombre: " + mod.getNombre());
+                System.out.println("Fuerza: " + mod.getMod());
+                if (mod.isTipomod() == 0) {
+                    System.out.println("Debilidad");
+                } else {
+                    System.out.println("Fortaleza");
+                }
+                int tipo;
+                do {
+                    System.out.println("Es una fortaleza(1) o una debilidad(0): ");
+                    tipo = Integer.parseInt(br.readLine());
+                    if (tipo == 1) {
+                        System.out.println("Has elegido una fortaleza");
+                        Multiplex.getClientes().get(opt).getPersonaje().getModificador().setTipomod(tipo);
+                    } else if (tipo == 0) {
+                        System.out.println("Has elegido una debilidad");
+                        Multiplex.getClientes().get(opt).getPersonaje().getModificador().setTipomod(tipo);
+                    } else {
+                        System.out.println("Numero incorrecto. Elija un número del 0 al 1");
+                    }
+                } while ((tipo != 1) && (tipo != 0));
+
+                System.out.println("Seleccione el nombre del modificador: ");
+                mod.setNombre(br.readLine());
+                int fuerza;
+                do {
+                    System.out.println("Seleccione la fuerza del modificador: ");
+                    fuerza = Integer.parseInt(br.readLine());
+                    if ((fuerza >= 1) && (fuerza <= 5)) {
+                        Multiplex.getClientes().get(opt).getPersonaje().getModificador().setMod(fuerza);
+                    } else {
+                        System.out.println("Numero incorrecto. Elija un número del 1 al 5");
+                    }
+                } while ((fuerza > 5) || (fuerza < 1));
+                Multiplex.serialize();
+            }else{
+                System.out.println("No tiene ningún personaje creado");
+            }
+        }else{
+            System.out.println("Nick Incorrecto. El cliente no existe.");
+        }
+    }
 
     public void editarEsbirros() {
     }
