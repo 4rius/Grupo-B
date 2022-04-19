@@ -1,9 +1,10 @@
 package Datos;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 
-public class Licantropo extends Personaje{
+public class Licantropo extends Personaje implements Serializable {
     private int rabia;
     private Don don;
 

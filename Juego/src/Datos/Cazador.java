@@ -1,9 +1,10 @@
 package Datos;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 
-public class Cazador extends Personaje {
+public class Cazador extends Personaje implements Serializable {
     private int ptosvoluntad;
     private int edad;
 

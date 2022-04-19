@@ -1,6 +1,8 @@
 package Datos;
 
-public class Don extends Habilidad{
+import java.io.Serializable;
+
+public class Don extends Habilidad implements Serializable {
     private int MinRabia;
 
     public Don(String nombre, int atq, int dfs, int minRabia) {

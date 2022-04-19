@@ -55,7 +55,7 @@ public class Multiplex implements Serializable {
         outputstream.close();
     }
 
-    public ArrayList<Equipo> getInventario() {
+    public static ArrayList<Equipo> getInventario() {
         return inventario;
     }
 
@@ -85,7 +85,7 @@ public class Multiplex implements Serializable {
 
     public void Start() throws IOException {
         System.out.println("Not yet!");
-        this.inicializarInventario();
+
         MainMenu menu = new MainMenu(this);
         menu.doOperation();
     }
@@ -99,12 +99,14 @@ public class Multiplex implements Serializable {
 
         while (sc.hasNextLine()) {
             String nombre = sc.findInLine(p1);
+            nombre = nombre.trim();
             sc.nextLine();
             String atq = sc.findInLine(p2);
             sc.nextLine();
             String def = sc.findInLine(p2);
             sc.nextLine();
             String dosManos = sc.findInLine(p1);
+            dosManos=dosManos.trim();
             if(sc.hasNextLine()) {
                 sc.nextLine();
                 sc.nextLine();
@@ -130,5 +132,6 @@ public class Multiplex implements Serializable {
         sc2.close();
 
     }
+
 
 }

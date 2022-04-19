@@ -1,6 +1,8 @@
 package Datos;
 
-public class Modificador {
+import java.io.Serializable;
+
+public class Modificador implements Serializable {
     private String Nombre;
     private int mod;
     private int tipomod;

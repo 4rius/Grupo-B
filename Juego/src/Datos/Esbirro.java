@@ -1,6 +1,8 @@
 package Datos;
 
-public class Esbirro {
+import java.io.Serializable;
+
+public class Esbirro implements Serializable {
     private String Nombre;
     private int Salud;
 

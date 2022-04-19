@@ -1,6 +1,8 @@
 package Datos;
 
-public class Arma extends Equipo{
+import java.io.Serializable;
+
+public class Arma extends Equipo implements Serializable {
 
     private boolean adosmanos;
 

@@ -1,9 +1,10 @@
 package Datos;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 
-public class Vampiro extends Personaje{
+public class Vampiro extends Personaje implements Serializable {
     private int ptossangre;
     private int edad;
     private Disciplina disciplina;

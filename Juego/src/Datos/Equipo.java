@@ -1,6 +1,8 @@
 package Datos;
 
-public class Equipo {
+import java.io.Serializable;
+
+public class Equipo implements Serializable {
     private String Nombre;
     private int modataque;
     private int moddef;
