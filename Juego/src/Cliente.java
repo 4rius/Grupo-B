@@ -21,7 +21,7 @@ public class Cliente implements Serializable {
         this.name = name;
         this.nick = nick;
         this.password = password;
-        this.banned = banned;
+        this.banned = false;
         this.notificador = notificador;
     }
 
@@ -76,7 +76,7 @@ public class Cliente implements Serializable {
     }
 
     public void setBanned(boolean banned) {
-        this.banned = false;
+        this.banned = banned;
     }
 
     public Notificador getNotificador() {
@@ -238,9 +238,10 @@ public class Cliente implements Serializable {
         }
     }
 
-    public void suscribirse() { //Cada clioente tiene su propio notificador, los que se suscriban a su perfil recibiran una notificación cada vez que este termine un desafío
+    public void suscribirse() throws IOException { //Cada clioente tiene su propio notificador, los que se suscriban a su perfil recibiran una notificación cada vez que este termine un desafío
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Escribe el nick del duelista que quieres conocer sus resultados al instante: ");
-        String nick = System.console().readLine();
+        String nick = br.readLine();
         if (Multiplex.getClientes().containsKey(nick)) {
             Multiplex.getClientes().get(nick).getNotificador().agregarCliente(this);
             System.out.println("Suscrito a los resultados de: " + nick);

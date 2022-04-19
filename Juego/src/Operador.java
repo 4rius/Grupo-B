@@ -62,7 +62,7 @@ public class Operador implements Serializable {
                 System.out.println("5. Modificar poder");
                 System.out.println("6. Modificar modificadores");
                 System.out.println("7. Cancelar");
-                int opcion = Integer.parseInt(System.console().readLine());
+                int opcion = Integer.parseInt(br.readLine());
                 switch (opcion){
                     case 1 -> {
                         System.out.println("Nuevo nombre: ");
