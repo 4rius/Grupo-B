@@ -7,7 +7,6 @@ import java.util.List;
 public class Personaje {
     private String nombre;
     private int oro;
-    private ArrayList<Equipo> inventario;
     private Arma armaActual1;
     private Arma armaActual2;
     private Armadura armaduraActual;
@@ -25,9 +24,6 @@ public class Personaje {
         return oro;
     }
 
-    public List<Equipo> getInventario() {
-        return inventario;
-    }
 
     public Arma getArmaActual1() {
         return armaActual1;
@@ -70,10 +66,6 @@ public class Personaje {
 
     public void addOro(int o){
         this.oro = this.oro + o;
-    }
-
-    public void setInventario(ArrayList<Equipo> inventario) {
-        this.inventario = inventario;
     }
 
     public void setArmaActual1(Arma armaActual1) {

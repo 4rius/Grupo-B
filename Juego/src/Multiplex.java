@@ -55,7 +55,7 @@ public class Multiplex implements Serializable {
         outputstream.close();
     }
 
-    public ArrayList<Equipo> getInventario() {
+    public static ArrayList<Equipo> getInventario() {
         return inventario;
     }
 
@@ -130,5 +130,6 @@ public class Multiplex implements Serializable {
         sc2.close();
 
     }
+
 
 }
