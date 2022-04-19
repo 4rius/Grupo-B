@@ -13,7 +13,7 @@ public class Personaje {
     private Armadura armaduraActual;
     private int salud;
     private int poder;
-    private ArrayList<Modificador> modificadores;
+    private ArrayList<Modificador> modificadores = new ArrayList<>();
     private ArrayList<Esbirro> esbirros;
     private Habilidad habilidadEspecial;
 
