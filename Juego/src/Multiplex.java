@@ -99,12 +99,14 @@ public class Multiplex implements Serializable {
 
         while (sc.hasNextLine()) {
             String nombre = sc.findInLine(p1);
+            nombre = nombre.trim();
             sc.nextLine();
             String atq = sc.findInLine(p2);
             sc.nextLine();
             String def = sc.findInLine(p2);
             sc.nextLine();
             String dosManos = sc.findInLine(p1);
+            dosManos=dosManos.trim();
             if(sc.hasNextLine()) {
                 sc.nextLine();
                 sc.nextLine();
