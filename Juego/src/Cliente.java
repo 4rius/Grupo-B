@@ -208,36 +208,41 @@ public class Cliente implements Serializable {
             this.personaje.setPoder(r);
             this.personaje.setOro(500);
             System.out.println("Personaje creado correctamente");
+            Multiplex.serialize();
         }
     }
 
     public void crearDesafio() throws IOException {
-        System.out.println("Usuarios disponibles para desafiar:");
-        for (String nick : Multiplex.getClientes().keySet()) {
-            if (Multiplex.getClientes().get(nick).getPersonaje() != null && !Multiplex.getClientes().get(nick).isBanned() && !nick.equals(this.nick)) {
-                System.out.println((nick));
+        if (personaje != null) {
+            System.out.println("Usuarios disponibles para desafiar:");
+            for (String nick : Multiplex.getClientes().keySet()) {
+                if (Multiplex.getClientes().get(nick).getPersonaje() != null && !Multiplex.getClientes().get(nick).isBanned() && !nick.equals(this.nick)) {
+                    System.out.println((nick));
+                }
             }
-        }
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Escribe el nick del usuario que quiere desafiar");
-        String nickUsuario = br.readLine();
-        System.out.println("Escribe la cantidad de oro que quiere apostar");
-        int oroApostado = Integer.parseInt(br.readLine());
-        if (this.personaje.getOro() < oroApostado){
-            System.out.println("No tienes suficiente oro");
-        } else if (Multiplex.getClientes().get(nickUsuario).getPersonaje() == null){
-            System.out.println("El usuario no tiene un personaje registrado");
-        } else if (Multiplex.getClientes().get(nickUsuario).isBanned()){
-            System.out.println("El usuario está baneado");
-        } else if (nickUsuario.equals(this.nick)){
-            System.out.println("No puedes desafiarte a ti mismo");
-        }
-        else {
-            Combate desafio = new Combate();
-            desafio.setDuelista1(this);
-            desafio.setDuelista2(Multiplex.getClientes().get(nickUsuario));
-            desafio.setOro(oroApostado);
-            Multiplex.getDesafios().add(desafio);
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            System.out.println("Escribe el nick del usuario que quiere desafiar");
+            String nickUsuario = br.readLine();
+            System.out.println("Escribe la cantidad de oro que quiere apostar");
+            int oroApostado = Integer.parseInt(br.readLine());
+            if (this.personaje.getOro() < oroApostado){
+                System.out.println("No tienes suficiente oro");
+            } else if (Multiplex.getClientes().get(nickUsuario).getPersonaje() == null){
+                System.out.println("El usuario no tiene un personaje registrado");
+            } else if (Multiplex.getClientes().get(nickUsuario).isBanned()){
+                System.out.println("El usuario está baneado");
+            } else if (nickUsuario.equals(this.nick)){
+                System.out.println("No puedes desafiarte a ti mismo");
+            }
+            else {
+                Combate desafio = new Combate();
+                desafio.setDuelista1(this);
+                desafio.setDuelista2(Multiplex.getClientes().get(nickUsuario));
+                desafio.setOro(oroApostado);
+                Multiplex.getDesafios().add(desafio);
+            }
+        } else {
+            System.out.println("No tienes un personaje registrado");
         }
     }
 

@@ -1,6 +1,8 @@
 package Datos;
 
-public class Disciplina extends Habilidad{
+import java.io.Serializable;
+
+public class Disciplina extends Habilidad implements Serializable {
     private int CosteSangre;
 
     public Disciplina(String nombre, int atq, int dfs, int costeSangre) {

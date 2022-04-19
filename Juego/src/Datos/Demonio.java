@@ -1,9 +1,10 @@
 package Datos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Demonio extends Esbirro{
+public class Demonio extends Esbirro implements Serializable {
     private String Pacto;
     private ArrayList<Esbirro> Esbirros;
 

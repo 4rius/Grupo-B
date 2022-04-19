@@ -112,7 +112,7 @@ public class Operador implements Serializable {
             System.out.println("Desafios a validar: ");
             for (int i = 0; i < Multiplex.getDesafios().size(); i++){
                 if (Multiplex.getDesafios().get(i).getEstado() == 0){
-                    System.out.println("Desafio: " + i + " " + Multiplex.getDesafios().get(i).getDuelista1().getName() + " vs " + Multiplex.getDesafios().get(i).getDuelista2().getName());
+                    System.out.println("Desafio: " + i + ". " + Multiplex.getDesafios().get(i).getDuelista1().getName() + " vs " + Multiplex.getDesafios().get(i).getDuelista2().getName());
                 }
             }
             System.out.println("Numero del desafío a validar: ");
@@ -171,4 +171,6 @@ public class Operador implements Serializable {
 
     public void editarModificador(){}
 
+    public void editarEsbirros() {
+    }
 }

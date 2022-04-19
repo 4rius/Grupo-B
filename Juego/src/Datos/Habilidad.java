@@ -1,6 +1,8 @@
 package Datos;
 
-public class Habilidad {
+import java.io.Serializable;
+
+public class Habilidad implements Serializable {
     private String Nombre;
     private int Atq;
     private int Dfs;

@@ -143,8 +143,8 @@ public class MainMenu extends Operation {
     public void mainMenu(int tipo, String nick) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Bienvenido " + nick);
+        while (true) {
         int opcion = 0;
-        while (opcion != 8) {
             if (tipo == 1) {  //Si es un cliente
                 System.out.println("1. Registrar personaje");
                 System.out.println("2. Eliminar el personaje actual");
@@ -179,10 +179,10 @@ public class MainMenu extends Operation {
                 System.out.println("3. Editar equipo");
                 System.out.println("4. Editar modificador");
                 System.out.println("5. Editar esbirros");
-                System.out.println("5. Validar desafíos pendientes");
-                System.out.println("6. Banear jugador");
-                System.out.println("7. Desbanear jugador");
-                System.out.println("8. Cerrar sesión");
+                System.out.println("6. Validar desafíos pendientes");
+                System.out.println("7. Banear jugador");
+                System.out.println("8. Desbanear jugador");
+                System.out.println("9. Cerrar sesión");
                 System.out.println("Introduzca una opción: ");
 
                 opcion = Integer.parseInt(br.readLine());
@@ -191,10 +191,11 @@ public class MainMenu extends Operation {
                     case 2 -> Multiplex.getOperadores().get(nick).eliminarPersonaje();
                     case 3 -> Multiplex.getOperadores().get(nick).editarEquipo();
                     case 4 -> Multiplex.getOperadores().get(nick).editarModificador();
-                    case 5 -> Multiplex.getOperadores().get(nick).validarDesafios();
-                    case 6 -> Multiplex.getOperadores().get(nick).banearJugador();
-                    case 7 -> Multiplex.getOperadores().get(nick).desbanearJugador();
-                    case 8 -> this.doOperation();
+                    case 5 -> Multiplex.getOperadores().get(nick).editarEsbirros();
+                    case 6 -> Multiplex.getOperadores().get(nick).validarDesafios();
+                    case 7 -> Multiplex.getOperadores().get(nick).banearJugador();
+                    case 8 -> Multiplex.getOperadores().get(nick).desbanearJugador();
+                    case 9 -> this.doOperation();
                     default -> {
                         System.out.println("Esa no es una opción válida");
                     }

@@ -1,10 +1,11 @@
 package Datos;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Personaje {
+public class Personaje implements Serializable {
     private String nombre;
     private int oro;
     private Arma armaActual1;
