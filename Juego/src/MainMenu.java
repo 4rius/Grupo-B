@@ -143,6 +143,7 @@ public class MainMenu extends Operation {
     public void mainMenu(int tipo, String nick) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Bienvenido " + nick);
+        OUTER:
         while (true) {
         int opcion = 0;
             if (tipo == 1) {  //Si es un cliente
@@ -153,7 +154,9 @@ public class MainMenu extends Operation {
                 System.out.println("5. Ver desafíos pendientes");
                 System.out.println("6. Ver historial de combates");
                 System.out.println("7. Suscribirse a resultados");
-                System.out.println("8. Cerrar sesión");
+                System.out.println("8. Ver ranking global");
+                System.out.println("9. Eliminar mi cuenta");
+                System.out.println("10. Cerrar sesión");
                 System.out.println("Introduzca una opción: ");
 
                 opcion = Integer.parseInt(br.readLine());
@@ -168,7 +171,14 @@ public class MainMenu extends Operation {
                     case 5 -> Multiplex.getClientes().get(nick).verDesafios();
                     case 6 -> Multiplex.getClientes().get(nick).verHistorial();
                     case 7 -> Multiplex.getClientes().get(nick).suscribirse();
-                    case 8 -> this.doOperation();
+                    case 8 -> Multiplex.getClientes().get(nick).verRanking();
+                    case 9 -> {
+                        Multiplex.getClientes().get(nick).eliminarCuenta();
+                        if (!Multiplex.getClientes().containsKey(nick)) {
+                            break OUTER;
+                        }
+                    }
+                    case 10 -> this.doOperation();
                     default -> {
                         System.out.println("Esa no es una opción válida");
                     }
@@ -180,7 +190,8 @@ public class MainMenu extends Operation {
                 System.out.println("4. Validar desafíos pendientes");
                 System.out.println("5. Banear jugador");
                 System.out.println("6. Desbanear jugador");
-                System.out.println("7. Cerrar sesión");
+                System.out.println("7. Eliminar mi cuenta");
+                System.out.println("8. Cerrar sesión");
                 System.out.println("Introduzca una opción: ");
 
                 opcion = Integer.parseInt(br.readLine());
@@ -191,7 +202,13 @@ public class MainMenu extends Operation {
                     case 4 -> Multiplex.getOperadores().get(nick).validarDesafios();
                     case 5 -> Multiplex.getOperadores().get(nick).banearJugador();
                     case 6 -> Multiplex.getOperadores().get(nick).desbanearJugador();
-                    case 7 -> this.doOperation();
+                    case 7 -> {
+                        Multiplex.getOperadores().get(nick).eliminarCuenta();
+                        if (!Multiplex.getOperadores().containsKey(nick)) {
+                            break OUTER;
+                        }
+                    }
+                    case 8 -> this.doOperation();
                     default -> {
                         System.out.println("Esa no es una opción válida");
                     }

@@ -276,4 +276,21 @@ public class Cliente implements Serializable {
     public void recibirNotificacion(String mensaje) {
         System.out.println(mensaje);
     }
+
+    public void verRanking() {
+    }
+
+    public void eliminarCuenta() throws IOException {
+        System.out.println("Escribe tu contraseña para confirmar la eliminación de tu cuenta");
+        System.out.println("Da cualquier otra entrada para cancelar");
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String contrasena = br.readLine();
+        if (contrasena.equals(this.password)) {
+            Multiplex.getClientes().remove(this.nick, this);
+            Multiplex.serialize();
+            System.out.println("Cuenta eliminada");
+        } else {
+            System.out.println("Contraseña incorrecta, operación cancelada");
+        }
+    }
 }
