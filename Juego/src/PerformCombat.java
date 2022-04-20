@@ -91,7 +91,7 @@ public class PerformCombat extends Operation {
     public void comprobarEstado(int hp1, int hp2){
         if (hp1 <= 0 || hp2 <= 0){
             if (hp1 > 0){
-                combate.setVencedor(combate.getDuelista2());
+                combate.setVencedor(combate.getDuelista1());
                 combate.getDuelista2().getPersonaje().addOro(combate.getOro());
             }
             else if (hp2 > 0){
