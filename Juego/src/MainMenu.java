@@ -147,6 +147,20 @@ public class MainMenu extends Operation {
         while (true) {
         int opcion = 0;
             if (tipo == 1) {  //Si es un cliente
+                if (Multiplex.getClientes().get(nick).getNotificacion().size() > 0) {
+                    System.out.println("Tienes " + Multiplex.getClientes().get(nick).getNotificacion().size() + " notificaciones");
+                    for (String notificacion : Multiplex.getClientes().get(nick).getNotificacion()) {
+                        System.out.println(notificacion);
+                        Multiplex.getClientes().get(nick).getNotificacion().remove(notificacion);
+                    }
+                }
+                if (Multiplex.getClientes().get(nick).getSuscripciones().size() > 0) {
+                    System.out.println("Sus notificaciones de suscripciones son: ");
+                    for (String s : Multiplex.getClientes().get(nick).getSuscripciones()) {
+                        System.out.println(s);
+                        Multiplex.getClientes().get(nick).getSuscripciones().remove(s);
+                    }
+                }
                 System.out.println("1. Registrar personaje");
                 System.out.println("2. Eliminar el personaje actual");
                 System.out.println("3. Seleccionar equipo");

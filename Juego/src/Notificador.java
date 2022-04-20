@@ -10,7 +10,7 @@ public class Notificador implements Serializable {
 
     public void notificar(String mensaje) {
         for (Cliente cliente : clientes) {
-            cliente.recibirNotificacion(mensaje);
+            cliente.getSuscripciones().add(mensaje);
         }
     }
 

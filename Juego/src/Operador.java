@@ -127,8 +127,8 @@ public class Operador implements Serializable {
             if (opcion < Multiplex.getDesafios().size()){
                 Multiplex.getDesafios().get(opcion).setEstado(1);
                 System.out.println("Desafío validado");
-                Multiplex.getDesafios().get(opcion).getDuelista1().recibirNotificacion("La batalla contra" + Multiplex.getDesafios().get(opcion).getDuelista2().getNick() + "ha sido validada");
-                Multiplex.getDesafios().get(opcion).getDuelista2().recibirNotificacion(Multiplex.getDesafios().get(opcion).getDuelista1().getNick() + "Te ha desafiado, ¡ve a desafíos pendientes para aceptarlo!");
+                Multiplex.getDesafios().get(opcion).getDuelista1().getNotificacion().add("La batalla contra" + Multiplex.getDesafios().get(opcion).getDuelista2().getNick() + "ha sido validada");
+                Multiplex.getDesafios().get(opcion).getDuelista2().getNotificacion().add(Multiplex.getDesafios().get(opcion).getDuelista1().getNick() + "Te ha desafiado, ¡ve a desafíos pendientes para aceptarlo!");
                 Multiplex.serialize();
             }
         } else {
@@ -201,61 +201,16 @@ public class Operador implements Serializable {
     }
 
     public void eliminarCuenta() throws IOException {
-        System.out.println("Menú de elininación de cuentas");
-        System.out.println("1. Eliminar mi cuenta");
-        System.out.println("2. Eliminar la cuenta de otro cliente");
-        BufferedReader br = new BufferedReader(new java.io.InputStreamReader(System.in));
-        int opcion = Integer.parseInt(br.readLine());
-        switch (opcion){
-            case 1: {
-                System.out.println("De verdad desea eliminar su cuenta? (S/N)");
-                String respuesta = br.readLine();
-                if (respuesta.equals("S")){
-                    System.out.println("Introduzca su contraseña para confirmar");
-                    System.out.println("Da cualquier otra entrada para cancelar");
-                    String pass = br.readLine();
-                    if (pass.equals(Multiplex.getClientes().get(this.getNick()).getPassword())){
-                        Multiplex.getOperadores().remove(this.getNick(), this);
-                        Multiplex.serialize();
-                        System.out.println("Cuenta eliminada");
-                        break;
-                    } else {
-                        System.out.println("Contraseña incorrecta, operación cancelada");
-                    }
-                } else if (respuesta.equals("N")){
-                    System.out.println("Cancelado");
-                    break;
-                } else {
-                    System.out.println("Respuesta no válida");
-                    break;
-                }
-
-            }
-            case 2: {
-                System.out.println("Usuarios registrados: ");
-                for (String nick : Multiplex.getClientes().keySet()){
-                    System.out.println(nick);
-                }
-                System.out.println("Escriba el nombre de usuario del cliente a eliminar");
-                String user = br.readLine();
-                if (Multiplex.getClientes().containsKey(user)){
-                    System.out.println("De verdad desea eliminar la cuenta de " + user + "? (S/N)");
-                    String respuesta = br.readLine();
-                    if (respuesta.equals("S")){
-                        System.out.println("Eliminando cuenta...");
-                        Multiplex.getClientes().remove(user, Multiplex.getClientes().get(user));
-                        Multiplex.serialize();
-                        System.out.println("Cuenta eliminada");
-                        break;
-                    } else if (respuesta.equals("N")){
-                        System.out.println("Cancelado");
-                        break;
-                    } else {
-                        System.out.println("Respuesta no válida");
-                        break;
-                    }
-                }
-            }
+        System.out.println("Escribe tu contraseña para confirmar la eliminación de tu cuenta");
+        System.out.println("Da cualquier otra entrada para cancelar");
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String contrasena = br.readLine();
+        if (contrasena.equals(this.Contraseña)) {
+            Multiplex.getOperadores().remove(this.getNick(), this);
+            Multiplex.serialize();
+            System.out.println("Cuenta eliminada");
+        } else {
+            System.out.println("Contraseña incorrecta, operación cancelada");
         }
     }
 

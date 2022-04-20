@@ -16,6 +16,8 @@ public class Cliente implements Serializable {
     private boolean banned;
     private final Notificador notificador;
     private int overall; //Para el ranking global
+    private ArrayList<String> notificacion;
+    private ArrayList<String> suscripciones;
 
 
     public Cliente(Personaje personaje, String name, String nick, String nRegistro, String password) {
@@ -26,6 +28,9 @@ public class Cliente implements Serializable {
         Cliente.nRegistro = nRegistro;
         this.banned = false;
         this.notificador = new Notificador();
+        this.notificacion = new ArrayList<>();
+        this.suscripciones = new ArrayList<>();
+        this.overall = 0;
     }
 
     public String getName() {
@@ -76,6 +81,14 @@ public class Cliente implements Serializable {
 
     public Notificador getNotificador() {
         return notificador;
+    }
+
+    public ArrayList<String> getNotificacion() {
+        return notificacion;
+    }
+
+    public void setNotificacion(ArrayList<String> notificacion) {
+        this.notificacion = notificacion;
     }
 
     public void verHistorial(){
@@ -272,11 +285,6 @@ public class Cliente implements Serializable {
         }
     }
 
-
-    public void recibirNotificacion(String mensaje) {
-        System.out.println(mensaje);
-    }
-
     public void verRanking() {
     }
 
@@ -292,5 +300,13 @@ public class Cliente implements Serializable {
         } else {
             System.out.println("Contraseña incorrecta, operación cancelada");
         }
+    }
+
+    public ArrayList<String> getSuscripciones() {
+        return suscripciones;
+    }
+
+    public void setSuscripciones(ArrayList<String> suscripciones) {
+        this.suscripciones = suscripciones;
     }
 }
