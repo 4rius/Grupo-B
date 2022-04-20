@@ -153,7 +153,7 @@ public class Operador implements Serializable {
                 Multiplex.getDesafios().get(opcion).setEstado(1);
                 System.out.println("Desafío validado");
                 Multiplex.getDesafios().get(opcion).getDuelista1().getNotificacion().add("La batalla contra" + Multiplex.getDesafios().get(opcion).getDuelista2().getNick() + "ha sido validada");
-                Multiplex.getDesafios().get(opcion).getDuelista2().getNotificacion().add(Multiplex.getDesafios().get(opcion).getDuelista1().getNick() + "Te ha desafiado, ¡ve a desafíos pendientes para aceptarlo!");
+                Multiplex.getDesafios().get(opcion).getDuelista2().getNotificacion().add(Multiplex.getDesafios().get(opcion).getDuelista1().getNick() + " Te ha desafiado! Aceptar (1) / Rechazar (2)");
                 Multiplex.serialize();
             }
         } else {

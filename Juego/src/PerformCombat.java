@@ -7,8 +7,8 @@ public class PerformCombat extends Operation {
     private Combate combate;
     private Multiplex multiplex;
 
-    public PerformCombat(Multiplex multiplex) {
-        super(multiplex);
+    public PerformCombat(Combate combate) {
+        this.combate = combate;
     }
 
     public Combate getCombate() {
@@ -26,7 +26,7 @@ public class PerformCombat extends Operation {
         int hp_Per1 = combate.getDuelista1().getPersonaje().getSalud();
         int hp_Esb2 = saludEsbirros(combate.getDuelista2());
         int hp_Per2 = combate.getDuelista2().getPersonaje().getSalud();
-        while(combate.getEstado() != 0){
+        while(combate.getEstado() != 3){
             int atk1 = calcularAtk(combate.getDuelista1());
             int atk2 = calcularAtk(combate.getDuelista2());
             int def1 = calcularDef(combate.getDuelista1());
@@ -101,7 +101,7 @@ public class PerformCombat extends Operation {
             else{
                 combate.setVencedor(null);
             }
-            combate.setEstado(0);
+            combate.setEstado(3);
         }
     }
 

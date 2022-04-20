@@ -3,6 +3,7 @@ import Datos.Vampiro;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Cliente implements Serializable {
 
@@ -106,7 +107,7 @@ public class Cliente implements Serializable {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         //1 en espera, 2 en espera de ser aceptado, 3 en ejecución, 4 finalizado
         for(Combate desafio: Multiplex.getDesafios()){
-            if (desafio.getEstado() == 1) { //1 es en espera de ser aceptado por el otro jugador
+            if (desafio.getEstado() == 1 && Objects.equals(desafio.getDuelista2().getNick(), this.getNick())) { //1 es en espera de ser aceptado por el otro jugador
                 System.out.println("Introduzca el nick del usuario del que quiere aceptar el desafío: ");
                 System.out.println(desafio.getDuelista1().getNick() + " vs " + desafio.getDuelista2().getNick());
                 System.out.println("Oro apostado: " + desafio.getOro());
@@ -119,7 +120,13 @@ public class Cliente implements Serializable {
             if(desafio.getDuelista1().getNick().equals(this.nick) && desafio.getDuelista2().getNick().equals(nick) && desafio.getEstado() == 1){
                 System.out.println("El desafio ha sido aceptado, comenzando la batalla");
                 desafio.setEstado(2); //2 es en ejecucion
-                //Aquí hay que llamar a peformcombat y luego actualizar el resultado de este desafío
+                PerformCombat pc = new PerformCombat(desafio);
+                System.out.println("El desafio ha finalizado");
+                System.out.println("El ganador es: " + desafio.getVencedor());
+                System.out.println("La cantidad de oro ganada es: " + desafio.getOro());
+                System.out.println("Se han jugado " + desafio.getRondas() + " rondas");
+                System.out.println("Han quedado esbirros?" + desafio.getVencedor().getPersonaje().getEsbirros().size());
+                this.notificador.notificar("Ha terminado un desafío al que estás suscrito, \n" + desafio.getVencedor().getNick() + " ha ganado la batalla" + "\n se han jugado " + desafio.getRondas() + " rondas" + "\n se ha apostado " + desafio.getOro() + " oro");
             } else {
                 System.out.println("Ese desafío no existe / no está validado");
             }

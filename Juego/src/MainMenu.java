@@ -148,29 +148,29 @@ public class MainMenu extends Operation {
         int opcion = 0;
             if (tipo == 1) {  //Si es un cliente
                 if (Multiplex.getClientes().get(nick).getNotificacion().size() > 0) {
-                    System.out.println("Tienes " + Multiplex.getClientes().get(nick).getNotificacion().size() + " notificaciones");
+                    System.out.println("Tienes notificaciones pendientes");
                     for (String notificacion : Multiplex.getClientes().get(nick).getNotificacion()) {
                         System.out.println(notificacion);
-                        Multiplex.getClientes().get(nick).getNotificacion().remove(notificacion);
                     }
+                    Multiplex.getClientes().get(nick).getNotificacion().clear();
+                    Multiplex.getClientes().get(nick).verDesafios();
                 }
                 if (Multiplex.getClientes().get(nick).getSuscripciones().size() > 0) {
                     System.out.println("Sus notificaciones de suscripciones son: ");
                     for (String s : Multiplex.getClientes().get(nick).getSuscripciones()) {
                         System.out.println(s);
-                        Multiplex.getClientes().get(nick).getSuscripciones().remove(s);
                     }
+                    Multiplex.getClientes().get(nick).getSuscripciones().clear();
                 }
                 System.out.println("1. Registrar personaje");
                 System.out.println("2. Eliminar el personaje actual");
                 System.out.println("3. Seleccionar equipo");
                 System.out.println("4. Crear desafío");
-                System.out.println("5. Ver desafíos pendientes");
-                System.out.println("6. Ver historial de combates");
-                System.out.println("7. Suscribirse a resultados");
-                System.out.println("8. Ver ranking global");
-                System.out.println("9. Eliminar mi cuenta");
-                System.out.println("10. Cerrar sesión");
+                System.out.println("5. Ver historial de combates");
+                System.out.println("6. Suscribirse a resultados");
+                System.out.println("7. Ver ranking global");
+                System.out.println("8. Eliminar mi cuenta");
+                System.out.println("9. Cerrar sesión");
                 System.out.println("Introduzca una opción: ");
 
                 opcion = Integer.parseInt(br.readLine());
@@ -182,17 +182,16 @@ public class MainMenu extends Operation {
                     }
                     case 3 -> Multiplex.getClientes().get(nick).seleccionarEquipo();
                     case 4 -> Multiplex.getClientes().get(nick).crearDesafio();
-                    case 5 -> Multiplex.getClientes().get(nick).verDesafios();
-                    case 6 -> Multiplex.getClientes().get(nick).verHistorial();
-                    case 7 -> Multiplex.getClientes().get(nick).suscribirse();
-                    case 8 -> Multiplex.getClientes().get(nick).verRanking();
-                    case 9 -> {
+                    case 5 -> Multiplex.getClientes().get(nick).verHistorial();
+                    case 6 -> Multiplex.getClientes().get(nick).suscribirse();
+                    case 7 -> Multiplex.getClientes().get(nick).verRanking();
+                    case 8 -> {
                         Multiplex.getClientes().get(nick).eliminarCuenta();
                         if (!Multiplex.getClientes().containsKey(nick)) {
                             break OUTER;
                         }
                     }
-                    case 10 -> this.doOperation();
+                    case 9 -> this.doOperation();
                     default -> {
                         System.out.println("Esa no es una opción válida");
                     }
