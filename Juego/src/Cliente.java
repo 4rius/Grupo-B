@@ -115,7 +115,7 @@ public class Cliente implements Serializable {
 
     public void seleccionarEquipo() throws IOException {
         if (Multiplex.getClientes().get(nick).getPersonaje() != null) {
-            System.out.println("Elige una armadura y dos armas de una mano o un arma de dos manos:");
+
             System.out.println();
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             int i=0;
@@ -131,36 +131,43 @@ public class Cliente implements Serializable {
                 System.out.println();
                 i+=1;
             }
+            System.out.println("Elige una armadura y dos armas de una mano o un arma de dos manos:");
             boolean armadura = false;
             boolean arma1 = false;
             boolean arma2 = false;
-            while (( !armadura) || (!arma1) || (!arma2)){
-                System.out.println("Seleccione un numero del 0 al " + (i-1));
-                int opt= Integer.parseInt(br.readLine());
-                if (Multiplex.getInventario().get(opt) instanceof Armadura){
-                        if (!armadura) {
-                            getPersonaje().setArmaduraActual((Armadura) Multiplex.getInventario().get(opt));
-                            System.out.println("Armadura seleccionada.");
-                            armadura = true;
-                        }else{
-                            System.out.println("Ya tienes una Armadura seleccionada.");
-                        }
-                }else{// Este else no funciona bien
+            while (( !armadura) || (!arma1) || (!arma2)) {
+                int opt;
+                do { //Controlar que el usuario elige un numero dentro de los rangos establecidos
+                    System.out.println("Seleccione un numero del 0 al " + (i - 1));
+                    opt = Integer.parseInt(br.readLine());
+                } while (opt < 0 || opt > i - 1);
+
+                if (Multiplex.getInventario().get(opt) instanceof Armadura) {
+                    if (!armadura) {
+                        getPersonaje().setArmaduraActual((Armadura) Multiplex.getInventario().get(opt));
+                        System.out.println("Armadura seleccionada.");
+                        armadura = true;
+                    } else {
+                        System.out.println("Ya tienes una Armadura seleccionada.");
+                    }
+                } else {
                     getPersonaje().setArmaActual1((Arma) Multiplex.getInventario().get(opt));
-                    if ((getPersonaje().getArmaActual1().isAdosmanos()) && (!arma1)){
+                    if ((getPersonaje().getArmaActual1().isAdosmanos()) && (!arma1)) {
                         getPersonaje().setArmaActual2(null);
                         System.out.println("Arma a dos manos seleccionada");
                         arma1 = true;
                         arma2 = true;
-                    }else if ((getPersonaje().getArmaActual1().isAdosmanos()) && (arma1)){
+                    } else if ((getPersonaje().getArmaActual1().isAdosmanos()) && (arma1)) {
                         System.out.println("Arma a una mano equipada. Tu segunda arma solo puede ir a una mano");
-                    }else if (!arma1){
+                    } else if (!arma1) {
                         System.out.println("Arma 1 seleccionada.");
                         arma1 = true;
                         System.out.println("Seleccione otro equipo: ");
-                    } else if (!arma2){
+                    } else if (!arma2) {
                         System.out.println("Arma 2 seleccionada.");
                         arma2 = true;
+                    } else if (arma1 && arma2) {
+                        System.out.println("Ya tienes dos armas equipadas.");
                     }
                 }
             }
