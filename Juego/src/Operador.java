@@ -1,6 +1,5 @@
-import Datos.Modificador;
-import Datos.Personaje;
-
+import Datos.Disciplina;
+import Datos.Don;
 import java.io.*;
 
 public class Operador implements Serializable {
@@ -49,6 +48,9 @@ public class Operador implements Serializable {
         BufferedReader br = new BufferedReader(new java.io.InputStreamReader(System.in));
         System.out.println("Modo edicion de datos del personaje");
         System.out.println("Escriba el nombre de usuario del personaje a editar");
+        for(String nick : Multiplex.getClientes().keySet()){
+            System.out.println(nick);
+        }
         String user = br.readLine();
         if (Multiplex.getClientes().containsKey(user)){
             if (Multiplex.getClientes().get(user).getPersonaje() != null){
@@ -82,6 +84,29 @@ public class Operador implements Serializable {
                         Multiplex.getClientes().get(user).getPersonaje().setPoder(poder);
                     }
                     case 5 -> {
+                        int coste = 0;
+                        System.out.println("Nueva habilidad especial: ");
+                        System.out.println("Escriba el nuevo nombre de la habilidad especial");
+                        String nombre = br.readLine();
+                        System.out.println("Introduzca el ataque de la habilidad especial");
+                        int atq = Integer.parseInt(br.readLine());
+                        System.out.println("Introduzca la  defensa de la habilidad especial");
+                        int def = Integer.parseInt(br.readLine());
+                        if(Multiplex.getClientes().get(user).getPersonaje().getHabilidadEspecial() instanceof Disciplina){
+                            System.out.println("Indique el coste de sangre de la habilidad especial");
+                            coste = Integer.parseInt(br.readLine());
+                            Multiplex.getClientes().get(user).getPersonaje().setHabilidadEspecial(new Disciplina(nombre, atq,def, coste));
+                            }
+                        else if(Multiplex.getClientes().get(user).getPersonaje().getHabilidadEspecial() instanceof Don){
+                            System.out.println("Indique el minimo de rabia de la habilidad especial");
+                            coste = Integer.parseInt(br.readLine());
+                            Multiplex.getClientes().get(user).getPersonaje().setHabilidadEspecial(new Disciplina(nombre, atq,def, coste));
+
+                        }else{
+                            System.out.println("Indique a que edad el cazador adquirió la habilidad especial");
+                            coste = Integer.parseInt(br.readLine());
+                            Multiplex.getClientes().get(user).getPersonaje().setHabilidadEspecial(new Disciplina(nombre, atq,def, coste));
+                        }
 
                     }
                     default -> System.out.println("Saliendo / Opción no válida");
@@ -127,8 +152,7 @@ public class Operador implements Serializable {
             if (opcion < Multiplex.getDesafios().size()){
                 Multiplex.getDesafios().get(opcion).setEstado(1);
                 System.out.println("Desafío validado");
-                Multiplex.getDesafios().get(opcion).getDuelista1().recibirNotificacion("La batalla contra" + Multiplex.getDesafios().get(opcion).getDuelista2().getNick() + "ha sido validada");
-                Multiplex.getDesafios().get(opcion).getDuelista2().recibirNotificacion(Multiplex.getDesafios().get(opcion).getDuelista1().getNick() + "Te ha desafiado, ¡ve a desafíos pendientes para aceptarlo!");
+                Multiplex.getDesafios().get(opcion).getDuelista2().getNotificacion().add(Multiplex.getDesafios().get(opcion).getDuelista1().getNick() + " Te ha desafiado!");
                 Multiplex.serialize();
             }
         } else {
@@ -197,6 +221,20 @@ public class Operador implements Serializable {
             }
         } else {
             System.out.println("El usuario no existe");
+        }
+    }
+
+    public void eliminarCuenta() throws IOException {
+        System.out.println("Escribe tu contraseña para confirmar la eliminación de tu cuenta");
+        System.out.println("Da cualquier otra entrada para cancelar");
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String contrasena = br.readLine();
+        if (contrasena.equals(this.Contraseña)) {
+            Multiplex.getOperadores().remove(this.getNick(), this);
+            Multiplex.serialize();
+            System.out.println("Cuenta eliminada");
+        } else {
+            System.out.println("Contraseña incorrecta, operación cancelada");
         }
     }
 

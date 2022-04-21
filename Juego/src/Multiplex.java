@@ -84,7 +84,7 @@ public class Multiplex implements Serializable {
     }
 
     public void Start() throws IOException {
-        System.out.println("Not yet!");
+        System.out.println("Halfway through!");
 
         MainMenu menu = new MainMenu(this);
         menu.doOperation();
