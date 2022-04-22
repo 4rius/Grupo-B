@@ -207,23 +207,27 @@ public class Cliente implements Serializable {
                         System.out.println("Ya tienes una Armadura seleccionada.");
                     }
                 } else {
-                    getPersonaje().setArmaActual1((Arma) Multiplex.getInventario().get(opt));
-                    if ((getPersonaje().getArmaActual1().isAdosmanos()) && (!arma1)) {
+                    if (((Arma)Multiplex.getInventario().get(opt)).isAdosmanos()  && (!arma1)) {
+                        getPersonaje().setArmaActual1((Arma) Multiplex.getInventario().get(opt));
                         getPersonaje().setArmaActual2(null);
                         System.out.println("Arma a dos manos seleccionada");
                         arma1 = true;
                         arma2 = true;
-                    } else if ((getPersonaje().getArmaActual1().isAdosmanos()) && (arma1)) {
+                    } else if (((Arma)Multiplex.getInventario().get(opt)).isAdosmanos() && (arma1)) {
                         System.out.println("Arma a una mano equipada. Tu segunda arma solo puede ir a una mano");
                     } else if (!arma1) {
+                        getPersonaje().setArmaActual1((Arma) Multiplex.getInventario().get(opt));
                         System.out.println("Arma 1 seleccionada.");
                         arma1 = true;
                         System.out.println("Seleccione otro equipo: ");
-                    } else if (!arma2) {
-                        System.out.println("Arma 2 seleccionada.");
+                    }
+                    else if (!arma2) {
                         getPersonaje().setArmaActual2((Arma) Multiplex.getInventario().get(opt));
-                        arma2 = true;
-                    } else if (arma1) {
+                        System.out.println("Arma 2 seleccionada.");
+
+                    }
+
+                    else if (arma1&&arma2) {
                         System.out.println("Ya tienes dos armas equipadas.");
                     }
                 }
