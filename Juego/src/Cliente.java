@@ -140,7 +140,7 @@ public class Cliente implements Serializable {
                     System.out.println("Quiere aceptar el desafio? (1 aceptar, 0 rechazar)");
                     int opcion = Integer.parseInt(br.readLine());
                     if (opcion == 1) {
-                        desafio.setEstado(2); //2 es en ejecucion
+                        desafio.setEstado(3); //2 es en ejecucion
                         PerformCombat pc = new PerformCombat(desafio);
                         pc.doOperation();
                         System.out.println("El desafio ha finalizado");
@@ -150,7 +150,6 @@ public class Cliente implements Serializable {
                         System.out.println("Han quedado esbirros?" + desafio.getVencedor().getPersonaje().getEsbirros().size());
                         this.notificador.notificar("Ha terminado un desafío al que estás suscrito, \n" + desafio.getVencedor().getNick() + " ha ganado la batalla" + "\n se han jugado " + desafio.getRondas() + " rondas" + "\n se ha apostado " + desafio.getOro() + " oro");
                         this.setDesafiospendientes(this.getDesafiospendientes() - 1);
-                        Multiplex.getDesafios().remove(desafio);
                     } else if (opcion == 0) {
                         desafio.setEstado(5); //5 rechazado
                         desafio.setVencedor(desafio.getDuelista1());
@@ -161,7 +160,7 @@ public class Cliente implements Serializable {
                         this.notificador.notificar(this.getNick() + " ha rechazado el desafio de " + desafio.getDuelista1().getNick());
                         desafio.getDuelista1().notificador.notificar(this.getNick() + " ha rechazado el desafio de " + desafio.getDuelista1().getNick());
                         this.setDesafiospendientes(this.getDesafiospendientes() - 1);
-                        Multiplex.getDesafios().remove(desafio);
+                        Multiplex.getDesafios().get(Multiplex.getDesafios().indexOf(desafio)).setEstado(5);
                     } else {
                         System.out.println("Ese desafío no existe / No está validado / Está rechazado");
                     }
@@ -182,8 +181,7 @@ public class Cliente implements Serializable {
                 System.out.println("Nombre:"+mochila.getNombre());
                 System.out.println("Ataque: "+mochila.getModataque());
                 System.out.println("Defensa: "+mochila.getModdef());
-                if (mochila instanceof Arma) {
-                    Arma mochila2 = (Arma) mochila;
+                if (mochila instanceof Arma mochila2) {
                     System.out.println("Arma a dos manos: "+mochila2.isAdosmanos());
                 }
                 System.out.println();
@@ -223,8 +221,9 @@ public class Cliente implements Serializable {
                         System.out.println("Seleccione otro equipo: ");
                     } else if (!arma2) {
                         System.out.println("Arma 2 seleccionada.");
+                        getPersonaje().setArmaActual2((Arma) Multiplex.getInventario().get(opt));
                         arma2 = true;
-                    } else if (arma1 && arma2) {
+                    } else if (arma1) {
                         System.out.println("Ya tienes dos armas equipadas.");
                     }
                 }
