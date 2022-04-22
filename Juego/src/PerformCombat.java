@@ -61,9 +61,11 @@ public class PerformCombat extends Operation {
 
     public int saludEsbirros(@NotNull Cliente c){
         int hp = 0;
-        ArrayList<Esbirro> eList = new ArrayList<>(c.getPersonaje().getEsbirros());
-        for (Esbirro e: eList) {
-            hp = hp + e.getSalud();
+        if (c.getPersonaje().getEsbirros() != null) {
+            ArrayList<Esbirro> eList = (ArrayList<Esbirro>) c.getPersonaje().getEsbirros();
+            for (Esbirro e : eList) {
+                hp = hp + e.getSalud();
+            }
         }
         return hp;
     }
