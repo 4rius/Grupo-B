@@ -1,4 +1,5 @@
 import Datos.Esbirro;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -58,23 +59,21 @@ public class PerformCombat extends Operation {
         combate.setEsbirrosVivos(this.isEsbirrosVivos(hp_Esb1, hp_Esb2));
     }
 
-    public int saludEsbirros(Cliente c){
+    public int saludEsbirros(@NotNull Cliente c){
         int hp = 0;
-        ArrayList<Esbirro> eList = new ArrayList(c.getPersonaje().getEsbirros());
+        ArrayList<Esbirro> eList = new ArrayList<>(c.getPersonaje().getEsbirros());
         for (Esbirro e: eList) {
             hp = hp + e.getSalud();
         }
         return hp;
     }
 
-    public int calcularAtk(Cliente c){
-        int atk = c.getPersonaje().atkTotal();
-        return atk;
+    public int calcularAtk(@NotNull Cliente c){
+        return c.getPersonaje().atkTotal();
     }
 
-    public int calcularDef(Cliente c){
-        int def = c.getPersonaje().defTotal();
-        return def;
+    public int calcularDef(@NotNull Cliente c){
+        return c.getPersonaje().defTotal();
     }
 
     public int rolearDados(int n){
@@ -82,7 +81,7 @@ public class PerformCombat extends Operation {
         for(int i = 1; i>n; i++){
             int random = (int) Math.floor(Math.random()*6+1);
             if (random == 5 || random == 6){
-                k = k++;
+                k++;
             }
         }
         return k;
@@ -106,9 +105,6 @@ public class PerformCombat extends Operation {
     }
 
     public boolean isEsbirrosVivos(int hp1, int hp2){
-        if (hp1 != 0 || hp2 != 0){
-            return true;
-        }
-        return false;
+        return hp1 != 0 || hp2 != 0;
     }
 }
