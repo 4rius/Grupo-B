@@ -157,6 +157,7 @@ public class Cliente implements Serializable {
                         this.setOverall(this.getOverall() - 1);
                         desafio.getDuelista1().setOverall(desafio.getDuelista1().getOverall() + 1);
                         this.notificador.notificar(this.getNick() + " ha rechazado el desafio de " + desafio.getDuelista1().getNick());
+                        desafio.getDuelista1().notificador.notificar(this.getNick() + " ha rechazado el desafio de " + desafio.getDuelista1().getNick());
                         this.setDesafiospendientes(this.getDesafiospendientes() - 1);
                     }
 
