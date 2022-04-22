@@ -290,6 +290,8 @@ public class Cliente implements Serializable {
             int oroApostado = Integer.parseInt(br.readLine());
             if (this.personaje.getOro() < oroApostado){
                 System.out.println("No tienes suficiente oro");
+            } else if (!Multiplex.getClientes().containsKey(nickUsuario)) {
+                System.out.println("El usuario no existe");
             } else if (Multiplex.getClientes().get(nickUsuario).getPersonaje() == null){
                 System.out.println("El usuario no tiene un personaje registrado");
             } else if (Multiplex.getClientes().get(nickUsuario).isBanned()){
