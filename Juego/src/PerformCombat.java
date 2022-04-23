@@ -1,4 +1,5 @@
 import Datos.Esbirro;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -26,7 +27,7 @@ public class PerformCombat extends Operation {
         int hp_Per1 = combate.getDuelista1().getPersonaje().getSalud();
         int hp_Esb2 = saludEsbirros(combate.getDuelista2());
         int hp_Per2 = combate.getDuelista2().getPersonaje().getSalud();
-        while(combate.getEstado() != 3){
+        while(combate.getEstado() != 4){
             int atk1 = calcularAtk(combate.getDuelista1());
             int atk2 = calcularAtk(combate.getDuelista2());
             int def1 = calcularDef(combate.getDuelista1());
@@ -58,23 +59,23 @@ public class PerformCombat extends Operation {
         combate.setEsbirrosVivos(this.isEsbirrosVivos(hp_Esb1, hp_Esb2));
     }
 
-    public int saludEsbirros(Cliente c){
+    public int saludEsbirros(@NotNull Cliente c){
         int hp = 0;
-        ArrayList<Esbirro> eList = new ArrayList(c.getPersonaje().getEsbirros());
-        for (Esbirro e: eList) {
-            hp = hp + e.getSalud();
+        if (c.getPersonaje().getEsbirros() != null) {
+            ArrayList<Esbirro> eList = (ArrayList<Esbirro>) c.getPersonaje().getEsbirros();
+            for (Esbirro e : eList) {
+                hp = hp + e.getSalud();
+            }
         }
         return hp;
     }
 
-    public int calcularAtk(Cliente c){
-        int atk = c.getPersonaje().atkTotal();
-        return atk;
+    public int calcularAtk(@NotNull Cliente c){
+        return c.getPersonaje().atkTotal();
     }
 
-    public int calcularDef(Cliente c){
-        int def = c.getPersonaje().defTotal();
-        return def;
+    public int calcularDef(@NotNull Cliente c){
+        return c.getPersonaje().defTotal();
     }
 
     public int rolearDados(int n){
@@ -82,7 +83,7 @@ public class PerformCombat extends Operation {
         for(int i = 1; i>n; i++){
             int random = (int) Math.floor(Math.random()*6+1);
             if (random == 5 || random == 6){
-                k = k++;
+                k++;
             }
         }
         return k;
@@ -101,14 +102,11 @@ public class PerformCombat extends Operation {
             else{
                 combate.setVencedor(null);
             }
-            combate.setEstado(3);
+            combate.setEstado(4);
         }
     }
 
     public boolean isEsbirrosVivos(int hp1, int hp2){
-        if (hp1 != 0 || hp2 != 0){
-            return true;
-        }
-        return false;
+        return hp1 != 0 || hp2 != 0;
     }
 }

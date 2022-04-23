@@ -17,7 +17,7 @@ public class MainMenu extends Operation {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int opcion = 0;
         while (true) {
-            System.out.println("Bienvenido al competidor del mismisimo The Witcher");
+            System.out.println("Bienvenido a SmiteTactics" );
             System.out.println("1. Iniciar sesión");
             System.out.println("2. Registrarse");
             System.out.println("3. Salir");
@@ -153,6 +153,7 @@ public class MainMenu extends Operation {
                         System.out.println(notificacion);
                     }
                     Multiplex.getClientes().get(nick).getNotificacion().clear();
+                    Multiplex.serialize();
                     Multiplex.getClientes().get(nick).verDesafios();
                 }
                 if (Multiplex.getClientes().get(nick).getSuscripciones().size() > 0) {
@@ -161,6 +162,7 @@ public class MainMenu extends Operation {
                         System.out.println(s);
                     }
                     Multiplex.getClientes().get(nick).getSuscripciones().clear();
+                    Multiplex.serialize(); //Que no se repitan las notificaciones
                 }
                 System.out.println("1. Registrar personaje");
                 System.out.println("2. Eliminar el personaje actual");

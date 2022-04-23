@@ -19,6 +19,7 @@ public class Cliente implements Serializable {
     private int overall; //Para el ranking global
     private ArrayList<String> notificacion;
     private ArrayList<String> suscripciones;
+    private int desafiospendientes;
 
 
     public Cliente(Personaje personaje, String name, String nick, String nRegistro, String password) {
@@ -32,6 +33,7 @@ public class Cliente implements Serializable {
         this.notificacion = new ArrayList<>();
         this.suscripciones = new ArrayList<>();
         this.overall = 0;
+        this.desafiospendientes = 0;
     }
 
     public String getName() {
@@ -92,6 +94,22 @@ public class Cliente implements Serializable {
         this.notificacion = notificacion;
     }
 
+    public int getOverall() {
+        return overall;
+    }
+
+    public void setOverall(int overall) {
+        this.overall = overall;
+    }
+
+    public int getDesafiospendientes() {
+        return desafiospendientes;
+    }
+
+    public void setDesafiospendientes(int desafiospendientes) {
+        this.desafiospendientes = desafiospendientes;
+    }
+
     public void verHistorial(){
         for(Combate combate: Multiplex.getDesafios()){
             if(combate.getDuelista1().getNick().equals(nick) && combate.getEstado() == 4) {
@@ -105,30 +123,49 @@ public class Cliente implements Serializable {
 
     public void verDesafios() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Introduzca el nick del usuario del que quiere aceptar el desafío: ");
-        //1 en espera, 2 en espera de ser aceptado, 3 en ejecución, 4 finalizado
-        for(Combate desafio: Multiplex.getDesafios()){
-            if (desafio.getEstado() == 1 && Objects.equals(desafio.getDuelista2().getNick(), this.getNick())) { //1 es en espera de ser aceptado por el otro jugador
-                System.out.println(desafio.getDuelista1().getNick() + " vs " + desafio.getDuelista2().getNick());
-                System.out.println("Oro apostado: " + desafio.getOro());
-            } else if (desafio.getEstado() == 0) { //0 es en espera de ser aceptado por el operador;
-                System.out.println(desafio.getDuelista1().getNick() + " vs " + desafio.getDuelista2().getNick() + " esta pendiente de ser aceptado por un operador");
+        while(this.getDesafiospendientes() != 0) {
+            System.out.println("Introduzca el nick del usuario del que quiere aceptar/rechazar el desafío: ");
+            //1 en espera, 2 en espera de ser aceptado, 3 en ejecución, 4 finalizado, 5 rechazado
+            for (Combate desafio : Multiplex.getDesafios()) {
+                if (desafio.getEstado() == 1 && Objects.equals(desafio.getDuelista2().getNick(), this.getNick())) { //1 es en espera de ser aceptado por el otro jugador
+                    System.out.println(desafio.getDuelista1().getNick() + " vs " + desafio.getDuelista2().getNick());
+                    System.out.println("Oro apostado: " + desafio.getOro());
+                } else if (desafio.getEstado() == 0) { //0 es en espera de ser aceptado por el operador;
+                    System.out.println(desafio.getDuelista1().getNick() + " vs " + desafio.getDuelista2().getNick() + " esta pendiente de ser aceptado por un operador");
+                }
             }
-        }
-        String nick = br.readLine();
-        for(Combate desafio: Multiplex.getDesafios()){
-            if(desafio.getDuelista1().getNick().equals(nick) && desafio.getDuelista2().getNick().equals(this.nick) && desafio.getEstado() == 1){
-                System.out.println("El desafio ha sido aceptado, comenzando la batalla");
-                desafio.setEstado(2); //2 es en ejecucion
-                PerformCombat pc = new PerformCombat(desafio);
-                System.out.println("El desafio ha finalizado");
-                System.out.println("El ganador es: " + desafio.getVencedor());
-                System.out.println("La cantidad de oro ganada es: " + desafio.getOro());
-                System.out.println("Se han jugado " + desafio.getRondas() + " rondas");
-                System.out.println("Han quedado esbirros?" + desafio.getVencedor().getPersonaje().getEsbirros().size());
-                this.notificador.notificar("Ha terminado un desafío al que estás suscrito, \n" + desafio.getVencedor().getNick() + " ha ganado la batalla" + "\n se han jugado " + desafio.getRondas() + " rondas" + "\n se ha apostado " + desafio.getOro() + " oro");
-            } else {
-                System.out.println("Ese desafío no existe / no está validado");
+            String nick = br.readLine();
+            for (Combate desafio : Multiplex.getDesafios()) {
+                if (desafio.getDuelista1().getNick().equals(nick) && desafio.getDuelista2().getNick().equals(this.nick) && desafio.getEstado() == 1) {
+                    System.out.println("Quiere aceptar el desafio? (1 aceptar, 0 rechazar)");
+                    int opcion = Integer.parseInt(br.readLine());
+                    if (opcion == 1) {
+                        desafio.setEstado(3); //2 es en ejecucion
+                        PerformCombat pc = new PerformCombat(desafio);
+                        pc.doOperation();
+                        System.out.println("El desafio ha finalizado");
+                        System.out.println("El ganador es: " + pc.getCombate().getVencedor());
+                        System.out.println("La cantidad de oro ganada es: " + desafio.getOro());
+                        System.out.println("Se han jugado " + desafio.getRondas() + " rondas");
+                        System.out.println("Han quedado esbirros?" + desafio.getVencedor().getPersonaje().getEsbirros().size());
+                        this.notificador.notificar("Ha terminado un desafío al que estás suscrito, \n" + desafio.getVencedor().getNick() + " ha ganado la batalla" + "\n se han jugado " + desafio.getRondas() + " rondas" + "\n se ha apostado " + desafio.getOro() + " oro");
+                        this.setDesafiospendientes(this.getDesafiospendientes() - 1);
+                    } else if (opcion == 0) {
+                        desafio.setEstado(5); //5 rechazado
+                        desafio.setVencedor(desafio.getDuelista1());
+                        this.getPersonaje().setOro((int) (this.getPersonaje().getOro() - (0.1 * desafio.getOro())));
+                        desafio.getDuelista1().getPersonaje().setOro((int) (desafio.getDuelista1().getPersonaje().getOro() + (0.1 * desafio.getOro())));
+                        this.setOverall(this.getOverall() - 1);
+                        desafio.getDuelista1().setOverall(desafio.getDuelista1().getOverall() + 1);
+                        this.notificador.notificar(this.getNick() + " ha rechazado el desafio de " + desafio.getDuelista1().getNick());
+                        desafio.getDuelista1().notificador.notificar(this.getNick() + " ha rechazado el desafio de " + desafio.getDuelista1().getNick());
+                        this.setDesafiospendientes(this.getDesafiospendientes() - 1);
+                        Multiplex.getDesafios().get(Multiplex.getDesafios().indexOf(desafio)).setEstado(5);
+                    } else {
+                        System.out.println("Ese desafío no existe / No está validado / Está rechazado");
+                    }
+
+                }
             }
         }
     }
@@ -144,8 +181,7 @@ public class Cliente implements Serializable {
                 System.out.println("Nombre:"+mochila.getNombre());
                 System.out.println("Ataque: "+mochila.getModataque());
                 System.out.println("Defensa: "+mochila.getModdef());
-                if (mochila instanceof Arma) {
-                    Arma mochila2 = (Arma) mochila;
+                if (mochila instanceof Arma mochila2) {
                     System.out.println("Arma a dos manos: "+mochila2.isAdosmanos());
                 }
                 System.out.println();
@@ -171,22 +207,27 @@ public class Cliente implements Serializable {
                         System.out.println("Ya tienes una Armadura seleccionada.");
                     }
                 } else {
-                    getPersonaje().setArmaActual1((Arma) Multiplex.getInventario().get(opt));
-                    if ((getPersonaje().getArmaActual1().isAdosmanos()) && (!arma1)) {
+                    if (((Arma)Multiplex.getInventario().get(opt)).isAdosmanos()  && (!arma1)) {
+                        getPersonaje().setArmaActual1((Arma) Multiplex.getInventario().get(opt));
                         getPersonaje().setArmaActual2(null);
                         System.out.println("Arma a dos manos seleccionada");
                         arma1 = true;
                         arma2 = true;
-                    } else if ((getPersonaje().getArmaActual1().isAdosmanos()) && (arma1)) {
+                    } else if (((Arma)Multiplex.getInventario().get(opt)).isAdosmanos() && (arma1)) {
                         System.out.println("Arma a una mano equipada. Tu segunda arma solo puede ir a una mano");
                     } else if (!arma1) {
+                        getPersonaje().setArmaActual1((Arma) Multiplex.getInventario().get(opt));
                         System.out.println("Arma 1 seleccionada.");
                         arma1 = true;
                         System.out.println("Seleccione otro equipo: ");
-                    } else if (!arma2) {
+                    }
+                    else if (!arma2) {
+                        getPersonaje().setArmaActual2((Arma) Multiplex.getInventario().get(opt));
                         System.out.println("Arma 2 seleccionada.");
-                        arma2 = true;
-                    } else if (arma1 && arma2) {
+
+                    }
+
+                    else if (arma1&&arma2) {
                         System.out.println("Ya tienes dos armas equipadas.");
                     }
                 }
@@ -255,6 +296,8 @@ public class Cliente implements Serializable {
             int oroApostado = Integer.parseInt(br.readLine());
             if (this.personaje.getOro() < oroApostado){
                 System.out.println("No tienes suficiente oro");
+            } else if (!Multiplex.getClientes().containsKey(nickUsuario)) {
+                System.out.println("El usuario no existe");
             } else if (Multiplex.getClientes().get(nickUsuario).getPersonaje() == null){
                 System.out.println("El usuario no tiene un personaje registrado");
             } else if (Multiplex.getClientes().get(nickUsuario).isBanned()){
@@ -268,6 +311,7 @@ public class Cliente implements Serializable {
                 desafio.setDuelista2(Multiplex.getClientes().get(nickUsuario));
                 desafio.setOro(oroApostado);
                 Multiplex.getDesafios().add(desafio);
+                Multiplex.serialize();
             }
         } else {
             System.out.println("No tienes un personaje registrado");
