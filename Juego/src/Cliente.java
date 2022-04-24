@@ -144,13 +144,15 @@ public class Cliente implements Serializable {
                         desafio.setEstado(3); //2 es en ejecucion
                         PerformCombat pc = new PerformCombat(desafio);
                         pc.doOperation();
+                        desafio = pc.getCombate();
                         System.out.println("El desafio ha finalizado");
-                        System.out.println("El ganador es: " + pc.getCombate().getVencedor());
+                        System.out.println("El ganador es: " + desafio.getVencedor());
                         System.out.println("La cantidad de oro ganada es: " + desafio.getOro());
                         System.out.println("Se han jugado " + desafio.getRondas() + " rondas");
                         System.out.println("Han quedado esbirros?" + desafio.getVencedor().getPersonaje().getEsbirros().size());
                         this.notificador.notificar("Ha terminado un desafío al que estás suscrito, \n" + desafio.getVencedor().getNick() + " ha ganado la batalla" + "\n se han jugado " + desafio.getRondas() + " rondas" + "\n se ha apostado " + desafio.getOro() + " oro");
                         this.setDesafiospendientes(this.getDesafiospendientes() - 1);
+                        Multiplex.serialize();
                     } else if (opcion == 0) {
                         desafio.setEstado(5); //5 rechazado
                         desafio.setVencedor(desafio.getDuelista1());
@@ -162,6 +164,7 @@ public class Cliente implements Serializable {
                         desafio.getDuelista1().notificador.notificar(this.getNick() + " ha rechazado el desafio de " + desafio.getDuelista1().getNick());
                         this.setDesafiospendientes(this.getDesafiospendientes() - 1);
                         Multiplex.getDesafios().get(Multiplex.getDesafios().indexOf(desafio)).setEstado(5);
+                        Multiplex.serialize();
                     } else {
                         System.out.println("Ese desafío no existe / No está validado / Está rechazado");
                     }
