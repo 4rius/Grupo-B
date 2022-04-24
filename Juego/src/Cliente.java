@@ -1,5 +1,6 @@
 import Datos.*;
 import Datos.Vampiro;
+import org.w3c.dom.ls.LSOutput;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -12,7 +13,8 @@ public class Cliente implements Serializable {
     private Personaje personaje;
     private String name;
     private String nick;
-    private String password;;
+    private String password;
+    ;
     private static String nRegistro;
     private boolean banned;
     private final Notificador notificador;
@@ -72,7 +74,9 @@ public class Cliente implements Serializable {
         this.personaje = personaje;
     }
 
-    public Personaje getPersonaje(){ return personaje;}
+    public Personaje getPersonaje() {
+        return personaje;
+    }
 
     public boolean isBanned() {
         return banned;
@@ -110,9 +114,9 @@ public class Cliente implements Serializable {
         this.desafiospendientes = desafiospendientes;
     }
 
-    public void verHistorial(){
-        for(Combate combate: Multiplex.getDesafios()){
-            if(combate.getDuelista1().getNick().equals(nick) && combate.getEstado() == 4) {
+    public void verHistorial() {
+        for (Combate combate : Multiplex.getDesafios()) {
+            if (combate.getDuelista1().getNick().equals(nick) && combate.getEstado() == 4) {
                 System.out.println(combate.getDuelista1().getNick() + " vs " + combate.getDuelista2().getNick());
                 System.out.println("Fecha: " + combate.getFecha());
                 System.out.println("Rondas jugadas: " + combate.getRondas());
@@ -123,7 +127,7 @@ public class Cliente implements Serializable {
 
     public void verDesafios() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        while(this.getDesafiospendientes() != 0) {
+        while (this.getDesafiospendientes() != 0) {
             System.out.println("Introduzca el nick del usuario del que quiere aceptar/rechazar el desafío: ");
             //1 en espera, 2 en espera de ser aceptado, 3 en ejecución, 4 finalizado, 5 rechazado
             for (Combate desafio : Multiplex.getDesafios()) {
@@ -143,13 +147,15 @@ public class Cliente implements Serializable {
                         desafio.setEstado(3); //2 es en ejecucion
                         PerformCombat pc = new PerformCombat(desafio);
                         pc.doOperation();
+                        desafio = pc.getCombate();
                         System.out.println("El desafio ha finalizado");
-                        System.out.println("El ganador es: " + pc.getCombate().getVencedor());
+                        System.out.println("El ganador es: " + desafio.getVencedor());
                         System.out.println("La cantidad de oro ganada es: " + desafio.getOro());
                         System.out.println("Se han jugado " + desafio.getRondas() + " rondas");
                         System.out.println("Han quedado esbirros?" + desafio.getVencedor().getPersonaje().getEsbirros().size());
                         this.notificador.notificar("Ha terminado un desafío al que estás suscrito, \n" + desafio.getVencedor().getNick() + " ha ganado la batalla" + "\n se han jugado " + desafio.getRondas() + " rondas" + "\n se ha apostado " + desafio.getOro() + " oro");
                         this.setDesafiospendientes(this.getDesafiospendientes() - 1);
+                        Multiplex.serialize();
                     } else if (opcion == 0) {
                         desafio.setEstado(5); //5 rechazado
                         desafio.setVencedor(desafio.getDuelista1());
@@ -161,6 +167,7 @@ public class Cliente implements Serializable {
                         desafio.getDuelista1().notificador.notificar(this.getNick() + " ha rechazado el desafio de " + desafio.getDuelista1().getNick());
                         this.setDesafiospendientes(this.getDesafiospendientes() - 1);
                         Multiplex.getDesafios().get(Multiplex.getDesafios().indexOf(desafio)).setEstado(5);
+                        Multiplex.serialize();
                     } else {
                         System.out.println("Ese desafío no existe / No está validado / Está rechazado");
                     }
@@ -171,65 +178,116 @@ public class Cliente implements Serializable {
     }
 
     public void seleccionarEquipo() throws IOException {
+        //Cuando acabe de modifcar esto, seleccionar equipo va a ser mas limpio y sencillo//
+        //El usuario va a pode elegir si quiere elegir arma,armadura o ninguna//
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int opt = 0;
+
+        int eleccion;
         if (Multiplex.getClientes().get(nick).getPersonaje() != null) {
+            while (opt != 3) {
+                int opt1 = 0;
 
-            System.out.println();
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            int i=0;
-            for (Equipo mochila: Multiplex.getInventario()){
-                System.out.println("Equipo " + i + ":");
-                System.out.println("Nombre:"+mochila.getNombre());
-                System.out.println("Ataque: "+mochila.getModataque());
-                System.out.println("Defensa: "+mochila.getModdef());
-                if (mochila instanceof Arma mochila2) {
-                    System.out.println("Arma a dos manos: "+mochila2.isAdosmanos());
-                }
-                System.out.println();
-                i+=1;
-            }
-            System.out.println("Elige una armadura y dos armas de una mano o un arma de dos manos:");
-            boolean armadura = false;
-            boolean arma1 = false;
-            boolean arma2 = false;
-            while (( !armadura) || (!arma1) || (!arma2)) {
-                int opt;
-                do { //Controlar que el usuario elige un numero dentro de los rangos establecidos
-                    System.out.println("Seleccione un numero del 0 al " + (i - 1));
-                    opt = Integer.parseInt(br.readLine());
-                } while (opt < 0 || opt > i - 1);
+                System.out.println("Que quiere seleccionar");
+                System.out.println("1.Arma");
+                System.out.println("2.Armadura");
+                System.out.println("3.Salir");
+                opt = Integer.parseInt(br.readLine());
+                switch (opt) {
+                    case 1 -> {
 
-                if (Multiplex.getInventario().get(opt) instanceof Armadura) {
-                    if (!armadura) {
-                        getPersonaje().setArmaduraActual((Armadura) Multiplex.getInventario().get(opt));
-                        System.out.println("Armadura seleccionada.");
-                        armadura = true;
-                    } else {
-                        System.out.println("Ya tienes una Armadura seleccionada.");
-                    }
-                } else {
-                    if (((Arma)Multiplex.getInventario().get(opt)).isAdosmanos()  && (!arma1)) {
-                        getPersonaje().setArmaActual1((Arma) Multiplex.getInventario().get(opt));
-                        getPersonaje().setArmaActual2(null);
-                        System.out.println("Arma a dos manos seleccionada");
-                        arma1 = true;
-                        arma2 = true;
-                    } else if (((Arma)Multiplex.getInventario().get(opt)).isAdosmanos() && (arma1)) {
-                        System.out.println("Arma a una mano equipada. Tu segunda arma solo puede ir a una mano");
-                    } else if (!arma1) {
-                        getPersonaje().setArmaActual1((Arma) Multiplex.getInventario().get(opt));
-                        System.out.println("Arma 1 seleccionada.");
-                        arma1 = true;
-                        System.out.println("Seleccione otro equipo: ");
-                    }
-                    else if (!arma2) {
-                        getPersonaje().setArmaActual2((Arma) Multiplex.getInventario().get(opt));
-                        System.out.println("Arma 2 seleccionada.");
+                        while (opt1 != 4) {
+                            System.out.println("Que desea elegir:");
+                            System.out.println("1. Arma principal");
+                            System.out.println("2. Arma secundaria");
+                            System.out.println("3. Arma a dos manos");
+                            System.out.println("4. Salir");
+                            opt1 = Integer.parseInt(br.readLine());
 
-                    }
+                            switch (opt1) {
+                                case 1 -> {
+                                    System.out.println("-------------------------------------------");
+                                    System.out.println("Lista de Armas a una mano");
+                                    System.out.println("-------------------------------------------");
+                                    for (Arma arma : Multiplex.getListaArmas()) {
+                                        if (!arma.isAdosmanos()) {
+                                            System.out.println(Multiplex.getListaArmas().indexOf(arma) + ".");
+                                            System.out.println("Nombre:" + arma.getNombre());
+                                            System.out.println("Ataque: " + arma.getModataque());
+                                            System.out.println("Defensa: " + arma.getModdef());
+                                            System.out.println("");
+                                        }
+                                    }
+                                    do {
+                                        System.out.println("Elija un arma principal: ");
+                                        eleccion = Integer.parseInt(br.readLine());
+                                    } while (Multiplex.getListaArmas().get(eleccion).isAdosmanos());
+                                    getPersonaje().setArmaActual1(Multiplex.getListaArmas().get(eleccion));
 
-                    else if (arma1&&arma2) {
-                        System.out.println("Ya tienes dos armas equipadas.");
+                                }
+                                case 2 -> {
+                                    System.out.println("-------------------------------------------");
+                                    System.out.println("Lista de Armas a una mano");
+                                    System.out.println("-------------------------------------------");
+                                    for (Arma arma : Multiplex.getListaArmas()) {
+                                        if (!arma.isAdosmanos()) {
+                                            System.out.println(Multiplex.getListaArmas().indexOf(arma) + ".");
+                                            System.out.println("Nombre:" + arma.getNombre());
+                                            System.out.println("Ataque: " + arma.getModataque());
+                                            System.out.println("Defensa: " + arma.getModdef());
+
+                                            System.out.println("");
+                                        }
+                                    }
+                                    do {
+                                        System.out.println("Elija un arma secundaria: ");
+                                        eleccion = Integer.parseInt(br.readLine());
+                                    } while (Multiplex.getListaArmas().get(eleccion).isAdosmanos());
+                                    getPersonaje().setArmaActual2(Multiplex.getListaArmas().get(eleccion));
+                                }
+
+                                case 3 -> {
+                                    System.out.println("-------------------------------------------");
+                                    System.out.println("Lista de Armas a dos manos");
+                                    System.out.println("-------------------------------------------");
+                                    for (Arma arma : Multiplex.getListaArmas()) {
+                                        if (arma.isAdosmanos()) {
+                                            System.out.println(Multiplex.getListaArmas().indexOf(arma) + ".");
+                                            System.out.println("Nombre:" + arma.getNombre());
+                                            System.out.println("Ataque: " + arma.getModataque());
+                                            System.out.println("Defensa: " + arma.getModdef());
+                                            System.out.println("");
+                                        }
+                                    }
+                                    do {
+                                        System.out.println("Elija un arma a dos manos: ");
+                                        eleccion = Integer.parseInt(br.readLine());
+                                    } while (!Multiplex.getListaArmas().get(eleccion).isAdosmanos());
+                                    getPersonaje().setArmaActual1(Multiplex.getListaArmas().get(eleccion));
+                                    getPersonaje().setArmaActual2(null);
+                                }
+                            }
+
+                        }
                     }
+                    case 2 -> {
+                        System.out.println("-------------------------------------------");
+                        System.out.println("Lista de Armaduras");
+                        System.out.println("-------------------------------------------");
+                        for (Armadura armadura : Multiplex.getListaArmaduras()) {
+                            System.out.println(Multiplex.getListaArmaduras().indexOf(armadura) + ".");
+                            System.out.println("Nombre:" + armadura.getNombre());
+                            System.out.println("Ataque: " + armadura.getModataque());
+                            System.out.println("Defensa: " + armadura.getModdef());
+                            System.out.println("");
+                        }
+                        do {
+                            System.out.println("Elija una armadura:");
+                            eleccion = Integer.parseInt(br.readLine());
+                        } while (eleccion < 0 || eleccion > Multiplex.getListaArmaduras().size() - 1);
+                        getPersonaje().setArmaduraActual(Multiplex.getListaArmaduras().get(eleccion));
+                    }
+                    default -> System.out.println("Número incorrecto. Introduzca numero del 1 al 3");
                 }
             }
         } else {
@@ -249,15 +307,15 @@ public class Cliente implements Serializable {
             int opcion = 0;
             opcion = Integer.parseInt(br.readLine());
 
-            switch(opcion){
+            switch (opcion) {
                 case 1 -> {
                     this.personaje = new Vampiro();
-                    this.personaje.setHabilidadEspecial(new Disciplina("murcielago", 2,2,2 ));
+                    this.personaje.setHabilidadEspecial(new Disciplina("murcielago", 2, 2, 2));
                     this.personaje.setModificador(new Modificador("luz solar", 5, 0));
                 }
                 case 2 -> {
                     this.personaje = new Licantropo();
-                    this.personaje.setHabilidadEspecial(new Don("lobito", 3,1,2));
+                    this.personaje.setHabilidadEspecial(new Don("lobito", 3, 1, 2));
                     this.personaje.setModificador(new Modificador("luna llena", 2, 1));
                 }
                 case 3 -> {
@@ -273,7 +331,7 @@ public class Cliente implements Serializable {
             String nombre = br.readLine();
             this.personaje.setNombre(nombre);
             this.personaje.setSalud(5);
-            int r = (int) (Math.random()*5 + 1);
+            int r = (int) (Math.random() * 5 + 1);
             this.personaje.setPoder(r);
             this.personaje.setOro(500);
             System.out.println("Personaje creado correctamente");
@@ -294,18 +352,17 @@ public class Cliente implements Serializable {
             String nickUsuario = br.readLine();
             System.out.println("Escribe la cantidad de oro que quiere apostar");
             int oroApostado = Integer.parseInt(br.readLine());
-            if (this.personaje.getOro() < oroApostado){
+            if (this.personaje.getOro() < oroApostado) {
                 System.out.println("No tienes suficiente oro");
             } else if (!Multiplex.getClientes().containsKey(nickUsuario)) {
                 System.out.println("El usuario no existe");
-            } else if (Multiplex.getClientes().get(nickUsuario).getPersonaje() == null){
+            } else if (Multiplex.getClientes().get(nickUsuario).getPersonaje() == null) {
                 System.out.println("El usuario no tiene un personaje registrado");
-            } else if (Multiplex.getClientes().get(nickUsuario).isBanned()){
+            } else if (Multiplex.getClientes().get(nickUsuario).isBanned()) {
                 System.out.println("El usuario está baneado");
-            } else if (nickUsuario.equals(this.nick)){
+            } else if (nickUsuario.equals(this.nick)) {
                 System.out.println("No puedes desafiarte a ti mismo");
-            }
-            else {
+            } else {
                 Combate desafio = new Combate();
                 desafio.setDuelista1(this);
                 desafio.setDuelista2(Multiplex.getClientes().get(nickUsuario));

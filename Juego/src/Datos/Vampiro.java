@@ -1,8 +1,7 @@
 package Datos;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.util.List;
+
 
 public class Vampiro extends Personaje implements Serializable {
     private int ptossangre;
@@ -50,4 +49,6 @@ public class Vampiro extends Personaje implements Serializable {
         }
         return def;
     }
+
+
 }
