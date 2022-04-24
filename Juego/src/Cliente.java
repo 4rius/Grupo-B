@@ -172,100 +172,29 @@ public class Cliente implements Serializable {
     }
 
     public void seleccionarEquipo() throws IOException {
+        //Cuando acabe de modifcar esto, seleccionar equipo va a ser mas limpio y sencillo//
+        //El usuario va a pode elegir si quiere elegir arma,armadura o ninguna//
         if (Multiplex.getClientes().get(nick).getPersonaje() != null) {
-
-            System.out.println();
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            int i=0;
-            for (Equipo mochila: Multiplex.getInventario()){
-                System.out.println("Equipo " + i + ":");
-                System.out.println("Nombre:"+mochila.getNombre());
-                System.out.println("Ataque: "+mochila.getModataque());
-                System.out.println("Defensa: "+mochila.getModdef());
-                if (mochila instanceof Arma mochila2) {
-                    System.out.println("Arma a dos manos: "+mochila2.isAdosmanos());
-                }
-                System.out.println();
-                i+=1;
+            System.out.println("-------------------------------------------");
+            System.out.println("Lista de Armas");
+            System.out.println("-------------------------------------------");
+            for(Arma arma: Multiplex.getListaArmas()){
+                System.out.println("Nombre: "+arma.getNombre());
+                System.out.println("Ataque: "+arma.getModataque());
+                System.out.println("Defensa: "+arma.getModdef());
+                System.out.println("Arma a dos manos: "+arma.isAdosmanos());
+                System.out.println("");
             }
-            System.out.println("Elige una armadura y dos armas de una mano o un arma de dos manos:");
-            boolean armadura = false;
-            boolean arma1 = false;
-            boolean arma2 = false;
-            while (( !armadura) || (!arma1) || (!arma2)) {
-                int opt;
-                do { //Controlar que el usuario elige un numero dentro de los rangos establecidos
-                    System.out.println("Seleccione un numero del 0 al " + (i - 1));
-                    opt = Integer.parseInt(br.readLine());
-                } while (opt < 0 || opt > i - 1);
-
-                if (Multiplex.getInventario().get(opt) instanceof Armadura) {
-                    if (!armadura) {
-                        getPersonaje().setArmaduraActual((Armadura) Multiplex.getInventario().get(opt));
-                        System.out.println("Armadura seleccionada.");
-                        armadura = true;
-                    } else {
-                        System.out.println("Ya tienes una Armadura seleccionada.");
-                    }
-                } else {
-                    if (((Arma)Multiplex.getInventario().get(opt)).isAdosmanos()  && (!arma1)) {
-                        getPersonaje().setArmaActual1((Arma) Multiplex.getInventario().get(opt));
-                        getPersonaje().setArmaActual2(null);
-                        System.out.println("Arma a dos manos seleccionada");
-                        arma1 = true;
-                        arma2 = true;
-                    } else if (!arma1) {
-                        getPersonaje().setArmaActual1((Arma) Multiplex.getInventario().get(opt));
-                        System.out.println("Arma 1 seleccionada.");
-                        arma1 = true;
-                        System.out.println("Quieres elegir otro arma?");
-                        System.out.println("1. Si");
-                        System.out.println("2. No");
-                        int opt2;
-                        do { //Controlar que el usuario elige un numero dentro de los rangos establecidos
-
-                            opt2 = Integer.parseInt(br.readLine());
-                        } while (opt2 < 1 || opt2 > 2);
-                        if (opt2 == 1) {
-                            System.out.println("Seleccione el arma 2");
-                            do { //Controlar que el usuario elige un numero dentro de los rangos establecidos
-                                System.out.println("Seleccione un numero del 0 al " + (i - 1));
-                                opt = Integer.parseInt(br.readLine());
-                            } while (opt < 0 || opt > i - 1);
-                            if (((Arma)Multiplex.getInventario().get(opt)).isAdosmanos()) {
-                                System.out.println("El arma tiene que ser a una mano");
-                                System.out.println("Arma 2 no seleccionada");
-                                arma2=true;
-                                getPersonaje().setArmaActual2(null);
-
-                            }
-                            else {
-                                System.out.println("Arma 2 seleccionada.");
-                                getPersonaje().setArmaActual2((Arma) Multiplex.getInventario().get(opt));
-                                arma2 = true;
-                            }
-                        }
-                        else  {
-                            getPersonaje().setArmaActual2(null);
-                            if (!armadura){
-                                do {
-                                    System.out.println("Elija una armadura (9-17)");
-                                    opt = Integer.parseInt(br.readLine());
-                                }   while (opt < 9 || opt > 17);
-                                getPersonaje().setArmaduraActual((Armadura) Multiplex.getInventario().get(opt));
-                                armadura = true;
-
-
-
-                            }
-                        }
-
-                    }
-                    else if (arma1&&arma2) {
-                        System.out.println("Ya tienes dos armas equipadas, eliaja un armadura (9-17)");
-                    }
-                }
+            System.out.println("-------------------------------------------");
+            System.out.println("Lista de Armaduras");
+            System.out.println("-------------------------------------------");
+            for(Armadura armadura: Multiplex.getListaArmaduras()){
+                System.out.println("Nombre: "+armadura.getNombre());
+                System.out.println("Ataque: "+armadura.getModataque());
+                System.out.println("Defensa: "+armadura.getModdef());
+                System.out.println("");
             }
+
         } else {
             System.out.println("Debes seleccionar un personaje antes de cambiar el equipo");
         }

@@ -14,13 +14,15 @@ public class Multiplex implements Serializable {
     private static HashMap<String, Cliente> clientes; //String del tipo LNNLL
     private static ArrayList<String> registros; //Hace falta porque no se puede acceder al atributo de un objeto en un hashmap
     private static HashMap<String, Operador> operadores;
-    private static ArrayList<Equipo> inventario;
+    private static ArrayList<Arma> listaArmas;
+    private static ArrayList<Armadura> listaArmaduras;
     private static ArrayList<Combate> desafios;
 
 
     public Multiplex(boolean modo) throws IOException, ClassNotFoundException {
         this.modo = modo;
-        inventario = new ArrayList<Equipo>();
+        listaArmas = new ArrayList<>();
+        listaArmaduras = new ArrayList<>();
 
         File f = new File("Juego/Assets/estado.bin");
         if(f.exists()){
@@ -55,8 +57,12 @@ public class Multiplex implements Serializable {
         outputstream.close();
     }
 
-    public static ArrayList<Equipo> getInventario() {
-        return inventario;
+    public static ArrayList<Arma> getListaArmas() {
+        return listaArmas;
+    }
+
+    public static ArrayList<Armadura> getListaArmaduras() {
+        return listaArmaduras;
     }
 
     public boolean isModo() {
@@ -112,7 +118,7 @@ public class Multiplex implements Serializable {
                 sc.nextLine();
             }
             Arma a = new Arma(nombre, Integer.parseInt(atq), Integer.parseInt(def), Boolean.parseBoolean(dosManos));
-            inventario.add(a);
+            listaArmas.add(a);
         }
         sc.close();
         Scanner sc2 = new Scanner(f2);
@@ -127,7 +133,7 @@ public class Multiplex implements Serializable {
                 sc2.nextLine();
             }
             Armadura a = new Armadura(nombre, Integer.parseInt(atq), Integer.parseInt(def));
-            inventario.add(a);
+            listaArmaduras.add(a);
         }
         sc2.close();
 
