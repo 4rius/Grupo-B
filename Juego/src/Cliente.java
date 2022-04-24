@@ -177,27 +177,33 @@ public class Cliente implements Serializable {
     public void seleccionarEquipo() throws IOException {
         //Cuando acabe de modifcar esto, seleccionar equipo va a ser mas limpio y sencillo//
         //El usuario va a pode elegir si quiere elegir arma,armadura o ninguna//
+        int opt=0;
         if (Multiplex.getClientes().get(nick).getPersonaje() != null) {
-            System.out.println("-------------------------------------------");
-            System.out.println("Lista de Armas");
-            System.out.println("-------------------------------------------");
-            for(Arma arma: Multiplex.getListaArmas()){
-                System.out.println("Nombre: "+arma.getNombre());
-                System.out.println("Ataque: "+arma.getModataque());
-                System.out.println("Defensa: "+arma.getModdef());
-                System.out.println("Arma a dos manos: "+arma.isAdosmanos());
-                System.out.println("");
+            while (opt!=3){
+                System.out.println("Que quiere seleccionar");
+                System.out.println("1.Arma");
+                System.out.println("2.Armadura");
+                System.out.println("3.Salir");
+                System.out.println("-------------------------------------------");
+                System.out.println("Lista de Armas");
+                System.out.println("-------------------------------------------");
+                for(Arma arma: Multiplex.getListaArmas()){
+                    System.out.println("Nombre: "+arma.getNombre());
+                    System.out.println("Ataque: "+arma.getModataque());
+                    System.out.println("Defensa: "+arma.getModdef());
+                    System.out.println("Arma a dos manos: "+arma.isAdosmanos());
+                    System.out.println("");
+                }
+                System.out.println("-------------------------------------------");
+                System.out.println("Lista de Armaduras");
+                System.out.println("-------------------------------------------");
+                for(Armadura armadura: Multiplex.getListaArmaduras()){
+                    System.out.println("Nombre: "+armadura.getNombre());
+                    System.out.println("Ataque: "+armadura.getModataque());
+                    System.out.println("Defensa: "+armadura.getModdef());
+                    System.out.println("");
+                }
             }
-            System.out.println("-------------------------------------------");
-            System.out.println("Lista de Armaduras");
-            System.out.println("-------------------------------------------");
-            for(Armadura armadura: Multiplex.getListaArmaduras()){
-                System.out.println("Nombre: "+armadura.getNombre());
-                System.out.println("Ataque: "+armadura.getModataque());
-                System.out.println("Defensa: "+armadura.getModdef());
-                System.out.println("");
-            }
-
         } else {
             System.out.println("Debes seleccionar un personaje antes de cambiar el equipo");
         }
