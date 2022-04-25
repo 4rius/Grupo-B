@@ -1,6 +1,4 @@
 import Datos.*;
-import Datos.Vampiro;
-import org.w3c.dom.ls.LSOutput;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -300,7 +298,7 @@ public class Cliente implements Serializable {
                 }
             }
         } else {
-            System.out.println("Debes seleccionar un personaje antes de cambiar el equipo");
+            System.out.println("Debes tener un personaje antes de poder cambiar el equipo");
         }
     }
 

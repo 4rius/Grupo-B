@@ -1,10 +1,6 @@
-import Datos.Personaje;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.io.Console.*;
 
 public class MainMenu extends Operation {
 
@@ -76,9 +72,9 @@ public class MainMenu extends Operation {
         System.out.println("Introduzca su contraseña: ");
         String contrasena =br.readLine();
         String registro = null;
-        while (Multiplex.getRegistros().contains(registro) || registro == null) { //LNNLL Tengo que solucionar esto. ^4r
+        while (Multiplex.getRegistros().contains(registro) || registro == null) {
             StringBuilder sb = new StringBuilder();
-            sb.append((int) (Letras.length() * Math.random()));
+            sb.append(Letras.charAt((int) (Math.random() * Letras.length())));
             for (int i = 0; i < 2; i++) {
                 sb.append(Integer.parseInt(String.valueOf((int) (9 * Math.random()))));
             }
