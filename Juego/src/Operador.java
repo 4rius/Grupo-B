@@ -65,22 +65,22 @@ public class Operador implements Serializable {
                 switch (opcion){
                     case 1 -> {
                         System.out.println("Nuevo nombre: ");
-                        String nombre = System.console().readLine();
+                        String nombre = br.readLine();
                         Multiplex.getClientes().get(user).getPersonaje().setNombre(nombre);
                     }
                     case 2 -> {
                         System.out.println("Nueva cantidad de oro: ");
-                        int oro = Integer.parseInt(System.console().readLine());
+                        int oro = Integer.parseInt(br.readLine());
                         Multiplex.getClientes().get(user).getPersonaje().setOro(oro);
                     }
                     case 3 -> {
                         System.out.println("Nueva cantidad de salud: ");
-                        int salud = Integer.parseInt(System.console().readLine());
+                        int salud = Integer.parseInt(br.readLine());
                         Multiplex.getClientes().get(user).getPersonaje().setSalud(salud);
                     }
                     case 4 -> {
                         System.out.println("Nueva cantidad de poder: ");
-                        int poder = Integer.parseInt(System.console().readLine());
+                        int poder = Integer.parseInt(br.readLine());
                         Multiplex.getClientes().get(user).getPersonaje().setPoder(poder);
                     }
                     case 5 -> {
