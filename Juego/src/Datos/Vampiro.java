@@ -66,5 +66,19 @@ public class Vampiro extends Personaje implements Serializable {
         return def;
     }
 
+    @Override
+    public void golpearAtk(){
+        if (ptossangre <= 6) {
+            ptossangre += 4;
+        }
+    }
 
+    @Override
+    public void recibirAtk(){
+    }
+
+    @Override
+    public void resetPuntosHab(){
+        ptossangre = 0;
+    }
 }

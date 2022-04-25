@@ -52,4 +52,20 @@ public class Licantropo extends Personaje implements Serializable {
         }
         return def;
     }
+
+    @Override
+    public void recibirAtk() {
+        if (rabia < 3) {
+            rabia += 1;
+        }
+    }
+
+    @Override
+    public void golpearAtk() {
+    }
+
+    @Override
+    public void resetPuntosHab(){
+        rabia = 0;
+    }
 }

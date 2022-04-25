@@ -55,4 +55,20 @@ public class Cazador extends Personaje implements Serializable {
         }
         return def;
     }
+
+    @Override
+    public void recibirAtk() {
+        if (ptosvoluntad < 3) {
+            ptosvoluntad += 1;
+        }
+    }
+
+    @Override
+    public void golpearAtk() {
+    }
+
+    @Override
+    public void resetPuntosHab(){
+        ptosvoluntad = 0;
+    }
 }

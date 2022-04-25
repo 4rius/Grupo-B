@@ -107,4 +107,13 @@ public class Personaje implements Serializable {
     public int defTotal() {
         return 0;
     }
+
+    public void recibirAtk() {
+    }
+
+    public void golpearAtk() {
+    }
+
+    public void resetPuntosHab(){
+    }
 }

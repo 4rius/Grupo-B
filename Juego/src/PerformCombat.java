@@ -36,19 +36,23 @@ public class PerformCombat extends Operation {
             def1 = rolearDados(def1);
             def2 = rolearDados(def2);
             if (atk1 >= def2){
-                if (hp_Esb1 > 0){
-                    hp_Esb1--;
+                if (hp_Esb2 > 0){
+                    hp_Esb2--;
                 }
                 else {
-                    hp_Per1--;
+                    combate.getDuelista2().getPersonaje().recibirAtk();
+                    combate.getDuelista1().getPersonaje().golpearAtk();
+                    hp_Per2--;
                 }
             }
 
             if (atk2 >= def1){
-                if (hp_Esb2 > 0){
-                    hp_Esb2--;
+                if (hp_Esb1 > 0){
+                    hp_Esb1--;
                 }
                 else{
+                    combate.getDuelista2().getPersonaje().recibirAtk();
+                    combate.getDuelista1().getPersonaje().golpearAtk();
                     hp_Per2--;
                 }
             }
@@ -56,6 +60,12 @@ public class PerformCombat extends Operation {
             combate.setRondas(combate.getRondas() + 1);
         }
         combate.setEsbirrosVivos(this.isEsbirrosVivos(hp_Esb1, hp_Esb2));
+        resetHabilidades();
+    }
+
+    private void resetHabilidades() {
+        combate.getDuelista1().getPersonaje().resetPuntosHab();
+        combate.getDuelista2().getPersonaje().resetPuntosHab();
     }
 
     public int saludEsbirros(Cliente c){

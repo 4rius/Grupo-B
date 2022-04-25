@@ -149,10 +149,18 @@ public class Cliente implements Serializable {
                         pc.doOperation();
                         desafio = pc.getCombate();
                         System.out.println("El desafio ha finalizado");
-                        System.out.println("El ganador es: " + desafio.getVencedor());
+                        if (desafio.getVencedor() != null) {
+                            System.out.println("El ganador es: " + desafio.getVencedor().getNick());
+                        } else {
+                            System.out.println("Hay un empate");
+                        }
                         System.out.println("La cantidad de oro ganada es: " + desafio.getOro());
                         System.out.println("Se han jugado " + desafio.getRondas() + " rondas");
-                        System.out.println("Han quedado esbirros?" + desafio.getVencedor().getPersonaje().getEsbirros().size());
+                        if (desafio.isEsbirrosVivos() == true) {
+                            System.out.println("si han quedado esbirros");
+                        } else {
+                            System.out.println("NO han quedado esbirros");
+                        }
                         this.notificador.notificar("Ha terminado un desafío al que estás suscrito, \n" + desafio.getVencedor().getNick() + " ha ganado la batalla" + "\n se han jugado " + desafio.getRondas() + " rondas" + "\n se ha apostado " + desafio.getOro() + " oro");
                         this.setDesafiospendientes(this.getDesafiospendientes() - 1);
                         Multiplex.serialize();
