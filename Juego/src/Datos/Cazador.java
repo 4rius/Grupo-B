@@ -27,18 +27,32 @@ public class Cazador extends Personaje implements Serializable {
     @Override
     public int atkTotal() {
         int atk = 0;
-        atk = this.getPoder() + this.ptosvoluntad + this.getHabilidadEspecial().getAtq() +
-                this.getArmaActual1().getModataque() + this.getArmaActual2().getModataque() +
-                this.getArmaduraActual().getModataque();
+        atk = this.getPoder() + this.ptosvoluntad + this.getHabilidadEspecial().getAtq();
+        if (this.getArmaActual1()!=null) {
+            atk = atk + this.getArmaActual1().getModataque();
+        }
+        if (this.getArmaActual2()!=null) {
+            atk = atk + this.getArmaActual1().getModataque();
+        }
+        if (this.getArmaduraActual()!=null) {
+            atk = atk + this.getArmaduraActual().getModataque();
+        }
         return atk;
     }
 
     @Override
     public int defTotal() {
         int def = 0;
-        def = this.getPoder() + this.ptosvoluntad + this.getHabilidadEspecial().getDfs() +
-                this.getArmaActual1().getModdef() + this.getArmaActual2().getModdef() +
-                this.getArmaduraActual().getModdef();
+        def = this.getPoder() + this.ptosvoluntad + this.getHabilidadEspecial().getDfs();
+        if (this.getArmaActual1()!=null) {
+            def = def + this.getArmaActual1().getModdef();
+        }
+        if (this.getArmaActual2()!=null) {
+            def = def + this.getArmaActual1().getModdef();
+        }
+        if (this.getArmaduraActual()!=null) {
+            def = def + this.getArmaduraActual().getModdef();
+        }
         return def;
     }
 }

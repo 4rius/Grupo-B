@@ -1,6 +1,4 @@
 import Datos.Esbirro;
-import org.jetbrains.annotations.NotNull;
-
 
 import java.util.ArrayList;
 
@@ -60,7 +58,7 @@ public class PerformCombat extends Operation {
         combate.setEsbirrosVivos(this.isEsbirrosVivos(hp_Esb1, hp_Esb2));
     }
 
-    public int saludEsbirros(@NotNull Cliente c){
+    public int saludEsbirros(Cliente c){
         int hp = 0;
         if (c.getPersonaje().getEsbirros() != null) {
             ArrayList<Esbirro> eList = (ArrayList<Esbirro>) c.getPersonaje().getEsbirros();
@@ -71,17 +69,17 @@ public class PerformCombat extends Operation {
         return hp;
     }
 
-    public int calcularAtk(@NotNull Cliente c){
+    public int calcularAtk(Cliente c){
         return c.getPersonaje().atkTotal();
     }
 
-    public int calcularDef(@NotNull Cliente c){
+    public int calcularDef(Cliente c){
         return c.getPersonaje().defTotal();
     }
 
     public int rolearDados(int n){
         int k = 0;
-        for(int i = 1; i>n; i++){
+        for(int i = 1; i<=n; i++){
             int random = (int) Math.floor(Math.random()*6+1);
             if (random == 5 || random == 6){
                 k++;
