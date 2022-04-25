@@ -1,19 +1,19 @@
 package Datos;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Personaje implements Serializable {
+public class Personaje {
     private String nombre;
     private int oro;
+    private ArrayList<Equipo> inventario;
     private Arma armaActual1;
     private Arma armaActual2;
     private Armadura armaduraActual;
     private int salud;
     private int poder;
-    private Modificador modificador;
+    private ArrayList<Modificador> modificadores = new ArrayList<>();
     private ArrayList<Esbirro> esbirros;
     private Habilidad habilidadEspecial;
 
@@ -25,6 +25,9 @@ public class Personaje implements Serializable {
         return oro;
     }
 
+    public List<Equipo> getInventario() {
+        return inventario;
+    }
 
     public Arma getArmaActual1() {
         return armaActual1;
@@ -45,8 +48,8 @@ public class Personaje implements Serializable {
         return poder;
     }
 
-    public Modificador getModificador() {
-        return modificador;
+    public ArrayList<Modificador> getModificadores() {
+        return modificadores;
     }
 
     public List<Esbirro> getEsbirros() {
@@ -69,6 +72,10 @@ public class Personaje implements Serializable {
         this.oro = this.oro + o;
     }
 
+    public void setInventario(ArrayList<Equipo> inventario) {
+        this.inventario = inventario;
+    }
+
     public void setArmaActual1(Arma armaActual1) {
         this.armaActual1 = armaActual1;
     }
@@ -88,8 +95,8 @@ public class Personaje implements Serializable {
         this.poder = poder;
     }
 
-    public void setModificador(Modificador modificador) {
-        this.modificador = modificador;
+    public void setModificadores(ArrayList<Modificador> modificadores) {
+        this.modificadores = modificadores;
     }
 
     public void setEsbirros(ArrayList<Esbirro> esbirros) {
