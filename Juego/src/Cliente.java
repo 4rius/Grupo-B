@@ -125,12 +125,14 @@ public class Cliente implements Serializable {
     }
 
     public void verHistorial() {
+        System.out.println("Historial de desafíos:\n");
         for (Combate combate : Multiplex.getDesafios()) {
             if ((combate.getDuelista1().getNick().equals(nick) || combate.getDuelista2().getNick().equals(nick)) && combate.getEstado() == 4 || combate.getEstado() == 5) {
                 System.out.println(combate.getDuelista1().getNick() + " vs " + combate.getDuelista2().getNick());
                 System.out.println("Fecha: " + combate.getFecha());
                 System.out.println("Rondas jugadas: " + combate.getRondas());
-                System.out.println("Ganador: " + combate.getVencedor().getNick() + "\n");
+                System.out.println("Ganador: " + combate.getVencedor().getNick());
+                System.out.println("--------------------------");
             }
         }
     }
@@ -435,14 +437,18 @@ public class Cliente implements Serializable {
                     }
                 }
             int finalMax = max;
-            ranking.add(Multiplex.getClientes().get(Multiplex.getClientes().keySet().stream().filter(nick -> Multiplex.getClientes().get(nick).getOverall() == finalMax).findFirst().get()).getNick());
+            for (String nick : Multiplex.getClientes().keySet()) {
+                if (Multiplex.getClientes().get(nick).getOverall() == finalMax) {
+                    ranking.add(nick);
+                }
+            }
             max = 0;
             i++;
         }
-        System.out.println("Ranking de jugadores:");
+        System.out.println("\nRanking de jugadores:");
         i = 1;
         for (String nick : ranking) {
-            System.out.println(i + " " + nick + " con " + Multiplex.getClientes().get(nick).getOverall() + " puntos");
+            System.out.println(i + ". " + nick + " con " + Multiplex.getClientes().get(nick).getOverall() + " punto/s \n");
             i++;
         }
     }

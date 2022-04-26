@@ -13,7 +13,7 @@ public class MainMenu extends Operation {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int opcion = 0;
         while (true) {
-            System.out.println("Bienvenido a SmiteTactics" );
+            System.out.println("\nBienvenido a SmiteTactics" );
             System.out.println("1. Iniciar sesión");
             System.out.println("2. Registrarse");
             System.out.println("3. Salir");
