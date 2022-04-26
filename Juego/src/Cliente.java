@@ -1,6 +1,4 @@
 import Datos.*;
-import Datos.Vampiro;
-import org.w3c.dom.ls.LSOutput;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -116,7 +114,7 @@ public class Cliente implements Serializable {
 
     public void verHistorial() {
         for (Combate combate : Multiplex.getDesafios()) {
-            if (combate.getDuelista1().getNick().equals(nick) && combate.getEstado() == 4) {
+            if ((combate.getDuelista1().getNick().equals(nick) || combate.getDuelista2().getNick().equals(nick)) && combate.getEstado() == 4) {
                 System.out.println(combate.getDuelista1().getNick() + " vs " + combate.getDuelista2().getNick());
                 System.out.println("Fecha: " + combate.getFecha());
                 System.out.println("Rondas jugadas: " + combate.getRondas());
@@ -149,10 +147,18 @@ public class Cliente implements Serializable {
                         pc.doOperation();
                         desafio = pc.getCombate();
                         System.out.println("El desafio ha finalizado");
-                        System.out.println("El ganador es: " + desafio.getVencedor());
+                        if (desafio.getVencedor() != null) {
+                            System.out.println("El ganador es: " + desafio.getVencedor().getNick());
+                        } else {
+                            System.out.println("Hay un empate");
+                        }
                         System.out.println("La cantidad de oro ganada es: " + desafio.getOro());
                         System.out.println("Se han jugado " + desafio.getRondas() + " rondas");
-                        System.out.println("Han quedado esbirros?" + desafio.getVencedor().getPersonaje().getEsbirros().size());
+                        if (desafio.isEsbirrosVivos() == true) {
+                            System.out.println("si han quedado esbirros");
+                        } else {
+                            System.out.println("NO han quedado esbirros");
+                        }
                         this.notificador.notificar("Ha terminado un desafío al que estás suscrito, \n" + desafio.getVencedor().getNick() + " ha ganado la batalla" + "\n se han jugado " + desafio.getRondas() + " rondas" + "\n se ha apostado " + desafio.getOro() + " oro");
                         this.setDesafiospendientes(this.getDesafiospendientes() - 1);
                         Multiplex.serialize();
@@ -287,11 +293,12 @@ public class Cliente implements Serializable {
                         } while (eleccion < 0 || eleccion > Multiplex.getListaArmaduras().size() - 1);
                         getPersonaje().setArmaduraActual(Multiplex.getListaArmaduras().get(eleccion));
                     }
-                    default -> System.out.println("Número incorrecto. Introduzca numero del 1 al 3");
+                    case 3 -> System.out.println("Volviendo al menú principal");
+                    default -> System.out.println("Número incorrecto. Introduzca número del 1 al 3");
                 }
             }
         } else {
-            System.out.println("Debes seleccionar un personaje antes de cambiar el equipo");
+            System.out.println("Debes tener un personaje antes de poder cambiar el equipo");
         }
     }
 
@@ -394,6 +401,26 @@ public class Cliente implements Serializable {
     }
 
     public void verRanking() {
+        int i = 0;
+        int max = 0;
+        ArrayList<String> ranking = new ArrayList<>();
+        while (i < 3 && i < Multiplex.getClientes().size()) {
+            for (String nick : Multiplex.getClientes().keySet()) {
+                if (Multiplex.getClientes().get(nick).getOverall() > max && !ranking.contains(nick)) {
+                    max = Multiplex.getClientes().get(nick).getOverall();
+                    }
+                }
+            int finalMax = max;
+            ranking.add(Multiplex.getClientes().get(Multiplex.getClientes().keySet().stream().filter(nick -> Multiplex.getClientes().get(nick).getOverall() == finalMax).findFirst().get()).getNick());
+            max = 0;
+            i++;
+        }
+        System.out.println("Ranking de jugadores:");
+        i = 1;
+        for (String nick : ranking) {
+            System.out.println(i + " " + nick + " con " + Multiplex.getClientes().get(nick).getOverall() + " puntos");
+            i++;
+        }
     }
 
     public void eliminarCuenta() throws IOException {

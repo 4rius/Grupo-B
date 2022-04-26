@@ -1,12 +1,11 @@
 import Datos.Arma;
 import Datos.Armadura;
-import Datos.Equipo;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
-import java.util.regex.*;
+import java.util.regex.Pattern;
 
 
 public class Multiplex implements Serializable {

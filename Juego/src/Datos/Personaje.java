@@ -1,6 +1,5 @@
 package Datos;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -106,5 +105,14 @@ public class Personaje implements Serializable {
 
     public int defTotal() {
         return 0;
+    }
+
+    public void recibirAtk() {
+    }
+
+    public void golpearAtk() {
+    }
+
+    public void resetPuntosHab(){
     }
 }
