@@ -1,7 +1,5 @@
-import Datos.Arma;
-import Datos.Armadura;
-import Datos.Disciplina;
-import Datos.Don;
+import Datos.*;
+
 import java.io.*;
 
 public class Operador implements Serializable {
@@ -62,28 +60,33 @@ public class Operador implements Serializable {
                 System.out.println("3. Modificar salud");
                 System.out.println("4. Modificar poder");
                 System.out.println("5. Modificar habilidadEspecial");
-                System.out.println("5. Cancelar");
+                System.out.println("6. Cancelar");
                 int opcion = Integer.parseInt(br.readLine());
                 switch (opcion){
                     case 1 -> {
                         System.out.println("Nuevo nombre: ");
                         String nombre = br.readLine();
                         Multiplex.getClientes().get(user).getPersonaje().setNombre(nombre);
+                        Multiplex.serialize();
                     }
                     case 2 -> {
                         System.out.println("Nueva cantidad de oro: ");
                         int oro = Integer.parseInt(br.readLine());
                         Multiplex.getClientes().get(user).getPersonaje().setOro(oro);
+                        Multiplex.serialize();
+
                     }
                     case 3 -> {
                         System.out.println("Nueva cantidad de salud: ");
                         int salud = Integer.parseInt(br.readLine());
                         Multiplex.getClientes().get(user).getPersonaje().setSalud(salud);
+                        Multiplex.serialize();
                     }
                     case 4 -> {
                         System.out.println("Nueva cantidad de poder: ");
                         int poder = Integer.parseInt(br.readLine());
                         Multiplex.getClientes().get(user).getPersonaje().setPoder(poder);
+                        Multiplex.serialize();
                     }
                     case 5 -> {
                         int coste = 0;
@@ -109,6 +112,7 @@ public class Operador implements Serializable {
                             coste = Integer.parseInt(br.readLine());
                             Multiplex.getClientes().get(user).getPersonaje().setHabilidadEspecial(new Disciplina(nombre, atq,def, coste));
                         }
+                        Multiplex.serialize();
 
                     }
                     default -> System.out.println("Saliendo / Opción no válida");
@@ -206,19 +210,27 @@ public class Operador implements Serializable {
         BufferedReader br = new BufferedReader(new java.io.InputStreamReader(System.in));
         System.out.println("Modo edicion de equipo del personaje");
         System.out.println("Escriba el nombre de usuario del personaje a editar");
+        for(String nick : Multiplex.getClientes().keySet()){
+            if(Multiplex.getClientes().get(nick).getPersonaje() != null){
+                System.out.println(nick);
+            }
+        }
         String user = br.readLine();
         if (Multiplex.getClientes().containsKey(user)){
             int opt = 0;
 
             int eleccion;
             if (Multiplex.getClientes().get(user).getPersonaje() != null) {
-                while (opt != 3) {
+
+                while (opt != 5) {
                     int opt1 = 0;
 
-                    System.out.println("Que quiere cambiar?");
+                    System.out.println("Que quiere cambiar o añadir?");
                     System.out.println("1.Arma");
                     System.out.println("2.Armadura");
-                    System.out.println("3.Salir");
+                    System.out.println("3.Editar modificadores");
+                    System.out.println("4.Esbirros");
+                    System.out.println("5.Salir");
                     opt = Integer.parseInt(br.readLine());
                     switch (opt) {
                         case 1 -> {
@@ -250,6 +262,7 @@ public class Operador implements Serializable {
                                             eleccion = Integer.parseInt(br.readLine());
                                         } while (Multiplex.getListaArmas().get(eleccion).isAdosmanos());
                                         Multiplex.getClientes().get(user).getPersonaje().setArmaActual1(Multiplex.getListaArmas().get(eleccion));
+                                        Multiplex.serialize();
 
                                     }
                                     case 2 -> {
@@ -271,6 +284,7 @@ public class Operador implements Serializable {
                                             eleccion = Integer.parseInt(br.readLine());
                                         } while (Multiplex.getListaArmas().get(eleccion).isAdosmanos());
                                         Multiplex.getClientes().get(user).getPersonaje().setArmaActual2(Multiplex.getListaArmas().get(eleccion));
+                                        Multiplex.serialize();
                                     }
 
                                     case 3 -> {
@@ -292,6 +306,7 @@ public class Operador implements Serializable {
                                         } while (!Multiplex.getListaArmas().get(eleccion).isAdosmanos());
                                         Multiplex.getClientes().get(user).getPersonaje().setArmaActual1(Multiplex.getListaArmas().get(eleccion));
                                         Multiplex.getClientes().get(user).getPersonaje().setArmaActual2(null);
+                                        Multiplex.serialize();
                                     }
                                 }
 
@@ -313,9 +328,12 @@ public class Operador implements Serializable {
                                 eleccion = Integer.parseInt(br.readLine());
                             } while (eleccion < 0 || eleccion > Multiplex.getListaArmaduras().size() - 1);
                             Multiplex.getClientes().get(user).getPersonaje().setArmaduraActual(Multiplex.getListaArmaduras().get(eleccion));
+                            Multiplex.serialize();
                         }
-                        case 3 -> System.out.println("Volviendo al menú principal");
-                        default -> System.out.println("Esa opción no existe");
+                        case 3 -> editarModificador(user);
+                        case 4 -> System.out.println("Falta por hacer");
+                        case 5->    System.out.println("Volviendo al menú principal");
+                        default -> System.out.println("Número incorrecto. Introduzca número del 1 al 5");
                     }
                 }
             } else {
@@ -340,16 +358,9 @@ public class Operador implements Serializable {
         }
     }
 
-   /* public void editarModificador() throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        for (Cliente cliente: Multiplex.getClientes().values()){
-            System.out.println(cliente.getNick());
-        }
-        System.out.println("Selecciona el Nick del cliente del que desea editar el modificador: ");
-        String opt = br.readLine();
-        if (Multiplex.getClientes().containsKey(opt)){
-            if (Multiplex.getClientes().get(opt).getPersonaje()!=null) {
-                Modificador mod = Multiplex.getClientes().get(opt).getPersonaje().getModificador();
+    public void editarModificador(String user) throws IOException {
+                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                Modificador mod = Multiplex.getClientes().get(user).getPersonaje().getModificador();
                 System.out.println("Modificador Seleccionado: ");
                 System.out.println("Nombre: " + mod.getNombre());
                 System.out.println("Fuerza: " + mod.getMod());
@@ -364,10 +375,10 @@ public class Operador implements Serializable {
                     tipo = Integer.parseInt(br.readLine());
                     if (tipo == 1) {
                         System.out.println("Has elegido una fortaleza");
-                        Multiplex.getClientes().get(opt).getPersonaje().getModificador().setTipomod(tipo);
+                        Multiplex.getClientes().get(user).getPersonaje().getModificador().setTipomod(tipo);
                     } else if (tipo == 0) {
                         System.out.println("Has elegido una debilidad");
-                        Multiplex.getClientes().get(opt).getPersonaje().getModificador().setTipomod(tipo);
+                        Multiplex.getClientes().get(user).getPersonaje().getModificador().setTipomod(tipo);
                     } else {
                         System.out.println("Numero incorrecto. Elija un número del 0 al 1");
                     }
@@ -380,22 +391,20 @@ public class Operador implements Serializable {
                     System.out.println("Seleccione la fuerza del modificador: ");
                     fuerza = Integer.parseInt(br.readLine());
                     if ((fuerza >= 1) && (fuerza <= 5)) {
-                        Multiplex.getClientes().get(opt).getPersonaje().getModificador().setMod(fuerza);
+                        Multiplex.getClientes().get(user).getPersonaje().getModificador().setMod(fuerza);
                     } else {
                         System.out.println("Numero incorrecto. Elija un número del 1 al 5");
                     }
                 } while ((fuerza > 5) || (fuerza < 1));
                 Multiplex.serialize();
-            }else{
-                System.out.println("No tiene ningún personaje creado");
             }
-        }else{
-            System.out.println("Nick Incorrecto. El cliente no existe.");
-        }
     }
-        */
+    /* public static void añadirEsbirros(String user) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        }
+     */
 
 
 
 
-}
+

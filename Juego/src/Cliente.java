@@ -258,6 +258,7 @@ public class Cliente implements Serializable {
                                         eleccion = Integer.parseInt(br.readLine());
                                     } while (Multiplex.getListaArmas().get(eleccion).isAdosmanos());
                                     getPersonaje().setArmaActual1(Multiplex.getListaArmas().get(eleccion));
+                                    Multiplex.serialize();
 
                                 }
                                 case 2 -> {
@@ -279,6 +280,7 @@ public class Cliente implements Serializable {
                                         eleccion = Integer.parseInt(br.readLine());
                                     } while (Multiplex.getListaArmas().get(eleccion).isAdosmanos());
                                     getPersonaje().setArmaActual2(Multiplex.getListaArmas().get(eleccion));
+                                    Multiplex.serialize();
                                 }
 
                                 case 3 -> {
@@ -300,6 +302,7 @@ public class Cliente implements Serializable {
                                     } while (!Multiplex.getListaArmas().get(eleccion).isAdosmanos());
                                     getPersonaje().setArmaActual1(Multiplex.getListaArmas().get(eleccion));
                                     getPersonaje().setArmaActual2(null);
+                                    Multiplex.serialize();
                                 }
                             }
 
@@ -320,6 +323,7 @@ public class Cliente implements Serializable {
                             eleccion = Integer.parseInt(br.readLine());
                         } while (eleccion < 0 || eleccion > Multiplex.getListaArmaduras().size() - 1);
                         getPersonaje().setArmaduraActual(Multiplex.getListaArmaduras().get(eleccion));
+                        Multiplex.serialize();
                     }
                     case 3 -> System.out.println("Volviendo al menú principal");
                     default -> System.out.println("Número incorrecto. Introduzca número del 1 al 3");
