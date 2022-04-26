@@ -82,6 +82,16 @@ public class Combate implements Serializable {
     public void terminado(Cliente ganador, Cliente perdedor) {
         ganador.getNotificador().notificar(ganador.getNick() + " ha ganado la batalla!" + "\n" + "Detalles:");
         perdedor.getNotificador().notificar(perdedor.getNick() + " ha perdido la batalla!" + "\n" + "Detalles:");
-        //Esto cuantdo el combate esté implementado lo termino ^4r
+        ganador.setOverall(ganador.getOverall() + 1);
+        perdedor.setOverall(perdedor.getOverall() - 1);
+    }
+
+
+    public Cliente getPerdedor() {
+        if (duelista1.getNick().equals(vencedor.getNick())) {
+            return duelista2;
+        } else {
+            return duelista1;
+        }
     }
 }

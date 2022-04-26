@@ -118,7 +118,7 @@ public class Cliente implements Serializable {
                 System.out.println(combate.getDuelista1().getNick() + " vs " + combate.getDuelista2().getNick());
                 System.out.println("Fecha: " + combate.getFecha());
                 System.out.println("Rondas jugadas: " + combate.getRondas());
-                System.out.println("Ganador: " + combate.getVencedor());
+                System.out.println("Ganador: " + combate.getVencedor().getNick());
             }
         }
     }
@@ -146,15 +146,17 @@ public class Cliente implements Serializable {
                         PerformCombat pc = new PerformCombat(desafio);
                         pc.doOperation();
                         desafio = pc.getCombate();
+                        desafio.terminado(desafio.getVencedor(), desafio.getPerdedor());
                         System.out.println("El desafio ha finalizado");
                         if (desafio.getVencedor() != null) {
                             System.out.println("El ganador es: " + desafio.getVencedor().getNick());
+
                         } else {
                             System.out.println("Hay un empate");
                         }
                         System.out.println("La cantidad de oro ganada es: " + desafio.getOro());
                         System.out.println("Se han jugado " + desafio.getRondas() + " rondas");
-                        if (desafio.isEsbirrosVivos() == true) {
+                        if (desafio.isEsbirrosVivos()) {
                             System.out.println("si han quedado esbirros");
                         } else {
                             System.out.println("NO han quedado esbirros");
