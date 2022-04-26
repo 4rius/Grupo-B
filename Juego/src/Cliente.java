@@ -13,13 +13,12 @@ public class Cliente implements Serializable {
     private Personaje personaje;
     private String name;
     private String nick;
-    private String password;
-    ;
+    private final String password;
     private static String nRegistro;
     private boolean banned;
     private final Notificador notificador;
     private int overall; //Para el ranking global
-    private ArrayList<String> notificacion;
+    private final ArrayList<String>  notificacion;
     private ArrayList<String> suscripciones;
     private int desafiospendientes;
 
@@ -60,17 +59,6 @@ public class Cliente implements Serializable {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public static String getnRegistro() {
-        return nRegistro;
-    }
-
-    public void setnRegistro(String nRegistro) {
-        this.nRegistro = nRegistro;
-    }
 
     public void setPersonaje(Personaje personaje) {
         this.personaje = personaje;
@@ -96,9 +84,6 @@ public class Cliente implements Serializable {
         return notificacion;
     }
 
-    public void setNotificacion(ArrayList<String> notificacion) {
-        this.notificacion = notificacion;
-    }
 
     public int getOverall() {
         return overall;
@@ -249,8 +234,8 @@ public class Cliente implements Serializable {
                                             System.out.println(Multiplex.getListaArmas().indexOf(arma) + ".");
                                             System.out.println("Nombre:" + arma.getNombre());
                                             System.out.println("Ataque: " + arma.getModataque());
-                                            System.out.println("Defensa: " + arma.getModdef());
-                                            System.out.println("");
+                                            System.out.println("Defensa: " + arma.getModdef()+"\n");
+
                                         }
                                     }
                                     do {
@@ -270,9 +255,9 @@ public class Cliente implements Serializable {
                                             System.out.println(Multiplex.getListaArmas().indexOf(arma) + ".");
                                             System.out.println("Nombre:" + arma.getNombre());
                                             System.out.println("Ataque: " + arma.getModataque());
-                                            System.out.println("Defensa: " + arma.getModdef());
+                                            System.out.println("Defensa: " + arma.getModdef()+"\n");
 
-                                            System.out.println("");
+
                                         }
                                     }
                                     do {
@@ -292,8 +277,8 @@ public class Cliente implements Serializable {
                                             System.out.println(Multiplex.getListaArmas().indexOf(arma) + ".");
                                             System.out.println("Nombre:" + arma.getNombre());
                                             System.out.println("Ataque: " + arma.getModataque());
-                                            System.out.println("Defensa: " + arma.getModdef());
-                                            System.out.println("");
+                                            System.out.println("Defensa: " + arma.getModdef()+"\n");
+
                                         }
                                     }
                                     do {
@@ -343,7 +328,7 @@ public class Cliente implements Serializable {
             System.out.println("1. Vampiro");
             System.out.println("2. Licantropo");
             System.out.println("3. Cazador");
-            int opcion = 0;
+            int opcion;
             opcion = Integer.parseInt(br.readLine());
 
             switch (opcion) {
@@ -475,7 +460,4 @@ public class Cliente implements Serializable {
         return suscripciones;
     }
 
-    public void setSuscripciones(ArrayList<String> suscripciones) {
-        this.suscripciones = suscripciones;
-    }
 }

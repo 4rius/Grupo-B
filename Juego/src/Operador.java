@@ -40,9 +40,7 @@ public class Operador implements Serializable {
         return Contraseña;
     }
 
-    public void setContraseña(String contraseña) {
-        Contraseña = contraseña;
-    }
+
 
     public void editarDatosPersonaje() throws IOException {
         BufferedReader br = new BufferedReader(new java.io.InputStreamReader(System.in));
@@ -55,6 +53,7 @@ public class Operador implements Serializable {
         if (Multiplex.getClientes().containsKey(user)){
             if (Multiplex.getClientes().get(user).getPersonaje() != null){
                 System.out.println("Modificando al personaje de: " + user);
+                System.out.println("0. Modificar nick");
                 System.out.println("1. Modificar nombre");
                 System.out.println("2. Modificar oro");
                 System.out.println("3. Modificar salud");
@@ -63,6 +62,21 @@ public class Operador implements Serializable {
                 System.out.println("6. Cancelar");
                 int opcion = Integer.parseInt(br.readLine());
                 switch (opcion){
+                    case 0 -> {
+                        Cliente aux = Multiplex.getClientes().get(user);
+                        System.out.println("Escriba el nuevo nick");
+                        String nick = br.readLine();
+                        if(Multiplex.getClientes().containsKey(nick)){
+                            System.out.println("Nick ya existente");
+                        }
+                        else{
+                            aux.setNick(nick);
+                            Multiplex.getClientes().put(nick, aux);
+                            Multiplex.getClientes().remove(user);
+                            Multiplex.serialize();
+                        }
+
+                    }
                     case 1 -> {
                         System.out.println("Nuevo nombre: ");
                         String nombre = br.readLine();
@@ -89,7 +103,7 @@ public class Operador implements Serializable {
                         Multiplex.serialize();
                     }
                     case 5 -> {
-                        int coste = 0;
+                        int coste;
                         System.out.println("Nueva habilidad especial: ");
                         System.out.println("Escriba el nuevo nombre de la habilidad especial");
                         String nombre = br.readLine();
@@ -253,8 +267,8 @@ public class Operador implements Serializable {
                                                 System.out.println(Multiplex.getListaArmas().indexOf(arma) + ".");
                                                 System.out.println("Nombre:" + arma.getNombre());
                                                 System.out.println("Ataque: " + arma.getModataque());
-                                                System.out.println("Defensa: " + arma.getModdef());
-                                                System.out.println("");
+                                                System.out.println("Defensa: " + arma.getModdef()+"\n");
+
                                             }
                                         }
                                         do {
@@ -274,9 +288,9 @@ public class Operador implements Serializable {
                                                 System.out.println(Multiplex.getListaArmas().indexOf(arma) + ".");
                                                 System.out.println("Nombre:" + arma.getNombre());
                                                 System.out.println("Ataque: " + arma.getModataque());
-                                                System.out.println("Defensa: " + arma.getModdef());
+                                                System.out.println("Defensa: " + arma.getModdef()+"\n");
 
-                                                System.out.println("");
+
                                             }
                                         }
                                         do {
@@ -296,8 +310,8 @@ public class Operador implements Serializable {
                                                 System.out.println(Multiplex.getListaArmas().indexOf(arma) + ".");
                                                 System.out.println("Nombre:" + arma.getNombre());
                                                 System.out.println("Ataque: " + arma.getModataque());
-                                                System.out.println("Defensa: " + arma.getModdef());
-                                                System.out.println("");
+                                                System.out.println("Defensa: " + arma.getModdef()+"\n");
+
                                             }
                                         }
                                         do {
@@ -320,8 +334,8 @@ public class Operador implements Serializable {
                                 System.out.println(Multiplex.getListaArmaduras().indexOf(armadura) + ".");
                                 System.out.println("Nombre:" + armadura.getNombre());
                                 System.out.println("Ataque: " + armadura.getModataque());
-                                System.out.println("Defensa: " + armadura.getModdef());
-                                System.out.println("");
+                                System.out.println("Defensa: " + armadura.getModdef()+"\n");
+
                             }
                             do {
                                 System.out.println("Elija una armadura:");
