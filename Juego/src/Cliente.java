@@ -1,6 +1,8 @@
 import Datos.*;
 
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -20,6 +22,8 @@ public class Cliente implements Serializable {
     private ArrayList<String> notificacion;
     private ArrayList<String> suscripciones;
     private int desafiospendientes;
+
+    private String ultimajugada;
 
 
     public Cliente(Personaje personaje, String name, String nick, String nRegistro, String password) {
@@ -112,18 +116,27 @@ public class Cliente implements Serializable {
         this.desafiospendientes = desafiospendientes;
     }
 
+    public String getUltimajugada() {
+        return ultimajugada;
+    }
+
+    public void setUltimajugada(String ultimajugada) {
+        this.ultimajugada = ultimajugada;
+    }
+
     public void verHistorial() {
         for (Combate combate : Multiplex.getDesafios()) {
-            if ((combate.getDuelista1().getNick().equals(nick) || combate.getDuelista2().getNick().equals(nick)) && combate.getEstado() == 4) {
+            if ((combate.getDuelista1().getNick().equals(nick) || combate.getDuelista2().getNick().equals(nick)) && combate.getEstado() == 4 || combate.getEstado() == 5) {
                 System.out.println(combate.getDuelista1().getNick() + " vs " + combate.getDuelista2().getNick());
                 System.out.println("Fecha: " + combate.getFecha());
                 System.out.println("Rondas jugadas: " + combate.getRondas());
-                System.out.println("Ganador: " + combate.getVencedor().getNick());
+                System.out.println("Ganador: " + combate.getVencedor().getNick() + "\n");
             }
         }
     }
 
     public void verDesafios() throws IOException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         while (this.getDesafiospendientes() != 0) {
             System.out.println("Introduzca el nick del usuario del que quiere aceptar/rechazar el desafío: ");
@@ -162,12 +175,21 @@ public class Cliente implements Serializable {
                             System.out.println("NO han quedado esbirros");
                         }
                         this.notificador.notificar("Ha terminado un desafío al que estás suscrito, \n" + desafio.getVencedor().getNick() + " ha ganado la batalla" + "\n se han jugado " + desafio.getRondas() + " rondas" + "\n se ha apostado " + desafio.getOro() + " oro");
+                        desafio.getPerdedor().notificador.notificar("Ha terminado un desafío al que estás suscrito, \n" + desafio.getVencedor().getNick() + " ha ganado la batalla" + "\n se han jugado " + desafio.getRondas() + " rondas" + "\n se ha apostado " + desafio.getOro() + " oro");
                         this.setDesafiospendientes(this.getDesafiospendientes() - 1);
+                        LocalDateTime fecha = LocalDateTime.now();
+                        desafio.setFecha(fecha.format(formatter));
+                        setUltimajugada(fecha.format(formatter));
                         Multiplex.serialize();
                     } else if (opcion == 0) {
                         desafio.setEstado(5); //5 rechazado
                         desafio.setVencedor(desafio.getDuelista1());
-                        this.getPersonaje().setOro((int) (this.getPersonaje().getOro() - (0.1 * desafio.getOro())));
+                        if (desafio.getDuelista2().getPersonaje().getOro() > 0) {
+                            this.getPersonaje().setOro((int) (this.getPersonaje().getOro() - (0.1 * desafio.getOro())));
+                            if (this.getPersonaje().getOro() < 0) {
+                                this.getPersonaje().setOro(0);
+                            }
+                        }
                         desafio.getDuelista1().getPersonaje().setOro((int) (desafio.getDuelista1().getPersonaje().getOro() + (0.1 * desafio.getOro())));
                         this.setOverall(this.getOverall() - 1);
                         desafio.getDuelista1().setOverall(desafio.getDuelista1().getOverall() + 1);
@@ -175,6 +197,9 @@ public class Cliente implements Serializable {
                         desafio.getDuelista1().notificador.notificar(this.getNick() + " ha rechazado el desafio de " + desafio.getDuelista1().getNick());
                         this.setDesafiospendientes(this.getDesafiospendientes() - 1);
                         Multiplex.getDesafios().get(Multiplex.getDesafios().indexOf(desafio)).setEstado(5);
+                        LocalDateTime fecha = LocalDateTime.now();
+                        desafio.setFecha(fecha.format(formatter));
+                        setUltimajugada(fecha.format(formatter));
                         Multiplex.serialize();
                     } else {
                         System.out.println("Ese desafío no existe / No está validado / Está rechazado");
@@ -286,8 +311,7 @@ public class Cliente implements Serializable {
                             System.out.println(Multiplex.getListaArmaduras().indexOf(armadura) + ".");
                             System.out.println("Nombre:" + armadura.getNombre());
                             System.out.println("Ataque: " + armadura.getModataque());
-                            System.out.println("Defensa: " + armadura.getModdef());
-                            System.out.println("");
+                            System.out.println("Defensa: " + armadura.getModdef() + "\n");
                         }
                         do {
                             System.out.println("Elija una armadura:");
@@ -331,10 +355,7 @@ public class Cliente implements Serializable {
                     this.personaje = new Cazador();
                     this.personaje.setHabilidadEspecial(new Talento("arco", 0, 0, 13));
                 }
-                default -> {
-                    System.out.println("Error: Opción no identificada");
-                    break;
-                }
+                default -> System.out.println("Error: Opción no identificada");
             }
             System.out.println("Escribe el nombre de tu personaje");
             String nombre = br.readLine();
@@ -396,6 +417,7 @@ public class Cliente implements Serializable {
         String nickname = br.readLine();
         if (Multiplex.getClientes().containsKey(nickname) && !nickname.equals(this.nick)) {
             Multiplex.getClientes().get(nickname).getNotificador().agregarCliente(this);
+            Multiplex.serialize();
             System.out.println("Suscrito a los resultados de: " + nickname);
         } else {
             System.out.println("El usuario especificado no existe / No puedes suscribirte a ti mismo");

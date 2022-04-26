@@ -103,10 +103,18 @@ public class PerformCombat extends Operation {
             if (hp1 > 0){
                 combate.setVencedor(combate.getDuelista1());
                 combate.getDuelista2().getPersonaje().addOro(combate.getOro());
+                combate.getDuelista1().getPersonaje().addOro(-combate.getOro());
+                if (combate.getDuelista1().getPersonaje().getOro() < 0){
+                    combate.getDuelista1().getPersonaje().setOro(0);
+                }
             }
             else if (hp2 > 0){
                 combate.setVencedor(combate.getDuelista2());
                 combate.getDuelista1().getPersonaje().addOro(combate.getOro());
+                combate.getDuelista2().getPersonaje().addOro(-combate.getOro());
+                if (combate.getDuelista2().getPersonaje().getOro() < 0){
+                    combate.getDuelista2().getPersonaje().setOro(0);
+                }
             }
             else{
                 combate.setVencedor(null);
