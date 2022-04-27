@@ -181,8 +181,8 @@ public class Cliente implements Serializable {
                         } else {
                             System.out.println("Hubo una masacre, no quedaron esbirros vivos");
                         }
-                        this.notificador.notificar("Ha terminado un desafío al que estás suscrito, \n" + desafio.getVencedor().getNick() + " ha ganado la batalla" + "\n se han jugado " + desafio.getRondas() + " rondas" + "\n se ha apostado " + desafio.getOro() + " oro");
-                        desafio.getPerdedor().notificador.notificar("Ha terminado un desafío al que estás suscrito, \n" + desafio.getVencedor().getNick() + " ha ganado la batalla" + "\n se han jugado " + desafio.getRondas() + " rondas" + "\n se ha apostado " + desafio.getOro() + " oro");
+                        desafio.getDuelista1().notificador.notificar("Ha terminado un desafío al que estás suscrito, \n" + desafio.getVencedor().getNick() + " ha ganado la batalla" + "\n se han jugado " + desafio.getRondas() + " rondas" + "\n se ha apostado " + desafio.getOro() + " oro");
+                        desafio.getDuelista2().notificador.notificar("Ha terminado un desafío al que estás suscrito, \n" + desafio.getVencedor().getNick() + " ha ganado la batalla" + "\n se han jugado " + desafio.getRondas() + " rondas" + "\n se ha apostado " + desafio.getOro() + " oro");
                         this.setDesafiospendientes(this.getDesafiospendientes() - 1);
                         LocalDateTime fecha = LocalDateTime.now();
                         desafio.setFecha(fecha.format(formatter));
