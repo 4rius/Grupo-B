@@ -114,24 +114,29 @@ public class Cliente implements Serializable {
         for (Combate combate : Multiplex.getDesafios()) {
             if ((combate.getDuelista1().getNick().equals(nick) || combate.getDuelista2().getNick().equals(nick)) && combate.getEstado() == 4 || combate.getEstado() == 5) {
                 System.out.println(combate.getDuelista1().getNick() + " vs " + combate.getDuelista2().getNick());
-                System.out.println("Fecha: " + combate.getFecha());
-                System.out.println("Rondas jugadas: " + combate.getRondas());
-                System.out.println("Ganador: " + combate.getVencedor().getNick());
-                String esbirros = null;
-                if (combate.isEsbirrosVivos()) {
-                    if (combate.isEsbirrosVivos1()) {
-                        esbirros = (combate.getDuelista1().getNick() + " Mantuvo esbirros vivos");
-                    } else if (combate.isEsbirrosVivos2() && combate.isEsbirrosVivos1()) {
-                        System.out.println("Los dos duelistas mantuvieron esbirros vivos");
-                    } else {
-                        esbirros = (combate.getDuelista2().getNick() + " Mantuvo esbirros vivos");
-                    }
+                if (combate.getEstado() == 5) {
+                    System.out.println("Este desfío fue rechazado por " + combate.getDuelista2().getNick());
+                    System.out.println("--------------------------");
                 } else {
-                    esbirros = "Hubo una masacre, no quedaron esbirros vivos";
+                    System.out.println("Fecha: " + combate.getFecha());
+                    System.out.println("Rondas jugadas: " + combate.getRondas());
+                    System.out.println("Ganador: " + combate.getVencedor().getNick());
+                    String esbirros = null;
+                    if (combate.isEsbirrosVivos() || combate.isEsbirrosVivos2()) {
+                        if (combate.isEsbirrosVivos1()) {
+                            esbirros = (combate.getDuelista1().getNick() + " Mantuvo esbirros vivos");
+                        } else if (combate.isEsbirrosVivos1() && combate.isEsbirrosVivos2()) {
+                            System.out.println("Los dos duelistas mantuvieron esbirros vivos");
+                        } else {
+                            esbirros = (combate.getDuelista2().getNick() + " Mantuvo esbirros vivos");
+                        }
+                    } else {
+                        esbirros = "Hubo una masacre, no quedaron esbirros vivos";
+                    }
+                    System.out.println(esbirros);
+                    System.out.println("Oro apostado: " + combate.getOro());
+                    System.out.println("--------------------------");
                 }
-                System.out.println(esbirros);
-                System.out.println("Oro apostado: " + combate.getOro());
-                System.out.println("--------------------------");
             }
         }
     }
@@ -170,19 +175,17 @@ public class Cliente implements Serializable {
                         }
                         System.out.println("La cantidad de oro ganada es: " + desafio.getOro());
                         System.out.println("Se han jugado " + desafio.getRondas() + " rondas");
-                        if (desafio.isEsbirrosVivos()) {
+                        if (desafio.isEsbirrosVivos() || desafio.isEsbirrosVivos2()) {
                             if (desafio.isEsbirrosVivos1()) {
                                 System.out.println((desafio.getDuelista1().getNick() + " Mantuvo esbirros vivos"));
-                            } else if (desafio.isEsbirrosVivos2() && desafio.isEsbirrosVivos1()) {
+                            } else if ( desafio.isEsbirrosVivos1() && desafio.isEsbirrosVivos2()) {
                                 System.out.println("Los dos duelistas mantuvieron esbirros vivos");
                             } else {
-                                System.out.println((desafio.getDuelista2().getNick() + " Mantuvo esbirros vivos"));
+                                System.out.println(desafio.getDuelista2().getNick() + " Mantuvo esbirros vivos");
                             }
                         } else {
                             System.out.println("Hubo una masacre, no quedaron esbirros vivos");
                         }
-                        desafio.getDuelista1().notificador.notificar("Ha terminado un desafío al que estás suscrito, \n" + desafio.getVencedor().getNick() + " ha ganado la batalla" + "\n se han jugado " + desafio.getRondas() + " rondas" + "\n se ha apostado " + desafio.getOro() + " oro");
-                        desafio.getDuelista2().notificador.notificar("Ha terminado un desafío al que estás suscrito, \n" + desafio.getVencedor().getNick() + " ha ganado la batalla" + "\n se han jugado " + desafio.getRondas() + " rondas" + "\n se ha apostado " + desafio.getOro() + " oro");
                         this.setDesafiospendientes(this.getDesafiospendientes() - 1);
                         LocalDateTime fecha = LocalDateTime.now();
                         desafio.setFecha(fecha.format(formatter));
@@ -207,6 +210,7 @@ public class Cliente implements Serializable {
                         LocalDateTime fecha = LocalDateTime.now();
                         desafio.setFecha(fecha.format(formatter));
                         setUltimapartidaperdida(fecha.format(formatter));
+                        System.out.println("El desafio ha sido rechazado");
                         Multiplex.serialize();
                     } else {
                         System.out.println("Ese desafío no existe / No está validado / Está rechazado");
