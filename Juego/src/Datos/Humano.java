@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Humano extends Esbirro implements Serializable {
 
-    protected enum lealtad {
+    public enum lealtad {
         low,
         medium,
         high
