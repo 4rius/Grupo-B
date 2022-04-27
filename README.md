@@ -2,6 +2,6 @@
 
 
 
-Main -> Contiene el código actualizado en las últimas 24h
+Main -> Contiene el código que sabemos que funciona
 <br>
-develop -> Contiene el código con los commits más recientes, se suben las actualizaciones diarias a main una vez al día.
+develop -> Contiene el código con los commits más recientes.
