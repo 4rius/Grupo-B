@@ -158,7 +158,7 @@ public class MainMenu extends Operation {
                     Multiplex.getClientes().get(nick).verDesafios();
                 }
                 if (Multiplex.getClientes().get(nick).getSuscripciones().size() > 0) {
-                    System.out.println("Sus notificaciones de suscripciones son: ");
+                    System.out.println("Sus notificaciones de suscripciones son: \n");
                     for (String s : Multiplex.getClientes().get(nick).getSuscripciones()) {
                         System.out.println(s);
                     }

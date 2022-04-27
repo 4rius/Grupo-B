@@ -97,9 +97,9 @@ public class Combate implements Serializable {
         this.esbirrosVivos2 = esbirrosvivos2;
     }
 
-    public void terminado(Cliente ganador, Cliente perdedor) {
-        ganador.getNotificador().notificar(ganador.getNick() + " ha ganado la batalla!" + "\n" + "Detalles:");
-        perdedor.getNotificador().notificar(perdedor.getNick() + " ha perdido la batalla!" + "\n" + "Detalles:");
+    public void terminado(Cliente ganador, Cliente perdedor) {;
+        ganador.getNotificador().notificar("Ha terminado un desafío al que estás suscrito, \n" + ganador.getNick() + " ha ganado la batalla contra" + perdedor.getNick() + "\n se han jugado " + this.getRondas() + " rondas" + "\n se ha apostado " + this.getOro() + " oro\n");
+        perdedor.getNotificador().notificar("Ha terminado un desafío al que estás suscrito, \n" + ganador.getNick() + " ha ganado la batalla contra" + perdedor.getNick() + "\n se han jugado " + this.getRondas() + " rondas" + "\n se ha apostado " + this.getOro() + " oro\n");
         ganador.setOverall(ganador.getOverall() + 1);
         perdedor.setOverall(perdedor.getOverall() - 1);
     }
