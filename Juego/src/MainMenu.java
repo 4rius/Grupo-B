@@ -13,7 +13,7 @@ public class MainMenu extends Operation {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int opcion = 0;
         while (true) {
-            System.out.println("Bienvenido a SmiteTactics" );
+            System.out.println("\nBienvenido a SmiteTactics" );
             System.out.println("1. Iniciar sesión");
             System.out.println("2. Registrarse");
             System.out.println("3. Salir");
@@ -104,6 +104,11 @@ public class MainMenu extends Operation {
         }
         System.out.println("Introduzca su contraseña: ");
         String contrasena = br.readLine();
+        while (contrasena.length() < 8 || contrasena.length() > 12) {
+            System.out.println("La contraseña debe tener entre 8 y 12 caracteres");
+            System.out.println("Introduzca su contraseña: ");
+            contrasena = br.readLine();
+        }
 
         Multiplex.getOperadores().put(nick, new Operador(nombre, nick, contrasena));
         System.out.println("Registrado con éxito, bienvenido, " + nick + "! Ya puedes iniciar sesión");

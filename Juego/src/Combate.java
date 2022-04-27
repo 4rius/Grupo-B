@@ -14,6 +14,8 @@ public class Combate implements Serializable {
     private String Fecha;
     private Cliente vencedor;
     private boolean esbirrosVivos;
+    private boolean esbirrosVivos1;
+    private boolean esbirrosVivos2;
 
     public Cliente getDuelista1() {
         return duelista1;
@@ -79,9 +81,35 @@ public class Combate implements Serializable {
         this.esbirrosVivos = esbirrosVivos;
     }
 
+    public boolean isEsbirrosVivos1() {
+        return esbirrosVivos1;
+    }
+
+    public boolean isEsbirrosVivos2() {
+        return esbirrosVivos2;
+    }
+
+    public void setEsbirrosVivos1(boolean esbirrosVivos1) {
+        this.esbirrosVivos1 = esbirrosVivos1;
+    }
+
+    public void setEsbirrosVivos2(boolean esbirrosvivos2) {
+        this.esbirrosVivos2 = esbirrosvivos2;
+    }
+
     public void terminado(Cliente ganador, Cliente perdedor) {
         ganador.getNotificador().notificar(ganador.getNick() + " ha ganado la batalla!" + "\n" + "Detalles:");
         perdedor.getNotificador().notificar(perdedor.getNick() + " ha perdido la batalla!" + "\n" + "Detalles:");
-        //Esto cuantdo el combate esté implementado lo termino ^4r
+        ganador.setOverall(ganador.getOverall() + 1);
+        perdedor.setOverall(perdedor.getOverall() - 1);
+    }
+
+
+    public Cliente getPerdedor() {
+        if (duelista1.getNick().equals(vencedor.getNick())) {
+            return duelista2;
+        } else {
+            return duelista1;
+        }
     }
 }

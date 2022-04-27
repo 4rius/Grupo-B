@@ -1,5 +1,7 @@
 package Datos;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -114,5 +116,28 @@ public class Personaje implements Serializable {
     }
 
     public void resetPuntosHab(){
+    }
+
+    public void generarEsbirros() {
+        int cantidad = (int) (Math.random() * 5) + 1; // Se generan entre 1 y 5 esbirros
+        for (int i = 0; i < cantidad; i++) {
+            int tipo = (int) (Math.random() * 3);  //se elige entre 3 tipos de esbirros
+            switch (tipo) {
+                case 0 -> {
+                    esbirros.add(new Demonio("Demon", 5, "Cruz de sangre"));
+                    ((Demonio) esbirros.get(esbirros.size() - 1)).generarEsbirros();
+                }
+                case 1 -> esbirros.add(new Ghoul("Ghoul", 5, (int) (Math.random() * 5)));
+                case 2 -> {
+                    esbirros.add(new Humano("Humano", 5));
+                    int lealtad = (int) (Math.random() * 3);
+                    switch (lealtad) {
+                        case 0 -> ((Humano) esbirros.get(esbirros.size() - 1)).setNivellealtad(Humano.lealtad.low);
+                        case 1 -> ((Humano) esbirros.get(esbirros.size() - 1)).setNivellealtad(Humano.lealtad.medium);
+                        case 2 -> ((Humano) esbirros.get(esbirros.size() - 1)).setNivellealtad(Humano.lealtad.high);
+                    }
+                }
+            }
+            }
     }
 }
