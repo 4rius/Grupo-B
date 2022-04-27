@@ -414,6 +414,7 @@ public class Cliente implements Serializable {
                 desafio.setDuelista2(Multiplex.getClientes().get(nickUsuario));
                 desafio.setOro(oroApostado);
                 Multiplex.getDesafios().add(desafio);
+                System.out.println("Desafio creado correctamente");
                 Multiplex.serialize();
             }
         } else {
