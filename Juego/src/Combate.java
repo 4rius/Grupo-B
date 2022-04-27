@@ -14,6 +14,8 @@ public class Combate implements Serializable {
     private String Fecha;
     private Cliente vencedor;
     private boolean esbirrosVivos;
+    private boolean esbirrosVivos1;
+    private boolean esbirrosVivos2;
 
     public Cliente getDuelista1() {
         return duelista1;
@@ -77,6 +79,22 @@ public class Combate implements Serializable {
 
     public void setEsbirrosVivos(boolean esbirrosVivos) {
         this.esbirrosVivos = esbirrosVivos;
+    }
+
+    public boolean isEsbirrosVivos1() {
+        return esbirrosVivos1;
+    }
+
+    public boolean isEsbirrosVivos2() {
+        return esbirrosVivos2;
+    }
+
+    public void setEsbirrosVivos1(boolean esbirrosVivos1) {
+        this.esbirrosVivos1 = esbirrosVivos1;
+    }
+
+    public void setEsbirrosVivos2(boolean esbirrosvivos2) {
+        this.esbirrosVivos2 = esbirrosvivos2;
     }
 
     public void terminado(Cliente ganador, Cliente perdedor) {

@@ -10,10 +10,6 @@ public class Operador implements Serializable {
     private String Nick;
     private String Contraseña;
 
-    /**
-     * Constructor noargs para la serialización
-     *
-     */
     public Operador(String nombre, String nick, String contraseña) {
         Nombre = nombre;
         Nick = nick;
@@ -165,7 +161,7 @@ public class Operador implements Serializable {
             for (int i = 0; i < Multiplex.getDesafios().size(); i++){
                 if (Multiplex.getDesafios().get(i).getEstado() == 0){
                     System.out.println("Desafio: " + i + ". " + Multiplex.getDesafios().get(i).getDuelista1().getName() + " vs " + Multiplex.getDesafios().get(i).getDuelista2().getName());
-                    System.out.println("Última vez que el usuario desafiado aceptó/rechazo un desafío: " + Multiplex.getDesafios().get(i).getDuelista2().getUltimajugada()); //Para saber si hay que banearlo
+                    System.out.println("Última vez que el usuario desafiado aceptó/rechazo un desafío: " + Multiplex.getDesafios().get(i).getDuelista2().getUltimapartidaperdida()); //Para saber si hay que banearlo
                 }
             }
             System.out.println("Numero del desafío a validar: ");

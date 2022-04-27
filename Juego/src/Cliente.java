@@ -19,10 +19,10 @@ public class Cliente implements Serializable {
     private final Notificador notificador;
     private int overall; //Para el ranking global
     private final ArrayList<String>  notificacion;
-    private ArrayList<String> suscripciones;
+    private final ArrayList<String> suscripciones;
     private int desafiospendientes;
 
-    private String ultimajugada;
+    private String ultimapartidaperdida;
 
 
     public Cliente(Personaje personaje, String name, String nick, String nRegistro, String password) {
@@ -101,12 +101,12 @@ public class Cliente implements Serializable {
         this.desafiospendientes = desafiospendientes;
     }
 
-    public String getUltimajugada() {
-        return ultimajugada;
+    public String getUltimapartidaperdida() {
+        return ultimapartidaperdida;
     }
 
-    public void setUltimajugada(String ultimajugada) {
-        this.ultimajugada = ultimajugada;
+    public void setUltimapartidaperdida(String ultimapartidaperdida) {
+        this.ultimapartidaperdida = ultimapartidaperdida;
     }
 
     public void verHistorial() {
@@ -117,6 +117,20 @@ public class Cliente implements Serializable {
                 System.out.println("Fecha: " + combate.getFecha());
                 System.out.println("Rondas jugadas: " + combate.getRondas());
                 System.out.println("Ganador: " + combate.getVencedor().getNick());
+                String esbirros = null;
+                if (combate.isEsbirrosVivos()) {
+                    if (combate.isEsbirrosVivos1()) {
+                        esbirros = (combate.getDuelista1().getNick() + " Mantuvo esbirros vivos");
+                    } else if (combate.isEsbirrosVivos2() && combate.isEsbirrosVivos1()) {
+                        System.out.println("Los dos duelistas mantuvieron esbirros vivos");
+                    } else {
+                        esbirros = (combate.getDuelista2().getNick() + " Mantuvo esbirros vivos");
+                    }
+                } else {
+                    esbirros = "Hubo una masacre, no quedaron esbirros vivos";
+                }
+                System.out.println(esbirros);
+                System.out.println("Oro apostado: " + combate.getOro());
                 System.out.println("--------------------------");
             }
         }
@@ -157,16 +171,22 @@ public class Cliente implements Serializable {
                         System.out.println("La cantidad de oro ganada es: " + desafio.getOro());
                         System.out.println("Se han jugado " + desafio.getRondas() + " rondas");
                         if (desafio.isEsbirrosVivos()) {
-                            System.out.println("si han quedado esbirros");
+                            if (desafio.isEsbirrosVivos1()) {
+                                System.out.println((desafio.getDuelista1().getNick() + " Mantuvo esbirros vivos"));
+                            } else if (desafio.isEsbirrosVivos2() && desafio.isEsbirrosVivos1()) {
+                                System.out.println("Los dos duelistas mantuvieron esbirros vivos");
+                            } else {
+                                System.out.println((desafio.getDuelista2().getNick() + " Mantuvo esbirros vivos"));
+                            }
                         } else {
-                            System.out.println("NO han quedado esbirros");
+                            System.out.println("Hubo una masacre, no quedaron esbirros vivos");
                         }
                         this.notificador.notificar("Ha terminado un desafío al que estás suscrito, \n" + desafio.getVencedor().getNick() + " ha ganado la batalla" + "\n se han jugado " + desafio.getRondas() + " rondas" + "\n se ha apostado " + desafio.getOro() + " oro");
                         desafio.getPerdedor().notificador.notificar("Ha terminado un desafío al que estás suscrito, \n" + desafio.getVencedor().getNick() + " ha ganado la batalla" + "\n se han jugado " + desafio.getRondas() + " rondas" + "\n se ha apostado " + desafio.getOro() + " oro");
                         this.setDesafiospendientes(this.getDesafiospendientes() - 1);
                         LocalDateTime fecha = LocalDateTime.now();
                         desafio.setFecha(fecha.format(formatter));
-                        setUltimajugada(fecha.format(formatter));
+                        desafio.getPerdedor().setUltimapartidaperdida(fecha.format(formatter));
                         Multiplex.serialize();
                     } else if (opcion == 0) {
                         desafio.setEstado(5); //5 rechazado
@@ -186,7 +206,7 @@ public class Cliente implements Serializable {
                         Multiplex.getDesafios().get(Multiplex.getDesafios().indexOf(desafio)).setEstado(5);
                         LocalDateTime fecha = LocalDateTime.now();
                         desafio.setFecha(fecha.format(formatter));
-                        setUltimajugada(fecha.format(formatter));
+                        setUltimapartidaperdida(fecha.format(formatter));
                         Multiplex.serialize();
                     } else {
                         System.out.println("Ese desafío no existe / No está validado / Está rechazado");
@@ -198,8 +218,7 @@ public class Cliente implements Serializable {
     }
 
     public void seleccionarEquipo() throws IOException {
-        //Cuando acabe de modifcar esto, seleccionar equipo va a ser mas limpio y sencillo//
-        //El usuario va a pode elegir si quiere elegir arma,armadura o ninguna//
+        //El usuario va a poder elegir si quiere elegir arma,armadura o ninguna//
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int opt = 0;
 
@@ -336,15 +355,22 @@ public class Cliente implements Serializable {
                     this.personaje = new Vampiro();
                     this.personaje.setHabilidadEspecial(new Disciplina("murcielago", 2, 2, 2));
                     this.personaje.setModificador(new Modificador("luz solar", 5, 0));
+                    this.personaje.setEsbirros(new ArrayList<>());
+                    this.personaje.generarEsbirros();
                 }
                 case 2 -> {
                     this.personaje = new Licantropo();
                     this.personaje.setHabilidadEspecial(new Don("lobito", 3, 1, 2));
                     this.personaje.setModificador(new Modificador("luna llena", 2, 1));
+                    this.personaje.setEsbirros(new ArrayList<>());
+                    this.personaje.generarEsbirros();
                 }
                 case 3 -> {
                     this.personaje = new Cazador();
                     this.personaje.setHabilidadEspecial(new Talento("arco", 0, 0, 13));
+                    this.personaje.setModificador(new Modificador("luna llena", 2, 1));
+                    this.personaje.setEsbirros(new ArrayList<>());
+                    this.personaje.generarEsbirros();
                 }
                 default -> System.out.println("Error: Opción no identificada");
             }
@@ -352,8 +378,7 @@ public class Cliente implements Serializable {
             String nombre = br.readLine();
             this.personaje.setNombre(nombre);
             this.personaje.setSalud(5);
-            int r = (int) (Math.random() * 5 + 1);
-            this.personaje.setPoder(r);
+            this.personaje.setPoder((int) (Math.random() * 5 + 1));
             this.personaje.setOro(500);
             System.out.println("Personaje creado correctamente");
             Multiplex.serialize();

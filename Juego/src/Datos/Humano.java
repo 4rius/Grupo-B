@@ -3,7 +3,8 @@ package Datos;
 import java.io.Serializable;
 
 public class Humano extends Esbirro implements Serializable {
-    private enum lealtad {
+
+    protected enum lealtad {
         low,
         medium,
         high

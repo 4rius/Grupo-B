@@ -104,6 +104,11 @@ public class MainMenu extends Operation {
         }
         System.out.println("Introduzca su contraseña: ");
         String contrasena = br.readLine();
+        while (contrasena.length() < 8 || contrasena.length() > 12) {
+            System.out.println("La contraseña debe tener entre 8 y 12 caracteres");
+            System.out.println("Introduzca su contraseña: ");
+            contrasena = br.readLine();
+        }
 
         Multiplex.getOperadores().put(nick, new Operador(nombre, nick, contrasena));
         System.out.println("Registrado con éxito, bienvenido, " + nick + "! Ya puedes iniciar sesión");

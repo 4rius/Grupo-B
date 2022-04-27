@@ -60,6 +60,8 @@ public class PerformCombat extends Operation {
             combate.setRondas(combate.getRondas() + 1);
         }
         combate.setEsbirrosVivos(this.isEsbirrosVivos(hp_Esb1, hp_Esb2));
+        combate.setEsbirrosVivos1(this.esbirrosvivos1(hp_Esb1));
+        combate.setEsbirrosVivos2(this.esbirrosvivos2(hp_Esb2));
         resetHabilidades();
     }
 
@@ -104,7 +106,7 @@ public class PerformCombat extends Operation {
                 combate.setVencedor(combate.getDuelista1());
                 combate.getDuelista2().getPersonaje().addOro(combate.getOro());
                 combate.getDuelista1().getPersonaje().addOro(-combate.getOro());
-                if (combate.getDuelista1().getPersonaje().getOro() < 0){
+                if (combate.getDuelista1().getPersonaje().getOro() < 0) {
                     combate.getDuelista1().getPersonaje().setOro(0);
                 }
             }
@@ -125,5 +127,13 @@ public class PerformCombat extends Operation {
 
     public boolean isEsbirrosVivos(int hp1, int hp2){
         return hp1 != 0 || hp2 != 0;
+    }
+
+    public boolean esbirrosvivos1(int hp1){
+        return hp1 > 0;
+    }
+
+    public boolean esbirrosvivos2(int hp2){
+        return hp2 > 0;
     }
 }
