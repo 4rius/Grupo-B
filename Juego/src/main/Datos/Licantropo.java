@@ -1,8 +1,6 @@
-package Datos;
+package main.Datos;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.util.List;
 
 public class Licantropo extends Personaje implements Serializable {
     private int rabia;

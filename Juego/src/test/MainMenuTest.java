@@ -1,5 +1,8 @@
+package test;
+
+import main.MainMenu;
+import main.Multiplex;
 import org.junit.Test;
-import org.testng.reporters.jq.Main;
 
 import java.io.IOException;
 

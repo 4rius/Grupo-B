@@ -1,4 +1,6 @@
-import Datos.Esbirro;
+package main;
+
+import main.Datos.Esbirro;
 
 import java.util.ArrayList;
 

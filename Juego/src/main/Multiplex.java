@@ -1,5 +1,7 @@
-import Datos.Arma;
-import Datos.Armadura;
+package main;
+
+import main.Datos.Arma;
+import main.Datos.Armadura;
 
 import java.io.*;
 import java.util.ArrayList;

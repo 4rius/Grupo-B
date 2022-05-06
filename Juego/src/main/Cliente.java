@@ -1,4 +1,6 @@
-import Datos.*;
+package main;
+
+import main.Datos.*;
 
 import java.io.*;
 import java.time.LocalDateTime;
