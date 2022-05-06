@@ -1,5 +1,3 @@
-package test;
-
 import main.MainMenu;
 import main.Multiplex;
 import org.junit.Test;
