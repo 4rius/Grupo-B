@@ -58,7 +58,7 @@ public class MainMenu extends Operation {
         }
     }
 
-    private void registrarJugador() throws IOException {
+    public void registrarJugador() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String Letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         System.out.println("Introduzca su nombre: ");
@@ -92,7 +92,7 @@ public class MainMenu extends Operation {
         this.doOperation();
     }
 
-    private void registrarOperador() throws IOException {
+    public void registrarOperador() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Introduzca su nombre: ");
         String nombre = br.readLine();
