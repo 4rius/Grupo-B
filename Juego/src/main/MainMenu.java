@@ -72,7 +72,12 @@ public class MainMenu extends Operation {
             nick = br.readLine();
         }
         System.out.println("Introduzca su contraseña: ");
-        String contrasena =br.readLine();
+        String contrasena = br.readLine();
+        while (contrasena.length() < 8 || contrasena.length() > 12) {
+            System.out.println("La contraseña debe tener entre 8 y 12 caracteres");
+            System.out.println("Introduzca su contraseña: ");
+            contrasena = br.readLine();
+        }
         String registro = null;
         while (Multiplex.getRegistros().contains(registro) || registro == null) {
             StringBuilder sb = new StringBuilder();

@@ -98,8 +98,8 @@ public class Multiplex implements Serializable {
     }
 
     public void inicializarInventario() throws IOException {
-        File f = new File("Juego/Assets/Armas.txt");
-        File f2 = new File("Juego/Assets/Armadura.txt");
+        File f = new File("./././Assets/Armas.txt");
+        File f2 = new File("./././Assets/Armadura.txt");
         Scanner sc = new Scanner(f);
         Pattern p1 = Pattern.compile(" [\\w\\s]+");
         Pattern p2 = Pattern.compile("[0-9]");
