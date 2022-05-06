@@ -38,7 +38,7 @@ public class Multiplex implements Serializable {
         this.inicializarInventario();
     }
 
-    private static void deserialize() throws IOException, ClassNotFoundException {
+    public static void deserialize() throws IOException, ClassNotFoundException {
         FileInputStream finputstream = new FileInputStream("Juego/Assets/estado.bin");
         ObjectInputStream inputstream = new ObjectInputStream(finputstream);
         Multiplex.clientes = (HashMap<String, Cliente>) inputstream.readObject();
@@ -97,7 +97,7 @@ public class Multiplex implements Serializable {
         menu.doOperation();
     }
 
-    private void inicializarInventario() throws IOException {
+    public void inicializarInventario() throws IOException {
         File f = new File("Juego/Assets/Armas.txt");
         File f2 = new File("Juego/Assets/Armadura.txt");
         Scanner sc = new Scanner(f);
