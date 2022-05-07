@@ -20,6 +20,7 @@ public class Notificador implements Serializable {
         clientes.add(cliente);
     }
 
-
-
+    public ArrayList<Cliente> getClientes() {
+        return clientes;
+    }
 }
