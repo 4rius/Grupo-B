@@ -4,6 +4,8 @@ import main.Datos.Disciplina;
 import main.Datos.Modificador;
 import main.Datos.Personaje;
 import main.Datos.Vampiro;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -13,14 +15,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class OperadorTest {
 
+    @BeforeEach
+    void setUp() throws IOException, ClassNotFoundException {
+        Multiplex multiplex = new Multiplex(false);
+        Multiplex.getClientes().put("Prueba", new Cliente(null, "Prueba", "nick", "PR12UEB", "123"));
+    }
+
     @Test
     void editarDatosPersonaje() {
     }
 
     @Test
-    void eliminarPersonaje() throws IOException, ClassNotFoundException {
-        Multiplex multiplex = new Multiplex(false);
-        Multiplex.getClientes().put("Prueba", new Cliente(null, "Prueba", "nick", "PR12UEB", "123"));
+    void eliminarPersonaje(){
         Cliente cliente = Multiplex.getClientes().get("Prueba");
         Personaje personaje = new Personaje();
         personaje = new Vampiro();
@@ -35,9 +41,7 @@ class OperadorTest {
     }
 
     @Test
-    void validarDesafios() throws IOException, ClassNotFoundException {
-        Multiplex multiplex = new Multiplex(false);
-        Multiplex.getClientes().put("Prueba", new Cliente(null, "Prueba", "nick", "PR12UEB", "123"));
+    void validarDesafios(){
         Cliente cliente = Multiplex.getClientes().get("Prueba");
         Personaje personaje = new Personaje();
         personaje = new Vampiro();
@@ -67,9 +71,7 @@ class OperadorTest {
     }
 
     @Test
-    void banearJugador() throws IOException, ClassNotFoundException {
-        Multiplex multiplex = new Multiplex(false);
-        Multiplex.getClientes().put("Prueba", new Cliente(null, "Prueba", "nick", "PR12UEB", "12345678"));
+    void banearJugador(){
         Cliente cliente = Multiplex.getClientes().get("Prueba");
         assertFalse(cliente.isBanned());
         cliente.setBanned(true);
@@ -77,9 +79,7 @@ class OperadorTest {
     }
 
     @Test
-    void desbanearJugador() throws IOException, ClassNotFoundException {
-        Multiplex multiplex = new Multiplex(false);
-        Multiplex.getClientes().put("Prueba", new Cliente(null, "Prueba", "nick", "PR12UEB", "12345678"));
+    void desbanearJugador() {
         Cliente cliente = Multiplex.getClientes().get("Prueba");
         cliente.setBanned(true);
         assertTrue(cliente.isBanned());
@@ -92,13 +92,12 @@ class OperadorTest {
     }
 
     @Test
-    void eliminarCuenta() throws IOException, ClassNotFoundException {
-        Multiplex multiplex = new Multiplex(false);
+    void eliminarCuenta() {
         Multiplex.getOperadores().put("Prueba", new Operador("Prueba", "nick", "12345678"));
         Operador operador = Multiplex.getOperadores().get("Prueba");
         assertTrue(Multiplex.getOperadores().containsKey("Prueba"));
         Multiplex.getOperadores().remove("Prueba", operador);
-        assertFalse(Multiplex.getClientes().containsKey("Prueba"));
+        assertFalse(Multiplex.getOperadores().containsKey("Prueba"));
     }
 
     @Test

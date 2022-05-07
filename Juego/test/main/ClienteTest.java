@@ -4,6 +4,7 @@ import main.Datos.Disciplina;
 import main.Datos.Modificador;
 import main.Datos.Personaje;
 import main.Datos.Vampiro;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -13,10 +14,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ClienteTest {
 
-    @Test
-    void registrarPersonaje() throws IOException, ClassNotFoundException {
+    @BeforeEach
+    void setUp() throws IOException, ClassNotFoundException {
         Multiplex multiplex = new Multiplex(false);
         Multiplex.getClientes().put("Prueba", new Cliente(null, "Prueba", "nick", "PR12UEB", "123"));
+    }
+
+    @Test
+    void registrarPersonaje(){
         Cliente cliente = Multiplex.getClientes().get("Prueba");
         Personaje personaje = new Personaje();
         personaje = new Vampiro();
@@ -29,9 +34,7 @@ class ClienteTest {
     }
 
     @Test
-    void crearDesafio() throws IOException, ClassNotFoundException {
-        Multiplex multiplex = new Multiplex(false);
-        Multiplex.getClientes().put("Prueba", new Cliente(null, "Prueba", "nick", "PR12UEB", "123"));
+    void crearDesafio(){
         Cliente cliente = Multiplex.getClientes().get("Prueba");
         Personaje personaje = new Personaje();
         personaje = new Vampiro();
@@ -62,10 +65,8 @@ class ClienteTest {
     }
 
     @Test
-    void suscribirse() throws IOException, ClassNotFoundException {
+    void suscribirse()  {
         //Simula que Cliente 2 se suscribe a los resultados de Cliente 1, y después que Cliente 1 se suscribe a los resultados de Cliente 2
-        Multiplex multiplex = new Multiplex(false);
-        Multiplex.getClientes().put("Prueba", new Cliente(null, "Prueba", "nick", "PR12UEB", "123"));
         Multiplex.getClientes().put("Prueba2", new Cliente(null, "Prueba2", "nick2", "PR12UEB2", "123"));
         Cliente cliente = Multiplex.getClientes().get("Prueba");
         Cliente cliente2 = Multiplex.getClientes().get("Prueba2");
@@ -78,9 +79,7 @@ class ClienteTest {
     }
 
     @Test
-    void eliminarCuenta() throws IOException, ClassNotFoundException {
-        Multiplex multiplex = new Multiplex(false);
-        Multiplex.getClientes().put("Prueba", new Cliente(null, "Prueba", "nick", "PR12UEB", "123"));
+    void eliminarCuenta() {
         Cliente cliente = Multiplex.getClientes().get("Prueba");
         assertEquals(1, Multiplex.getClientes().size());
         assertTrue(Multiplex.getClientes().containsKey("Prueba"));

@@ -49,7 +49,7 @@ public class Multiplex implements Serializable {
     }
 
     public static void serialize() throws IOException {
-        FileOutputStream foutputstream = new FileOutputStream("Juego/Assets/estado.bin");
+        FileOutputStream foutputstream = new FileOutputStream("././Assets/estado.bin");
         ObjectOutputStream outputstream = new ObjectOutputStream(foutputstream);
         outputstream.writeObject(Multiplex.clientes);
         outputstream.writeObject(Multiplex.registros);
