@@ -25,7 +25,7 @@ public class Multiplex implements Serializable {
         listaArmas = new ArrayList<>();
         listaArmaduras = new ArrayList<>();
 
-        File f = new File("Juego/Assets/estado.bin");
+        File f = new File("././Assets/estado.bin");
         if(f.exists()){
             Multiplex.deserialize();
         } else {
@@ -39,7 +39,7 @@ public class Multiplex implements Serializable {
     }
 
     public static void deserialize() throws IOException, ClassNotFoundException {
-        FileInputStream finputstream = new FileInputStream("Juego/Assets/estado.bin");
+        FileInputStream finputstream = new FileInputStream("././Assets/estado.bin");
         ObjectInputStream inputstream = new ObjectInputStream(finputstream);
         Multiplex.clientes = (HashMap<String, Cliente>) inputstream.readObject();
         Multiplex.registros = (ArrayList<String>) inputstream.readObject();
