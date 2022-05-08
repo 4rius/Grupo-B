@@ -57,10 +57,22 @@ class PerformCombatTest {
 
     @Test
     void calcularAtk() {
+        Combate c = new Combate();
+        c.setDuelista1(Multiplex.getClientes().get("Usuario1"));
+        c.setDuelista2(Multiplex.getClientes().get("Usuario1"));
+        PerformCombat instance = new PerformCombat(c);
+        int atk = instance.calcularAtk(c.getDuelista1());
+        assert(atk >= 0);
     }
 
     @Test
     void calcularDef() {
+        Combate c = new Combate();
+        c.setDuelista1(Multiplex.getClientes().get("Usuario1"));
+        c.setDuelista2(Multiplex.getClientes().get("Usuario1"));
+        PerformCombat instance = new PerformCombat(c);
+        int def = instance.calcularDef(c.getDuelista1());
+        assert(def >= 0);
     }
 
     @Test
