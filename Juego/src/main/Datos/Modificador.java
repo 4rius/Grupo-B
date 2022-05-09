@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Modificador implements Serializable {
     private String Nombre;
     private int mod;
-    private int tipomod;
+    private int tipomod; //Debilidad o fortaleza
 
     public Modificador(String nombre, int mod, int tipomod) {
         Nombre = nombre;
