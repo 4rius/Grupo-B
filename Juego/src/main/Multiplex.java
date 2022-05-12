@@ -25,7 +25,7 @@ public class Multiplex implements Serializable {
         listaArmas = new ArrayList<>();
         listaArmaduras = new ArrayList<>();
 
-        File f = new File("././Assets/estado.bin");
+        File f = new File("Juego/Assets/estado.bin");
         if(f.exists()){
             Multiplex.deserialize();
         } else {
