@@ -21,6 +21,25 @@ class ClienteTest {
     }
 
     @Test
+    void seleccionarEquipo() {
+        Cliente cliente = Multiplex.getClientes().get("Prueba");
+        Personaje personaje = new Personaje();
+        personaje = new Vampiro();
+        personaje.setHabilidadEspecial(new Disciplina("murcielago", 2, 2, 2));
+        personaje.setModificador(new Modificador("luz solar", 5, 0));
+        personaje.setEsbirros(new ArrayList<>());
+        personaje.generarEsbirros();
+        cliente.setPersonaje(personaje);
+        cliente.getPersonaje().setArmaActual1(Multiplex.getListaArmas().get(0));
+        cliente.getPersonaje().setArmaActual2(Multiplex.getListaArmas().get(1));
+        cliente.getPersonaje().setArmaduraActual(Multiplex.getListaArmaduras().get(7));
+        assertNotNull(cliente.getPersonaje().getArmaActual1());
+        assertNotNull(cliente.getPersonaje().getArmaActual2());
+        assertNotNull(cliente.getPersonaje().getArmaduraActual());
+
+    }
+
+    @Test
     void registrarPersonaje(){
         Cliente cliente = Multiplex.getClientes().get("Prueba");
         Personaje personaje = new Personaje();
