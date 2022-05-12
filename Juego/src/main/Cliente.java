@@ -404,7 +404,7 @@ public class Cliente implements Serializable {
             String nickUsuario = br.readLine();
             System.out.println("Escribe la cantidad de oro que quiere apostar");
             int oroApostado = Integer.parseInt(br.readLine());
-            if (this.personaje.getOro() < oroApostado && oroApostado > 0) {
+            if (this.personaje.getOro() < oroApostado || oroApostado < 0) {
                 System.out.println("No tienes suficiente oro / no puedes apostar cantidades negativas");
             } else if (!Multiplex.getClientes().containsKey(nickUsuario)) {
                 System.out.println("El usuario no existe");
