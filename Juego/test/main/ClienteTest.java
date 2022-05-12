@@ -4,8 +4,9 @@ import main.Datos.Disciplina;
 import main.Datos.Modificador;
 import main.Datos.Personaje;
 import main.Datos.Vampiro;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,12 +39,13 @@ class ClienteTest {
         assertNotNull(cliente.getPersonaje().getArmaduraActual());
 
     }
-
     @Test
     void registrarPersonaje(){
         Cliente cliente = Multiplex.getClientes().get("Prueba");
         Personaje personaje = new Personaje();
         personaje = new Vampiro();
+        personaje.setNombre("Vampiro");
+        personaje.setOro(500);
         personaje.setHabilidadEspecial(new Disciplina("murcielago", 2, 2, 2));
         personaje.setModificador(new Modificador("luz solar", 5, 0));
         personaje.setEsbirros(new ArrayList<>());
@@ -102,7 +104,7 @@ class ClienteTest {
         Cliente cliente = Multiplex.getClientes().get("Prueba");
         assertEquals(1, Multiplex.getClientes().size());
         assertTrue(Multiplex.getClientes().containsKey("Prueba"));
-        Multiplex.getClientes().remove("Prueba");
+        Multiplex.getClientes().remove("Prueba", cliente);
         assertEquals(0, Multiplex.getClientes().size());
         assertFalse(Multiplex.getClientes().containsKey("Prueba"));
     }

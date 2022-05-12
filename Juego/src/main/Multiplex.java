@@ -25,7 +25,7 @@ public class Multiplex implements Serializable {
         listaArmas = new ArrayList<>();
         listaArmaduras = new ArrayList<>();
 
-        File f = new File("Juego/Assets/estado.bin");
+        File f = new File("Assets/estado.bin");
         if(f.exists()){
             Multiplex.deserialize();
         } else {
@@ -39,7 +39,7 @@ public class Multiplex implements Serializable {
     }
 
     public static void deserialize() throws IOException, ClassNotFoundException {
-        FileInputStream finputstream = new FileInputStream("Juego/Assets/estado.bin");
+        FileInputStream finputstream = new FileInputStream("Assets/estado.bin");
         ObjectInputStream inputstream = new ObjectInputStream(finputstream);
         Multiplex.clientes = (HashMap<String, Cliente>) inputstream.readObject();
         Multiplex.registros = (ArrayList<String>) inputstream.readObject();
@@ -49,7 +49,7 @@ public class Multiplex implements Serializable {
     }
 
     public static void serialize() throws IOException {
-        FileOutputStream foutputstream = new FileOutputStream("Juego/Assets/estado.bin");
+        FileOutputStream foutputstream = new FileOutputStream("Assets/estado.bin");
         ObjectOutputStream outputstream = new ObjectOutputStream(foutputstream);
         outputstream.writeObject(Multiplex.clientes);
         outputstream.writeObject(Multiplex.registros);
@@ -98,8 +98,8 @@ public class Multiplex implements Serializable {
     }
 
     public void inicializarInventario() throws IOException {
-        File f = new File("Juego/Assets/Armas.txt");
-        File f2 = new File("Juego/Assets/Armadura.txt");
+        File f = new File("Assets/Armas.txt");
+        File f2 = new File("Assets/Armadura.txt");
         Scanner sc = new Scanner(f);
         Pattern p1 = Pattern.compile(" [\\w\\s]+");
         Pattern p2 = Pattern.compile("[0-9]");
