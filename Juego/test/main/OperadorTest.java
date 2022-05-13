@@ -112,9 +112,7 @@ class OperadorTest {
         assertFalse(cliente.isBanned());
     }
 
-    @Test
-    void editarEquipoPersonaje() {
-    }
+
 
     @Test
     void eliminarCuenta() {

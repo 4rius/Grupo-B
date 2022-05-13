@@ -268,6 +268,7 @@ public class Cliente implements Serializable {
                                         eleccion = Integer.parseInt(br.readLine());
                                     } while (Multiplex.getListaArmas().get(eleccion).isAdosmanos());
                                     getPersonaje().setArmaActual1(Multiplex.getListaArmas().get(eleccion));
+                                    System.out.println("Arma principal seleccionada");
                                     Multiplex.serialize();
 
                                 }
@@ -290,6 +291,7 @@ public class Cliente implements Serializable {
                                         eleccion = Integer.parseInt(br.readLine());
                                     } while (Multiplex.getListaArmas().get(eleccion).isAdosmanos());
                                     getPersonaje().setArmaActual2(Multiplex.getListaArmas().get(eleccion));
+                                    System.out.println("Arma secundaria seleccionada");
                                     Multiplex.serialize();
                                 }
 
@@ -312,6 +314,7 @@ public class Cliente implements Serializable {
                                     } while (!Multiplex.getListaArmas().get(eleccion).isAdosmanos());
                                     getPersonaje().setArmaActual1(Multiplex.getListaArmas().get(eleccion));
                                     getPersonaje().setArmaActual2(null);
+                                    System.out.println("Arma a dos manos seleccionada");
                                     Multiplex.serialize();
                                 }
                             }

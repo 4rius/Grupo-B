@@ -32,7 +32,7 @@ class ClienteTest {
         personaje.generarEsbirros();
         cliente.setPersonaje(personaje);
         cliente.getPersonaje().setArmaActual1(Multiplex.getListaArmas().get(0));
-        cliente.getPersonaje().setArmaActual2(Multiplex.getListaArmas().get(1));
+        cliente.getPersonaje().setArmaActual2(Multiplex.getListaArmas().get(2));
         cliente.getPersonaje().setArmaduraActual(Multiplex.getListaArmaduras().get(7));
         assertNotNull(cliente.getPersonaje().getArmaActual1());
         assertNotNull(cliente.getPersonaje().getArmaActual2());
