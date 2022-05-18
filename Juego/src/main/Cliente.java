@@ -462,7 +462,7 @@ public class Cliente implements Serializable {
                 }
             int finalMax = max;
             for (String nick : Multiplex.getClientes().keySet()) {
-                if (Multiplex.getClientes().get(nick).getOverall() == finalMax) {
+                if (Multiplex.getClientes().get(nick).getOverall() == finalMax && !ranking.contains(nick)) {
                     ranking.add(nick);
                 }
             }
