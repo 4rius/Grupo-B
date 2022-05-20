@@ -163,7 +163,7 @@ final class Cliente implements Serializable {
                     System.out.println("Quiere aceptar el desafio? (1 aceptar, 0 rechazar)");
                     int opcion = Integer.parseInt(br.readLine());
                     if (opcion == 1) {
-                        desafio.setEstado(3); //2 es en ejecucion
+                        desafio.setEstado(3);
                         PerformCombat pc = new PerformCombat(desafio);
                         pc.doOperation();
                         desafio = pc.getCombate();
