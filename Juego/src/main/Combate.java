@@ -104,6 +104,11 @@ public class Combate implements Serializable {
         perdedor.getNotificador().notificar("Ha terminado un desafío al que estás suscrito, \n" + ganador.getNick() + " ha ganado la batalla contra " + perdedor.getNick() + "\n e han jugado " + this.getRondas() + " rondas" + "\nse ha apostado " + this.getOro() + " oro\n");
         ganador.setOverall(ganador.getOverall() + 1);
         perdedor.setOverall(perdedor.getOverall() - 1);
+        ganador.getPersonaje().setOro(ganador.getPersonaje().getOro() + this.getOro());
+        perdedor.getPersonaje().setOro(perdedor.getPersonaje().getOro() - this.getOro());
+        if (perdedor.getPersonaje().getOro() < 0) {
+            perdedor.getPersonaje().setOro(0);
+        }
     }
 
 
