@@ -133,8 +133,10 @@ public class MainMenu extends Operation {
             Cliente cliente = Multiplex.getClientes().get(nick);
             if (cliente.getPassword().equals(contrasena) && !cliente.isBanned()) {
                     this.mainMenu(1, nick);
+            } else if (cliente.isBanned()) {
+                System.out.println("El usuario esta baneado");
             } else {
-                System.out.println("Contraseña incorrecta o el usuario esta baneado");
+                System.out.println("Contraseña incorrecta");
             }
         } else if (Multiplex.getOperadores().containsKey(nick)) {
             Operador operador = Multiplex.getOperadores().get(nick);
