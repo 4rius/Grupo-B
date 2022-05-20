@@ -192,6 +192,8 @@ public class Cliente implements Serializable {
                         LocalDateTime fecha = LocalDateTime.now();
                         desafio.setFecha(fecha.format(formatter));
                         desafio.getPerdedor().setUltimapartidaperdida(fecha.format(formatter));
+                        desafio.getVencedor().getNotificador().notificar("Un duelo al que estás suscrito ha finalizado.\n"+ "Desafío: " + desafio.getDuelista1().getNick() + " vs " + desafio.getDuelista2().getNick() + " El gananador es: " + desafio.getVencedor().getNick() + " La cantidad de oro ganada es: " + desafio.getOro());
+                        desafio.getPerdedor().getNotificador().notificar("Un duelo al que estás suscrito ha finalizado.\n"+ "Desafío: " + desafio.getDuelista1().getNick() + " vs " + desafio.getDuelista2().getNick() + " El gananador es: " + desafio.getVencedor().getNick() + " La cantidad de oro ganada es: " + desafio.getOro());
                         Multiplex.serialize();
                     } else if (opcion == 0) {
                         desafio.setEstado(5); //5 rechazado
@@ -205,8 +207,8 @@ public class Cliente implements Serializable {
                         desafio.getDuelista1().getPersonaje().setOro((int) (desafio.getDuelista1().getPersonaje().getOro() + (0.1 * desafio.getOro())));
                         this.setOverall(this.getOverall() - 1);
                         desafio.getDuelista1().setOverall(desafio.getDuelista1().getOverall() + 1);
-                        this.notificador.notificar(this.getNick() + " ha rechazado el desafio de " + desafio.getDuelista1().getNick());
-                        desafio.getDuelista1().notificador.notificar(this.getNick() + " ha rechazado el desafio de " + desafio.getDuelista1().getNick());
+                        this.notificador.notificar(this.getNick() + " ha rechazado un desafío de " + desafio.getDuelista1().getNick());
+                        desafio.getDuelista1().notificador.notificar(this.getNick() + " ha rechazado un desafío de " + desafio.getDuelista1().getNick());
                         this.setDesafiospendientes(this.getDesafiospendientes() - 1);
                         Multiplex.getDesafios().get(Multiplex.getDesafios().indexOf(desafio)).setEstado(5);
                         LocalDateTime fecha = LocalDateTime.now();
