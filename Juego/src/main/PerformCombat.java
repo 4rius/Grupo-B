@@ -7,7 +7,6 @@ import java.util.ArrayList;
 final class PerformCombat extends Operation {
 
     private Combate combate;
-    private Multiplex multiplex;
 
     public PerformCombat(Combate combate) {
         this.combate = combate;

@@ -1,9 +1,13 @@
 package main;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 
 final class Notificador implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 4L;
     private final ArrayList<Cliente> clientes;
 
     public Notificador() {
