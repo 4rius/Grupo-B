@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 final class PerformCombat extends Operation {
 
-    private Combate combate;
+    private final Combate combate;
 
     public PerformCombat(Combate combate) {
         this.combate = combate;
@@ -14,10 +14,6 @@ final class PerformCombat extends Operation {
 
     public Combate getCombate() {
         return combate;
-    }
-
-    public void setCombate(Combate combate) {
-        this.combate = combate;
     }
 
     @Override
