@@ -4,13 +4,13 @@ import main.Datos.*;
 
 import java.io.*;
 
-public class Operador implements Serializable {
+final class Operador implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
     private String Nombre;
     private String Nick;
-    private String Contraseña;
+    private final String Contraseña;
 
     public Operador(String nombre, String nick, String contraseña) {
         Nombre = nombre;

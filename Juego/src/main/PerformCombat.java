@@ -4,7 +4,7 @@ import main.Datos.Esbirro;
 
 import java.util.ArrayList;
 
-public class PerformCombat extends Operation {
+final class PerformCombat extends Operation {
 
     private Combate combate;
     private Multiplex multiplex;

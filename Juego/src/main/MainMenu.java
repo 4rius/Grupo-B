@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class MainMenu extends Operation {
+final class MainMenu extends Operation {
 
     public MainMenu(Multiplex multiplex) {
         super(multiplex);

@@ -11,7 +11,7 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 
-public class Multiplex implements Serializable {
+final class Multiplex implements Serializable {
 
     private static Multiplex instancia;
     private static HashMap<String, Cliente> clientes; //String del tipo LNNLL

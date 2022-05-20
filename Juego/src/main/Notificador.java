@@ -3,8 +3,8 @@ package main;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Notificador implements Serializable {
-    private ArrayList<Cliente> clientes;
+final class Notificador implements Serializable {
+    private final ArrayList<Cliente> clientes;
 
     public Notificador() {
         clientes = new ArrayList<>();

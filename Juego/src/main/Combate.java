@@ -3,7 +3,7 @@ package main;
 import java.io.Serial;
 import java.io.Serializable;
 
-public class Combate implements Serializable {
+final class Combate implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 3L;
@@ -99,7 +99,7 @@ public class Combate implements Serializable {
         this.esbirrosVivos2 = esbirrosvivos2;
     }
 
-    public void terminado(Cliente ganador, Cliente perdedor) {;
+    public void terminado(Cliente ganador, Cliente perdedor) {
         ganador.getNotificador().notificar("Ha terminado un desafío al que estás suscrito, \n" + ganador.getNick() + " ha ganado la batalla contra " + perdedor.getNick() + "\nse han jugado " + this.getRondas() + " rondas" + "\nse ha apostado " + this.getOro() + " oro\n");
         perdedor.getNotificador().notificar("Ha terminado un desafío al que estás suscrito, \n" + ganador.getNick() + " ha ganado la batalla contra " + perdedor.getNick() + "\n e han jugado " + this.getRondas() + " rondas" + "\nse ha apostado " + this.getOro() + " oro\n");
         ganador.setOverall(ganador.getOverall() + 1);

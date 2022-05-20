@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Cliente implements Serializable {
+final class Cliente implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 2L;
