@@ -192,8 +192,6 @@ public class Cliente implements Serializable {
                         LocalDateTime fecha = LocalDateTime.now();
                         desafio.setFecha(fecha.format(formatter));
                         desafio.getPerdedor().setUltimapartidaperdida(fecha.format(formatter));
-                        desafio.getVencedor().getNotificador().notificar("Un duelo al que estás suscrito ha finalizado.\n"+ "Desafío: " + desafio.getDuelista1().getNick() + " vs " + desafio.getDuelista2().getNick() + " El gananador es: " + desafio.getVencedor().getNick() + " La cantidad de oro ganada es: " + desafio.getOro());
-                        desafio.getPerdedor().getNotificador().notificar("Un duelo al que estás suscrito ha finalizado.\n"+ "Desafío: " + desafio.getDuelista1().getNick() + " vs " + desafio.getDuelista2().getNick() + " El gananador es: " + desafio.getVencedor().getNick() + " La cantidad de oro ganada es: " + desafio.getOro());
                         Multiplex.serialize();
                     } else if (opcion == 0) {
                         desafio.setEstado(5); //5 rechazado
@@ -456,6 +454,7 @@ public class Cliente implements Serializable {
         int i = 0;
         int max = 0;
         ArrayList<String> ranking = new ArrayList<>();
+        OUTER:
         while (i < 3 && i < Multiplex.getClientes().size()) {
             for (String nick : Multiplex.getClientes().keySet()) {
                 if (Multiplex.getClientes().get(nick).getOverall() > max && !ranking.contains(nick)) {
@@ -466,6 +465,9 @@ public class Cliente implements Serializable {
             for (String nick : Multiplex.getClientes().keySet()) {
                 if (Multiplex.getClientes().get(nick).getOverall() == finalMax && !ranking.contains(nick)) {
                     ranking.add(nick);
+                }
+                if (ranking.size() == 3) {
+                    break OUTER;
                 }
             }
             max = 0;
