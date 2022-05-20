@@ -180,8 +180,6 @@ final class Cliente implements Serializable {
                         if (desafio.isEsbirrosVivos() || desafio.isEsbirrosVivos2()) {
                             if (desafio.isEsbirrosVivos1()) {
                                 System.out.println((desafio.getDuelista1().getNick() + " Mantuvo esbirros vivos"));
-                            } else if ( desafio.isEsbirrosVivos1() && desafio.isEsbirrosVivos2()) {
-                                System.out.println("Los dos duelistas mantuvieron esbirros vivos");
                             } else {
                                 System.out.println(desafio.getDuelista2().getNick() + " Mantuvo esbirros vivos");
                             }

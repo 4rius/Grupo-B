@@ -102,6 +102,7 @@ final class Combate implements Serializable {
     public void terminado(Cliente ganador, Cliente perdedor) {
         ganador.getNotificador().notificar("Ha terminado un desafío al que estás suscrito, \n" + ganador.getNick() + " ha ganado la batalla contra " + perdedor.getNick() + "\nse han jugado " + this.getRondas() + " rondas" + "\nse ha apostado " + this.getOro() + " oro\n");
         perdedor.getNotificador().notificar("Ha terminado un desafío al que estás suscrito, \n" + ganador.getNick() + " ha ganado la batalla contra " + perdedor.getNick() + "\n e han jugado " + this.getRondas() + " rondas" + "\nse ha apostado " + this.getOro() + " oro\n");
+        duelista1.getNotificacion().add("Ha terminado uno de los desafíos que tenías pendientes de aceptación, ganador: " + ganador.getNick() + " perdedor: " + perdedor.getNick() + "\n");
         ganador.setOverall(ganador.getOverall() + 1);
         perdedor.setOverall(perdedor.getOverall() - 1);
         ganador.getPersonaje().setOro(ganador.getPersonaje().getOro() + this.getOro());
