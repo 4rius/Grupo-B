@@ -17,7 +17,7 @@ class ClienteTest {
 
     @BeforeEach
     void setUp() throws IOException, ClassNotFoundException {
-        Multiplex multiplex = new Multiplex(false);
+        Multiplex multiplex = Multiplex.clearinstance();
         Multiplex.getClientes().put("Prueba", new Cliente(null, "Prueba", "nick", "PR12UEB", "123"));
     }
 

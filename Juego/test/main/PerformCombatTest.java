@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class PerformCombatTest {
     @BeforeEach
     void setUp() throws IOException, ClassNotFoundException {
-        Multiplex multiplex = new Multiplex(false);
+        Multiplex multiplex = Multiplex.clearinstance();
         Multiplex.getClientes().put("Usuario1", new Cliente(null, "Usuario1", "Usuario1", "PR11UEB", "123"));
         Multiplex.getClientes().put("Usuario2", new Cliente(null, "Usuario2", "Usuario2", "PR22UEB", "123"));
         Personaje personaje1;

@@ -12,7 +12,7 @@ class MultiplexTest {
 
     @BeforeAll
     static void setup() throws IOException, ClassNotFoundException {
-        Multiplex m = new Multiplex(false);
+        Multiplex m = Multiplex.clearinstance();
     }
 
     @Test

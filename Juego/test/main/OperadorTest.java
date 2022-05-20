@@ -17,7 +17,7 @@ class OperadorTest {
 
     @BeforeEach
     void setUp() throws IOException, ClassNotFoundException {
-        Multiplex multiplex = new Multiplex(false);
+        Multiplex multiplex = Multiplex.getInstance();
         Multiplex.getClientes().put("Prueba", new Cliente(null, "Prueba", "nick", "PR12UEB", "123"));
     }
 

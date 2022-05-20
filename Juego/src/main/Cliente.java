@@ -452,10 +452,11 @@ public class Cliente implements Serializable {
 
     public void verRanking() {
         int i = 0;
-        int max = 0;
+        int max;
         ArrayList<String> ranking = new ArrayList<>();
         OUTER:
         while (i < 3 && i < Multiplex.getClientes().size()) {
+            max = -1000;
             for (String nick : Multiplex.getClientes().keySet()) {
                 if (Multiplex.getClientes().get(nick).getOverall() > max && !ranking.contains(nick)) {
                     max = Multiplex.getClientes().get(nick).getOverall();
