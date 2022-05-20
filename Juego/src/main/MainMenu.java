@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class MainMenu extends Operation {
+final class MainMenu extends Operation {
 
     public MainMenu(Multiplex multiplex) {
         super(multiplex);
@@ -132,9 +132,11 @@ public class MainMenu extends Operation {
         if (Multiplex.getClientes().containsKey(nick)){
             Cliente cliente = Multiplex.getClientes().get(nick);
             if (cliente.getPassword().equals(contrasena) && !cliente.isBanned()) {
-                this.mainMenu(1, nick);
+                    this.mainMenu(1, nick);
+            } else if (cliente.isBanned()) {
+                System.out.println("El usuario esta baneado");
             } else {
-                System.out.println("Contraseña incorrecta o el usuario esta baneado");
+                System.out.println("Contraseña incorrecta");
             }
         } else if (Multiplex.getOperadores().containsKey(nick)) {
             Operador operador = Multiplex.getOperadores().get(nick);

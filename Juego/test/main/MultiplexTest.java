@@ -12,7 +12,7 @@ class MultiplexTest {
 
     @BeforeAll
     static void setup() throws IOException, ClassNotFoundException {
-        Multiplex m = new Multiplex(false);
+        Multiplex m = Multiplex.clearinstance();
     }
 
     @Test
@@ -21,7 +21,7 @@ class MultiplexTest {
     }
 
     @Test
-    void serializar() throws IOException {
+    void serializar() throws IOException { //Este test se tiene que ejecutar sin un estado.bin en la carpeta de Assets, se supone que es un estado inicial.
         File file = new File("././Assets/estado.bin");
         assertFalse(file.exists());
         Multiplex.serialize();

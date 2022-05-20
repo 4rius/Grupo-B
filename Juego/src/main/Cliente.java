@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Cliente implements Serializable {
+final class Cliente implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 2L;
@@ -163,7 +163,7 @@ public class Cliente implements Serializable {
                     System.out.println("Quiere aceptar el desafio? (1 aceptar, 0 rechazar)");
                     int opcion = Integer.parseInt(br.readLine());
                     if (opcion == 1) {
-                        desafio.setEstado(3); //2 es en ejecucion
+                        desafio.setEstado(3);
                         PerformCombat pc = new PerformCombat(desafio);
                         pc.doOperation();
                         desafio = pc.getCombate();
@@ -180,8 +180,6 @@ public class Cliente implements Serializable {
                         if (desafio.isEsbirrosVivos() || desafio.isEsbirrosVivos2()) {
                             if (desafio.isEsbirrosVivos1()) {
                                 System.out.println((desafio.getDuelista1().getNick() + " Mantuvo esbirros vivos"));
-                            } else if ( desafio.isEsbirrosVivos1() && desafio.isEsbirrosVivos2()) {
-                                System.out.println("Los dos duelistas mantuvieron esbirros vivos");
                             } else {
                                 System.out.println(desafio.getDuelista2().getNick() + " Mantuvo esbirros vivos");
                             }
@@ -205,8 +203,8 @@ public class Cliente implements Serializable {
                         desafio.getDuelista1().getPersonaje().setOro((int) (desafio.getDuelista1().getPersonaje().getOro() + (0.1 * desafio.getOro())));
                         this.setOverall(this.getOverall() - 1);
                         desafio.getDuelista1().setOverall(desafio.getDuelista1().getOverall() + 1);
-                        this.notificador.notificar(this.getNick() + " ha rechazado el desafio de " + desafio.getDuelista1().getNick());
-                        desafio.getDuelista1().notificador.notificar(this.getNick() + " ha rechazado el desafio de " + desafio.getDuelista1().getNick());
+                        this.notificador.notificar(this.getNick() + " ha rechazado un desafío de " + desafio.getDuelista1().getNick());
+                        desafio.getDuelista1().notificador.notificar(this.getNick() + " ha rechazado un desafío de " + desafio.getDuelista1().getNick());
                         this.setDesafiospendientes(this.getDesafiospendientes() - 1);
                         Multiplex.getDesafios().get(Multiplex.getDesafios().indexOf(desafio)).setEstado(5);
                         LocalDateTime fecha = LocalDateTime.now();
@@ -268,6 +266,7 @@ public class Cliente implements Serializable {
                                         eleccion = Integer.parseInt(br.readLine());
                                     } while (Multiplex.getListaArmas().get(eleccion).isAdosmanos());
                                     getPersonaje().setArmaActual1(Multiplex.getListaArmas().get(eleccion));
+                                    System.out.println("Arma principal seleccionada");
                                     Multiplex.serialize();
 
                                 }
@@ -290,6 +289,7 @@ public class Cliente implements Serializable {
                                         eleccion = Integer.parseInt(br.readLine());
                                     } while (Multiplex.getListaArmas().get(eleccion).isAdosmanos());
                                     getPersonaje().setArmaActual2(Multiplex.getListaArmas().get(eleccion));
+                                    System.out.println("Arma secundaria seleccionada");
                                     Multiplex.serialize();
                                 }
 
@@ -312,6 +312,7 @@ public class Cliente implements Serializable {
                                     } while (!Multiplex.getListaArmas().get(eleccion).isAdosmanos());
                                     getPersonaje().setArmaActual1(Multiplex.getListaArmas().get(eleccion));
                                     getPersonaje().setArmaActual2(null);
+                                    System.out.println("Arma a dos manos seleccionada");
                                     Multiplex.serialize();
                                 }
                             }
@@ -404,8 +405,8 @@ public class Cliente implements Serializable {
             String nickUsuario = br.readLine();
             System.out.println("Escribe la cantidad de oro que quiere apostar");
             int oroApostado = Integer.parseInt(br.readLine());
-            if (this.personaje.getOro() < oroApostado) {
-                System.out.println("No tienes suficiente oro");
+            if (this.personaje.getOro() < oroApostado || oroApostado < 0) {
+                System.out.println("No tienes suficiente oro / no puedes apostar cantidades negativas");
             } else if (!Multiplex.getClientes().containsKey(nickUsuario)) {
                 System.out.println("El usuario no existe");
             } else if (Multiplex.getClientes().get(nickUsuario).getPersonaje() == null) {
@@ -449,9 +450,11 @@ public class Cliente implements Serializable {
 
     public void verRanking() {
         int i = 0;
-        int max = 0;
+        int max;
         ArrayList<String> ranking = new ArrayList<>();
+        OUTER:
         while (i < 3 && i < Multiplex.getClientes().size()) {
+            max = -1000;
             for (String nick : Multiplex.getClientes().keySet()) {
                 if (Multiplex.getClientes().get(nick).getOverall() > max && !ranking.contains(nick)) {
                     max = Multiplex.getClientes().get(nick).getOverall();
@@ -459,8 +462,11 @@ public class Cliente implements Serializable {
                 }
             int finalMax = max;
             for (String nick : Multiplex.getClientes().keySet()) {
-                if (Multiplex.getClientes().get(nick).getOverall() == finalMax) {
+                if (Multiplex.getClientes().get(nick).getOverall() == finalMax && !ranking.contains(nick)) {
                     ranking.add(nick);
+                }
+                if (ranking.size() == 3) {
+                    break OUTER;
                 }
             }
             max = 0;

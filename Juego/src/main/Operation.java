@@ -2,7 +2,7 @@ package main;
 
 import java.io.IOException;
 
-public abstract class Operation {
+abstract sealed class Operation permits MainMenu, PerformCombat {
     private Multiplex multiplex;
 
     public Operation(Multiplex multiplex) {

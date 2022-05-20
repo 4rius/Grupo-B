@@ -3,7 +3,7 @@ package main;
 import java.io.Serial;
 import java.io.Serializable;
 
-public class Combate implements Serializable {
+final class Combate implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 3L;
@@ -99,11 +99,17 @@ public class Combate implements Serializable {
         this.esbirrosVivos2 = esbirrosvivos2;
     }
 
-    public void terminado(Cliente ganador, Cliente perdedor) {;
-        ganador.getNotificador().notificar("Ha terminado un desafío al que estás suscrito, \n" + ganador.getNick() + " ha ganado la batalla contra" + perdedor.getNick() + "\n se han jugado " + this.getRondas() + " rondas" + "\n se ha apostado " + this.getOro() + " oro\n");
-        perdedor.getNotificador().notificar("Ha terminado un desafío al que estás suscrito, \n" + ganador.getNick() + " ha ganado la batalla contra" + perdedor.getNick() + "\n se han jugado " + this.getRondas() + " rondas" + "\n se ha apostado " + this.getOro() + " oro\n");
+    public void terminado(Cliente ganador, Cliente perdedor) {
+        ganador.getNotificador().notificar("Ha terminado un desafío al que estás suscrito, \n" + ganador.getNick() + " ha ganado la batalla contra " + perdedor.getNick() + "\nse han jugado " + this.getRondas() + " rondas" + "\nse ha apostado " + this.getOro() + " oro\n");
+        perdedor.getNotificador().notificar("Ha terminado un desafío al que estás suscrito, \n" + ganador.getNick() + " ha ganado la batalla contra " + perdedor.getNick() + "\n e han jugado " + this.getRondas() + " rondas" + "\nse ha apostado " + this.getOro() + " oro\n");
+        duelista1.getNotificacion().add("Ha terminado uno de los desafíos que tenías pendientes de aceptación, ganador: " + ganador.getNick() + " perdedor: " + perdedor.getNick() + "\n");
         ganador.setOverall(ganador.getOverall() + 1);
         perdedor.setOverall(perdedor.getOverall() - 1);
+        ganador.getPersonaje().setOro(ganador.getPersonaje().getOro() + this.getOro());
+        perdedor.getPersonaje().setOro(perdedor.getPersonaje().getOro() - this.getOro());
+        if (perdedor.getPersonaje().getOro() < 0) {
+            perdedor.getPersonaje().setOro(0);
+        }
     }
 
 

@@ -4,13 +4,13 @@ import main.Datos.*;
 
 import java.io.*;
 
-public class Operador implements Serializable {
+final class Operador implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
     private String Nombre;
     private String Nick;
-    private String Contraseña;
+    private final String Contraseña;
 
     public Operador(String nombre, String nick, String contraseña) {
         Nombre = nombre;
@@ -166,7 +166,7 @@ public class Operador implements Serializable {
 
     public void banearJugador() throws IOException {
         BufferedReader br = new BufferedReader(new java.io.InputStreamReader(System.in));
-        System.out.println("Baneo de jugadores - Usuarios registrados:");
+        System.out.println("Baneo de jugadores - Usuarios registrados no baneados:");
         for (String nick : Multiplex.getClientes().keySet()){
             if (!Multiplex.getClientes().get(nick).isBanned()) {
                 System.out.println(nick);

@@ -4,14 +4,16 @@ import main.Datos.Arma;
 import main.Datos.Armadura;
 
 import java.io.*;
+import java.lang.invoke.MutableCallSite;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
 
-public class Multiplex implements Serializable {
-    private boolean modo;
+final class Multiplex implements Serializable {
+
+    private static Multiplex instancia;
     private static HashMap<String, Cliente> clientes; //String del tipo LNNLL
     private static ArrayList<String> registros; //Hace falta porque no se puede acceder al atributo de un objeto en un hashmap
     private static HashMap<String, Operador> operadores;
@@ -20,12 +22,11 @@ public class Multiplex implements Serializable {
     private static ArrayList<Combate> desafios;
 
 
-    public Multiplex(boolean modo) throws IOException, ClassNotFoundException {
-        this.modo = modo;
+    private Multiplex() throws IOException, ClassNotFoundException {
         listaArmas = new ArrayList<>();
         listaArmaduras = new ArrayList<>();
 
-        File f = new File("././Assets/estado.bin");
+        File f = new File("Assets/estado.bin");
         if(f.exists()){
             Multiplex.deserialize();
         } else {
@@ -34,12 +35,20 @@ public class Multiplex implements Serializable {
             Multiplex.operadores = new HashMap<>();
             Multiplex.desafios = new ArrayList<>();
         }
-
         this.inicializarInventario();
+    }
+    public static Multiplex getInstance() throws IOException, ClassNotFoundException {
+        if (Multiplex.instancia == null) {
+            instancia = new Multiplex();
+        }
+        return instancia;
+    }
+    protected static Multiplex clearinstance() throws IOException, ClassNotFoundException { //For testing purposes
+        return new Multiplex();
     }
 
     public static void deserialize() throws IOException, ClassNotFoundException {
-        FileInputStream finputstream = new FileInputStream("././Assets/estado.bin");
+        FileInputStream finputstream = new FileInputStream("Assets/estado.bin");
         ObjectInputStream inputstream = new ObjectInputStream(finputstream);
         Multiplex.clientes = (HashMap<String, Cliente>) inputstream.readObject();
         Multiplex.registros = (ArrayList<String>) inputstream.readObject();
@@ -49,7 +58,7 @@ public class Multiplex implements Serializable {
     }
 
     public static void serialize() throws IOException {
-        FileOutputStream foutputstream = new FileOutputStream("././Assets/estado.bin");
+        FileOutputStream foutputstream = new FileOutputStream("Assets/estado.bin");
         ObjectOutputStream outputstream = new ObjectOutputStream(foutputstream);
         outputstream.writeObject(Multiplex.clientes);
         outputstream.writeObject(Multiplex.registros);
@@ -64,14 +73,6 @@ public class Multiplex implements Serializable {
 
     public static ArrayList<Armadura> getListaArmaduras() {
         return listaArmaduras;
-    }
-
-    public boolean isModo() {
-        return modo;
-    }
-
-    public void setModo(boolean modo) {
-        this.modo = modo;
     }
 
     public static HashMap<String, Cliente> getClientes() {
@@ -98,8 +99,8 @@ public class Multiplex implements Serializable {
     }
 
     public void inicializarInventario() throws IOException {
-        File f = new File("./././Assets/Armas.txt");
-        File f2 = new File("./././Assets/Armadura.txt");
+        File f = new File("Assets/Armas.txt");
+        File f2 = new File("Assets/Armadura.txt");
         Scanner sc = new Scanner(f);
         Pattern p1 = Pattern.compile(" [\\w\\s]+");
         Pattern p2 = Pattern.compile("[0-9]");

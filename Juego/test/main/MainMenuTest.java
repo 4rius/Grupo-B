@@ -9,9 +9,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class MainMenuTest {
 
     @Test
-    @org.junit.Test
     public void registrarJugador() throws IOException, ClassNotFoundException {
-        Multiplex multiplex = new Multiplex(false);
+        Multiplex multiplex = Multiplex.clearinstance();
         assertEquals(Multiplex.getClientes().size(), 0);
         Multiplex.getClientes().put("Nickname", new Cliente(null, "Prueba", "Prueba", "PR12UEB", "Contraseña"));
         assertEquals(Multiplex.getClientes().size(), 1);
@@ -19,9 +18,8 @@ class MainMenuTest {
     }
 
     @Test
-    @org.junit.Test
     public void registrarOperador() throws IOException, ClassNotFoundException {
-        Multiplex multiplex = new Multiplex(false);
+        Multiplex multiplex = Multiplex.getInstance();
         assertEquals(Multiplex.getOperadores().size(), 0);
         Multiplex.getOperadores().put("Nickname", new Operador(null, "Prueba", "Contraseña"));
         assertEquals(Multiplex.getOperadores().size(), 1);

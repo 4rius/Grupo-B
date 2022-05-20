@@ -4,8 +4,9 @@ import main.Datos.Disciplina;
 import main.Datos.Modificador;
 import main.Datos.Personaje;
 import main.Datos.Vampiro;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,15 +17,35 @@ class ClienteTest {
 
     @BeforeEach
     void setUp() throws IOException, ClassNotFoundException {
-        Multiplex multiplex = new Multiplex(false);
+        Multiplex multiplex = Multiplex.clearinstance();
         Multiplex.getClientes().put("Prueba", new Cliente(null, "Prueba", "nick", "PR12UEB", "123"));
     }
 
+    @Test
+    void seleccionarEquipo() {
+        Cliente cliente = Multiplex.getClientes().get("Prueba");
+        Personaje personaje = new Personaje();
+        personaje = new Vampiro();
+        personaje.setHabilidadEspecial(new Disciplina("murcielago", 2, 2, 2));
+        personaje.setModificador(new Modificador("luz solar", 5, 0));
+        personaje.setEsbirros(new ArrayList<>());
+        personaje.generarEsbirros();
+        cliente.setPersonaje(personaje);
+        cliente.getPersonaje().setArmaActual1(Multiplex.getListaArmas().get(0));
+        cliente.getPersonaje().setArmaActual2(Multiplex.getListaArmas().get(2));
+        cliente.getPersonaje().setArmaduraActual(Multiplex.getListaArmaduras().get(7));
+        assertNotNull(cliente.getPersonaje().getArmaActual1());
+        assertNotNull(cliente.getPersonaje().getArmaActual2());
+        assertNotNull(cliente.getPersonaje().getArmaduraActual());
+
+    }
     @Test
     void registrarPersonaje(){
         Cliente cliente = Multiplex.getClientes().get("Prueba");
         Personaje personaje = new Personaje();
         personaje = new Vampiro();
+        personaje.setNombre("Vampiro");
+        personaje.setOro(500);
         personaje.setHabilidadEspecial(new Disciplina("murcielago", 2, 2, 2));
         personaje.setModificador(new Modificador("luz solar", 5, 0));
         personaje.setEsbirros(new ArrayList<>());
@@ -83,7 +104,7 @@ class ClienteTest {
         Cliente cliente = Multiplex.getClientes().get("Prueba");
         assertEquals(1, Multiplex.getClientes().size());
         assertTrue(Multiplex.getClientes().containsKey("Prueba"));
-        Multiplex.getClientes().remove("Prueba");
+        Multiplex.getClientes().remove("Prueba", cliente);
         assertEquals(0, Multiplex.getClientes().size());
         assertFalse(Multiplex.getClientes().containsKey("Prueba"));
     }
