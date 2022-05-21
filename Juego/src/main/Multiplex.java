@@ -43,7 +43,7 @@ final class Multiplex implements Serializable {
         }
         return instancia;
     }
-    protected static Multiplex clearinstance() throws IOException, ClassNotFoundException { //For testing purposes
+    static Multiplex clearinstance() throws IOException, ClassNotFoundException { //For testing purposes
         return new Multiplex();
     }
 
