@@ -361,21 +361,24 @@ final class Cliente implements Serializable {
                 case 1 -> {
                     this.personaje = new Vampiro();
                     this.personaje.setHabilidadEspecial(new Disciplina("murcielago", 2, 2, 2));
-                    this.personaje.setModificador(new Modificador("luz solar", 5, 0));
+                    this.personaje.setModificadores(new ArrayList<>());
+                    this.personaje.getModificadores().add(new Modificador("luz solar", 1, 0));
                     this.personaje.setEsbirros(new ArrayList<>());
                     this.personaje.generarEsbirros();
                 }
                 case 2 -> {
                     this.personaje = new Licantropo();
                     this.personaje.setHabilidadEspecial(new Don("lobito", 3, 1, 2));
-                    this.personaje.setModificador(new Modificador("luna llena", 2, 1));
+                    this.personaje.setModificadores(new ArrayList<>());
+                    this.personaje.getModificadores().add(new Modificador("luna llena", 2, 1));
                     this.personaje.setEsbirros(new ArrayList<>());
                     this.personaje.generarEsbirros();
                 }
                 case 3 -> {
                     this.personaje = new Cazador();
                     this.personaje.setHabilidadEspecial(new Talento("arco", 0, 0, 13));
-                    this.personaje.setModificador(new Modificador("luna llena", 2, 1));
+                    this.personaje.setModificadores(new ArrayList<>());
+                    this.personaje.getModificadores().add(new Modificador("velocidad", 2, 0));
                     this.personaje.setEsbirros(new ArrayList<>());
                     this.personaje.generarEsbirros();
                 }

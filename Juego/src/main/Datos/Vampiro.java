@@ -29,6 +29,11 @@ public class Vampiro extends Personaje implements Serializable {
     public int atkTotal(){
         int atk = 0;
         atk = this.getPoder() + this.getHabilidadEspecial().getAtq();
+        for (Modificador mod : this.getModificadores()) {
+            if (mod.isTipomod() == 0) {
+                atk += mod.getMod();
+            }
+        }
 
         if (this.getArmaActual1()!=null) {
             atk = atk + this.getArmaActual1().getModataque();
@@ -49,6 +54,11 @@ public class Vampiro extends Personaje implements Serializable {
     public int defTotal(){
         int def = 0;
         def = this.getPoder() + this.getHabilidadEspecial().getAtq();
+        for (Modificador mod : this.getModificadores()) {
+            if (mod.isTipomod() == 1) {
+                def -= mod.getMod();
+            }
+        }
 
         if (this.getArmaActual1()!=null) {
             def = def + this.getArmaActual1().getModdef();

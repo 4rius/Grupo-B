@@ -7,8 +7,6 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class PerformCombatTest {
     @BeforeEach
     void setUp() throws IOException, ClassNotFoundException {
@@ -18,7 +16,7 @@ class PerformCombatTest {
         Personaje personaje1;
         personaje1 = new Vampiro();
         personaje1.setHabilidadEspecial(new Disciplina("murcielago", 2, 2, 2));
-        personaje1.setModificador(new Modificador("luz solar", 5, 0));
+        personaje1.getModificadores().add(new Modificador("fuerza", 2, 0));
         personaje1.setEsbirros(new ArrayList<>());
         personaje1.generarEsbirros();
         Multiplex.getClientes().get("Usuario1").setPersonaje(personaje1);
@@ -26,7 +24,7 @@ class PerformCombatTest {
         Personaje personaje2;
         personaje2 = new Licantropo();
         personaje2.setHabilidadEspecial(new Don("lobo", 2, 2, 2));
-        personaje2.setModificador(new Modificador("luna llena", 2, 1));
+        personaje2.getModificadores().add(new Modificador("fuerza", 2, 0));
         personaje2.setEsbirros(new ArrayList<>());
         personaje2.generarEsbirros();
         Multiplex.getClientes().get("Usuario2").setPersonaje(personaje2);

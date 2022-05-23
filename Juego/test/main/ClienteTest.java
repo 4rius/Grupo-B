@@ -5,8 +5,6 @@ import main.Datos.Modificador;
 import main.Datos.Personaje;
 import main.Datos.Vampiro;
 import org.junit.jupiter.api.*;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,7 +25,7 @@ class ClienteTest {
         Personaje personaje = new Personaje();
         personaje = new Vampiro();
         personaje.setHabilidadEspecial(new Disciplina("murcielago", 2, 2, 2));
-        personaje.setModificador(new Modificador("luz solar", 5, 0));
+        personaje.getModificadores().add(new Modificador("luz solar", 5, 0));
         personaje.setEsbirros(new ArrayList<>());
         personaje.generarEsbirros();
         cliente.setPersonaje(personaje);
@@ -47,7 +45,7 @@ class ClienteTest {
         personaje.setNombre("Vampiro");
         personaje.setOro(500);
         personaje.setHabilidadEspecial(new Disciplina("murcielago", 2, 2, 2));
-        personaje.setModificador(new Modificador("luz solar", 5, 0));
+        personaje.getModificadores().add(new Modificador("luz solar", 5, 0));
         personaje.setEsbirros(new ArrayList<>());
         personaje.generarEsbirros();
         cliente.setPersonaje(personaje);
@@ -60,7 +58,7 @@ class ClienteTest {
         Personaje personaje = new Personaje();
         personaje = new Vampiro();
         personaje.setHabilidadEspecial(new Disciplina("murcielago", 2, 2, 2));
-        personaje.setModificador(new Modificador("luz solar", 5, 0));
+        personaje.getModificadores().add(new Modificador("luz solar", 5, 0));
         personaje.setEsbirros(new ArrayList<>());
         personaje.generarEsbirros();
         Multiplex.getClientes().put("Prueba2", new Cliente(null, "Prueba2", "nick2", "PR12UEB2", "123"));
@@ -68,7 +66,7 @@ class ClienteTest {
         Personaje personaje2 = new Personaje();
         personaje2 = new Vampiro();
         personaje2.setHabilidadEspecial(new Disciplina("murcielago", 2, 2, 2));
-        personaje2.setModificador(new Modificador("luz solar", 5, 0));
+        personaje2.getModificadores().add(new Modificador("luz solar", 5, 0));
         personaje2.setEsbirros(new ArrayList<>());
         personaje2.generarEsbirros();
         cliente.setPersonaje(personaje);

@@ -3,6 +3,7 @@ package main;
 import main.Datos.*;
 
 import java.io.*;
+import java.util.ArrayList;
 
 final class Operador implements Serializable {
 
@@ -147,6 +148,15 @@ final class Operador implements Serializable {
             for (int i = 0; i < Multiplex.getDesafios().size(); i++){
                 if (Multiplex.getDesafios().get(i).getEstado() == 0){
                     System.out.println("Desafio: " + i + ". " + Multiplex.getDesafios().get(i).getDuelista1().getNick() + " vs " + Multiplex.getDesafios().get(i).getDuelista2().getNick());
+                    System.out.println("Fortalezas y debilidades del usuario desafiante: ");
+                    for (int j = 0; j < Multiplex.getDesafios().get(i).getDuelista1().getPersonaje().getModificadores().size(); j++){
+                        System.out.println(Multiplex.getDesafios().get(i).getDuelista1().getPersonaje().getModificadores().get(j).getNombre() + ": " + Multiplex.getDesafios().get(i).getDuelista1().getPersonaje().getModificadores().get(j).getMod());
+                    }
+                    System.out.println("Fortalezas y debilidades del usuario desafiado: ");
+                    for (int j = 0; j < Multiplex.getDesafios().get(i).getDuelista2().getPersonaje().getModificadores().size(); j++){
+                        System.out.println(Multiplex.getDesafios().get(i).getDuelista2().getPersonaje().getModificadores().get(j).getNombre() + ": " + Multiplex.getDesafios().get(i).getDuelista2().getPersonaje().getModificadores().get(j).getMod());
+                    }
+                    System.out.println("Puede modificar estas en sus menús correspondientes");
                     System.out.println("Última vez que el usuario desafiado perdió un desafío: " + Multiplex.getDesafios().get(i).getDuelista2().getUltimapartidaperdida()); //Para saber si hay que banearlo
                 }
             }
@@ -397,45 +407,39 @@ final class Operador implements Serializable {
     }
 
     public void editarModificador(String user) throws IOException {
-                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-                Modificador mod = Multiplex.getClientes().get(user).getPersonaje().getModificador();
-                System.out.println("Modificador Seleccionado: ");
-                System.out.println("Nombre: " + mod.getNombre());
-                System.out.println("Fuerza: " + mod.getMod());
-                if (mod.isTipomod() == 0) {
-                    System.out.println("Debilidad");
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("Quieres añadir o modificar un modificador?\n1. Añadir\n2. Modificar");
+        int eleccion = Integer.parseInt(br.readLine());
+        switch (eleccion) {
+            case 1 -> {
+                System.out.println("Escribe el nombre del modificador");
+                String nombre = br.readLine();
+                System.out.println("Escribe el valor del modificador");
+                int valor = Integer.parseInt(br.readLine());
+                System.out.println("Escribe el tipo del modificador");
+                int tipo = Integer.parseInt(br.readLine());
+                if (0 < tipo && tipo < 3) {
+                    Multiplex.getClientes().get(user).getPersonaje().getModificadores().add(new Modificador(nombre, valor, tipo));
+                    Multiplex.serialize();
                 } else {
-                    System.out.println("Fortaleza");
+                    System.out.println("Tipo de modificador incorrecto");
                 }
-                int tipo;
-                do {
-                    System.out.println("Es una fortaleza(1) o una debilidad(0): ");
-                    tipo = Integer.parseInt(br.readLine());
-                    if (tipo == 1) {
-                        System.out.println("Has elegido una fortaleza");
-                        Multiplex.getClientes().get(user).getPersonaje().getModificador().setTipomod(tipo);
-                    } else if (tipo == 0) {
-                        System.out.println("Has elegido una debilidad");
-                        Multiplex.getClientes().get(user).getPersonaje().getModificador().setTipomod(tipo);
-                    } else {
-                        System.out.println("Numero incorrecto. Elija un número del 0 al 1");
-                    }
-                } while ((tipo != 1) && (tipo != 0));
-
-                System.out.println("Seleccione el nombre del modificador: ");
-                mod.setNombre(br.readLine());
-                int fuerza;
-                do {
-                    System.out.println("Seleccione la fuerza del modificador: ");
-                    fuerza = Integer.parseInt(br.readLine());
-                    if ((fuerza >= 1) && (fuerza <= 5)) {
-                        Multiplex.getClientes().get(user).getPersonaje().getModificador().setMod(fuerza);
-                    } else {
-                        System.out.println("Numero incorrecto. Elija un número del 1 al 5");
-                    }
-                } while ((fuerza > 5) || (fuerza < 1));
+            }
+            case 2 -> {
+                ArrayList<Modificador> modificadores = Multiplex.getClientes().get(user).getPersonaje().getModificadores();
+                System.out.println("Elige un modificador para editar");
+                for (int i = 0; i < modificadores.size(); i++) {
+                    System.out.println(i + ". " + modificadores.get(i).getNombre());
+                    System.out.println("Valor: " + modificadores.get(i).getMod());
+                }
+                int opcion = Integer.parseInt(br.readLine());
+                System.out.println("Escribe el nuevo valor del modificador");
+                int valor = Integer.parseInt(br.readLine());
+                modificadores.get(opcion).setMod(valor);
                 Multiplex.serialize();
             }
+        }
+    }
     }
 
 

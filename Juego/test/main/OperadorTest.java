@@ -4,7 +4,6 @@ import main.Datos.Disciplina;
 import main.Datos.Modificador;
 import main.Datos.Personaje;
 import main.Datos.Vampiro;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,7 +26,7 @@ class OperadorTest {
         Personaje personaje = new Personaje();
         personaje = new Vampiro();
         personaje.setHabilidadEspecial(new Disciplina("murcielago", 2, 2, 2));
-        personaje.setModificador(new Modificador("luz solar", 5, 0));
+        personaje.getModificadores().add(new Modificador("luz solar", 5, 0));
         personaje.setEsbirros(new ArrayList<>());
         personaje.generarEsbirros();
         personaje.setNombre("Prueba");
@@ -40,9 +39,9 @@ class OperadorTest {
         assertEquals(100, cliente.getPersonaje().getOro());
         assertEquals(personaje.getHabilidadEspecial(), cliente.getPersonaje().getHabilidadEspecial());
         cliente.getPersonaje().setHabilidadEspecial(new Disciplina("sombra", 2, 2, 2));
-        cliente.getPersonaje().setModificador(new Modificador("luz lunar", 5, 1));
+        cliente.getPersonaje().getModificadores().add(new Modificador("luz solar", 5, 0));
         assertEquals(personaje.getHabilidadEspecial(), cliente.getPersonaje().getHabilidadEspecial());
-        assertEquals(personaje.getModificador(), cliente.getPersonaje().getModificador());
+        assertEquals(personaje.getModificadores(), cliente.getPersonaje().getModificadores());
         cliente.getPersonaje().setNombre("SoyLaPrueba");
         assertEquals("SoyLaPrueba", cliente.getPersonaje().getNombre());
         cliente.getPersonaje().setOro(200);
@@ -56,7 +55,7 @@ class OperadorTest {
         Personaje personaje = new Personaje();
         personaje = new Vampiro();
         personaje.setHabilidadEspecial(new Disciplina("murcielago", 2, 2, 2));
-        personaje.setModificador(new Modificador("luz solar", 5, 0));
+        personaje.getModificadores().add(new Modificador("luz solar", 5, 0));
         personaje.setEsbirros(new ArrayList<>());
         personaje.generarEsbirros();
         cliente.setPersonaje(personaje);
@@ -71,15 +70,14 @@ class OperadorTest {
         Personaje personaje = new Personaje();
         personaje = new Vampiro();
         personaje.setHabilidadEspecial(new Disciplina("murcielago", 2, 2, 2));
-        personaje.setModificador(new Modificador("luz solar", 5, 0));
-        personaje.setEsbirros(new ArrayList<>());
+        personaje.getModificadores().add(new Modificador("luz solar", 5, 0));
         personaje.generarEsbirros();
         Multiplex.getClientes().put("Prueba2", new Cliente(null, "Prueba2", "nick2", "PR12UEB2", "123"));
         Cliente cliente2 = Multiplex.getClientes().get("Prueba2");
         Personaje personaje2 = new Personaje();
         personaje2 = new Vampiro();
         personaje2.setHabilidadEspecial(new Disciplina("murcielago", 2, 2, 2));
-        personaje2.setModificador(new Modificador("luz solar", 5, 0));
+        personaje2.getModificadores().add(new Modificador("luz solar", 5, 0));
         personaje2.setEsbirros(new ArrayList<>());
         personaje2.generarEsbirros();
         cliente.setPersonaje(personaje);
@@ -127,13 +125,11 @@ class OperadorTest {
     void editarModificador() {
         Multiplex.getClientes().get("Prueba").setPersonaje(new Vampiro());
         Personaje personaje = Multiplex.getClientes().get("Prueba").getPersonaje();
-        personaje.setModificador(new Modificador("luz solar", 5, 0));
-        assertEquals(5, personaje.getModificador().getMod());
-        assertEquals("luz solar", personaje.getModificador().getNombre());
-        personaje.setModificador(new Modificador("luz lunar", 0, 1));
-        assertEquals(0, personaje.getModificador().getMod());
-        assertEquals("luz lunar", personaje.getModificador().getNombre());
-        personaje.getModificador().setMod(5);
-        assertEquals(5, personaje.getModificador().getMod());
+        personaje.getModificadores().add(new Modificador("luz solar", 5, 0));
+        assertTrue(personaje.getModificadores().contains(new Modificador("luz solar", 5, 0)));
+        personaje.getModificadores().remove(new Modificador("luz solar", 5, 0));
+        personaje.getModificadores().add(new Modificador("luz lunar", 5, 0));
+        assertTrue(personaje.getModificadores().contains(new Modificador("luz lunar", 5, 0)));
+        assertFalse(personaje.getModificadores().contains(new Modificador("luz solar", 5, 0)));
     }
 }

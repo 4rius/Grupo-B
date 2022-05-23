@@ -1,6 +1,7 @@
 package main.Datos;
 
 import java.io.Serializable;
+import java.lang.module.ModuleFinder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ public class Personaje implements Serializable {
     private Armadura armaduraActual;
     private int salud;
     private int poder;
-    private Modificador modificador;
+    private ArrayList<Modificador> modificadores;
     private ArrayList<Esbirro> esbirros;
     private Habilidad habilidadEspecial;
 
@@ -44,8 +45,8 @@ public class Personaje implements Serializable {
         return poder;
     }
 
-    public Modificador getModificador() {
-        return modificador;
+    public ArrayList<Modificador> getModificadores() {
+        return modificadores;
     }
 
     public List<Esbirro> getEsbirros() {
@@ -87,12 +88,12 @@ public class Personaje implements Serializable {
         this.poder = poder;
     }
 
-    public void setModificador(Modificador modificador) {
-        this.modificador = modificador;
-    }
-
     public void setEsbirros(ArrayList<Esbirro> esbirros) {
         this.esbirros = esbirros;
+    }
+
+    public void setModificadores(ArrayList<Modificador> modificadores) {
+        this.modificadores = modificadores;
     }
 
     public void setHabilidadEspecial(Habilidad habilidadEspecial) {
