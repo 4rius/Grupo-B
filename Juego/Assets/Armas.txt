@@ -1,7 +1,7 @@
-Nombre: Executioner
-Ataque: 2
-Defensa: 1
-A2Manos: false
+Nombre: Claymore
+Ataque: 3
+Defensa: 0
+A2Manos: true
 
 Nombre: Quins Sais
 Ataque: 3

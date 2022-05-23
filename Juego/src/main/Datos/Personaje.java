@@ -1,9 +1,13 @@
 package main.Datos;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.lang.module.ModuleFinder;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class Personaje implements Serializable {
     private String nombre;
@@ -117,26 +121,71 @@ public class Personaje implements Serializable {
     public void resetPuntosHab(){
     }
 
-    public void generarEsbirros() {
-        int cantidad = (int) (Math.random() * 5) + 1; // Se generan entre 1 y 5 esbirros
-        for (int i = 0; i < cantidad; i++) {
-            int tipo = (int) (Math.random() * 3);  //se elige entre 3 tipos de esbirros
+    public void generarEsbirros() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("Cuantos esbirros quieres añadir");
+        int tipo;
+        int num = Integer.parseInt(System.console().readLine());
+        for (int i = 0; i < num; i++) {
+            System.out.println("Que esbirro quieres añadir");
+            System.out.println("1.Demonio");
+            System.out.println("2.Ghoul");
+            System.out.println("3.Humano");
+            do{
+                tipo = Integer.parseInt(System.console().readLine());
+            }while(tipo < 1 || tipo > 3);
+
             switch (tipo) {
                 case 0 -> {
-                    esbirros.add(new Demonio("Demon", 5, "Cruz de sangre"));
+                    System.out.println("Escriba el nuevo nombre");
+                    String n = br.readLine();
+                    System.out.println("Escriba el pacto");
+                    String pacto = br.readLine();
+                    System.out.println("Introduzca la salud entre 1 y 5");
+                    int salud;
+                    do{
+                        salud = Integer.parseInt(br.readLine());
+                    } while (salud<1 || salud>5);
+                    esbirros.add(new Demonio(n, salud, pacto));
                     ((Demonio) esbirros.get(esbirros.size() - 1)).generarEsbirros();
+
                 }
-                case 1 -> esbirros.add(new Ghoul("Ghoul", 5, (int) (Math.random() * 5)));
+                case 1 -> {
+                    System.out.println("Escriba el nuevo nombre");
+                    String n = br.readLine();
+                    System.out.println("Escriba la dependencia entre 1 y 5");
+                    int dep;
+                    do{
+                        dep = Integer.parseInt(br.readLine());
+                    } while (dep<1 || dep>5);
+                    System.out.println("Introduzca la salud entre 1 y 5");
+                    int salud;
+                    do{
+                        salud = Integer.parseInt(br.readLine());
+                    } while (salud<1 || salud>5);
+                    esbirros.add(new Ghoul(n, salud, dep));
+
+                }
                 case 2 -> {
-                    esbirros.add(new Humano("Humano", 5));
-                    int lealtad = (int) (Math.random() * 3);
+                    System.out.println("Escriba el nuevo nombre");
+                    String n = br.readLine();
+                    System.out.println("Introduzca la salud entre 1 y 5");
+                    int salud;
+                    do{
+                        salud = Integer.parseInt(br.readLine());
+                    } while (salud<1 || salud>5);
+                    esbirros.add(new Humano(n, salud));
+                    int lealtad;
+                    do{
+                        lealtad = Integer.parseInt(br.readLine());
+                    } while (lealtad<1 || lealtad>5);
                     switch (lealtad) {
-                        case 0 -> ((Humano) esbirros.get(esbirros.size() - 1)).setNivellealtad(Humano.lealtad.low);
-                        case 1 -> ((Humano) esbirros.get(esbirros.size() - 1)).setNivellealtad(Humano.lealtad.medium);
-                        case 2 -> ((Humano) esbirros.get(esbirros.size() - 1)).setNivellealtad(Humano.lealtad.high);
+                        case 1 -> ((Humano) esbirros.get(esbirros.size() - 1)).setNivellealtad(Humano.lealtad.low);
+                        case 2 -> ((Humano) esbirros.get(esbirros.size() - 1)).setNivellealtad(Humano.lealtad.medium);
+                        case 3 -> ((Humano) esbirros.get(esbirros.size() - 1)).setNivellealtad(Humano.lealtad.high);
                     }
                 }
             }
-            }
+        }
     }
 }

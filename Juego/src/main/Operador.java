@@ -365,19 +365,53 @@ final class Operador implements Serializable {
                 int eleccion2 = Integer.parseInt(br.readLine());
                 switch (eleccion2) {
                     case 1 -> {
-                        Multiplex.getClientes().get(user).getPersonaje().getEsbirros().add(new Demonio("Demonio", 5, "Cruz de sangre"));
-                        ((Demonio) Multiplex.getClientes().get(user).getPersonaje().getEsbirros().get(Multiplex.getClientes().get(user).getPersonaje().getEsbirros().size() - 1)).generarEsbirros();
+                        System.out.println("Escriba el nuevo nombre");
+                        String n = br.readLine();
+                        System.out.println("Escriba el pacto");
+                        String pacto = br.readLine();
+                        System.out.println("Introduzca la salud entre 1 y 5");
+                        int salud;
+                        do{
+                             salud = Integer.parseInt(br.readLine());
+                        } while (salud<1 || salud>5);
+
+
+                        Multiplex.getClientes().get(user).getPersonaje().getEsbirros().add(new Demonio(n, salud, pacto));
+
                         System.out.println("El personaje tiene un nuevo esbirro");
                         Multiplex.serialize();
                     }
                     case 2 -> {
-                        Multiplex.getClientes().get(user).getPersonaje().getEsbirros().add(new Ghoul("Ghoul", 5, (int) (Math.random() * 5 + 1)));
+                        System.out.println("Escriba el nuevo nombre");
+                        String n = br.readLine();
+                        System.out.println("Escriba la dependencia entre 1 y 5");
+                        int dep;
+                        do{
+                            dep = Integer.parseInt(br.readLine());
+                        } while (dep<1 || dep>5);
+                        System.out.println("Introduzca la salud entre 1 y 5");
+                        int salud;
+                        do{
+                            salud = Integer.parseInt(br.readLine());
+                        } while (salud<1 || salud>5);
+
+                        Multiplex.getClientes().get(user).getPersonaje().getEsbirros().add(new Ghoul(n, salud, dep));
                         System.out.println("El personaje tiene un nuevo esbirro");
                         Multiplex.serialize();
                     }
                     case 3 -> {
-                        Multiplex.getClientes().get(user).getPersonaje().getEsbirros().add(new Humano("Humano", 5));
-                        int lealtad = (int) (Math.random() * 3+ 1);
+                        System.out.println("Escriba el nuevo nombre");
+                        String n = br.readLine();
+                        System.out.println("Introduzca la salud entre 1 y 5");
+                        int salud;
+                        do{
+                            salud = Integer.parseInt(br.readLine());
+                        } while (salud<1 || salud>5);
+                        Multiplex.getClientes().get(user).getPersonaje().getEsbirros().add(new Humano(n, salud));
+                        int lealtad;
+                        do{
+                            lealtad = Integer.parseInt(br.readLine());
+                        } while (lealtad<1 || lealtad>5);
                         switch (lealtad) {
                             case 1 -> ((Humano) Multiplex.getClientes().get(user).getPersonaje().getEsbirros().get(Multiplex.getClientes().get(user).getPersonaje().getEsbirros().size() - 1)).setNivellealtad(Humano.lealtad.low);
                             case 2 -> ((Humano) Multiplex.getClientes().get(user).getPersonaje().getEsbirros().get(Multiplex.getClientes().get(user).getPersonaje().getEsbirros().size() - 1)).setNivellealtad(Humano.lealtad.medium);
@@ -408,7 +442,7 @@ final class Operador implements Serializable {
 
     public void editarModificador(String user) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Quieres añadir o modificar un modificador?\n1. Añadir\n2. Modificar");
+        System.out.println("Quieres añadir o modificar un modificador?\n1. Añadir\n2. Modificar\n3. Ver\n4. Salir" );
         int eleccion = Integer.parseInt(br.readLine());
         switch (eleccion) {
             case 1 -> {
@@ -417,6 +451,7 @@ final class Operador implements Serializable {
                 System.out.println("Escribe el valor del modificador");
                 int valor = Integer.parseInt(br.readLine());
                 System.out.println("Escribe el tipo del modificador");
+                System.out.println("1->Fortaleza||2->Debilidad");
                 int tipo = Integer.parseInt(br.readLine());
                 if (0 < tipo && tipo < 3) {
                     Multiplex.getClientes().get(user).getPersonaje().getModificadores().add(new Modificador(nombre, valor, tipo));
@@ -426,6 +461,7 @@ final class Operador implements Serializable {
                 }
             }
             case 2 -> {
+                int valor = 0;
                 ArrayList<Modificador> modificadores = Multiplex.getClientes().get(user).getPersonaje().getModificadores();
                 System.out.println("Elige un modificador para editar");
                 for (int i = 0; i < modificadores.size(); i++) {
@@ -433,11 +469,42 @@ final class Operador implements Serializable {
                     System.out.println("Valor: " + modificadores.get(i).getMod());
                 }
                 int opcion = Integer.parseInt(br.readLine());
-                System.out.println("Escribe el nuevo valor del modificador");
-                int valor = Integer.parseInt(br.readLine());
+                System.out.println("Escriba el nuevo nombre del modificador");
+                String n = br.readLine();
+                modificadores.get(opcion).setNombre(n);
+                System.out.println("Escribe el nuevo valor del modificador entre 1 y 5");
+                do{
+                valor = Integer.parseInt(br.readLine());
+                } while (valor<0 && valor>5);
                 modificadores.get(opcion).setMod(valor);
+                System.out.println("Escribe el nuevo tipo del modificador");
+                System.out.println("1->Fortaleza||2->Debilidad");
+                do{
+                    valor = Integer.parseInt(br.readLine());
+                } while (valor<1 && valor>2);
                 Multiplex.serialize();
+
             }
+            case 3->{
+                ArrayList<Modificador> modificadores = Multiplex.getClientes().get(user).getPersonaje().getModificadores();
+                System.out.println("Elige un modificador para editar");
+                for (int i = 0; i < modificadores.size(); i++) {
+                    System.out.println("");
+                    System.out.println(i + ". " + modificadores.get(i).getNombre());
+                    System.out.println("Valor: " + modificadores.get(i).getMod());
+                    if (modificadores.get(i).isTipomod()==1){
+                        System.out.println("Tipo: Fortaleza");
+
+                    }
+                    else {
+                        System.out.println("Tipo: Debilidad");
+                    }
+                }
+                System.out.println(" ");
+
+            }
+            case 4-> System.out.println("Volviendo al menu");
+
         }
     }
     }

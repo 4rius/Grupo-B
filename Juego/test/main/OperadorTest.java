@@ -21,7 +21,7 @@ class OperadorTest {
     }
 
     @Test
-    void editarDatosPersonaje() {
+    void editarDatosPersonaje() throws IOException {
         Cliente cliente = Multiplex.getClientes().get("Prueba");
         Personaje personaje = new Personaje();
         personaje = new Vampiro();
@@ -50,7 +50,7 @@ class OperadorTest {
     }
 
     @Test
-    void eliminarPersonaje(){
+    void eliminarPersonaje() throws IOException {
         Cliente cliente = Multiplex.getClientes().get("Prueba");
         Personaje personaje = new Personaje();
         personaje = new Vampiro();
@@ -65,7 +65,7 @@ class OperadorTest {
     }
 
     @Test
-    void validarDesafios(){
+    void validarDesafios() throws IOException {
         Cliente cliente = Multiplex.getClientes().get("Prueba");
         Personaje personaje = new Personaje();
         personaje = new Vampiro();

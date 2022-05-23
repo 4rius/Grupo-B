@@ -20,7 +20,7 @@ class ClienteTest {
     }
 
     @Test
-    void seleccionarEquipo() {
+    void seleccionarEquipo() throws IOException {
         Cliente cliente = Multiplex.getClientes().get("Prueba");
         Personaje personaje = new Personaje();
         personaje = new Vampiro();
@@ -38,7 +38,7 @@ class ClienteTest {
 
     }
     @Test
-    void registrarPersonaje(){
+    void registrarPersonaje() throws IOException {
         Cliente cliente = Multiplex.getClientes().get("Prueba");
         Personaje personaje = new Personaje();
         personaje = new Vampiro();
@@ -53,7 +53,7 @@ class ClienteTest {
     }
 
     @Test
-    void crearDesafio(){
+    void crearDesafio() throws IOException {
         Cliente cliente = Multiplex.getClientes().get("Prueba");
         Personaje personaje = new Personaje();
         personaje = new Vampiro();

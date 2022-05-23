@@ -1,5 +1,5 @@
-Nombre: Mystical Mail
-Ataque: 3
+Nombre: Piel de Licantropo
+Ataque: 0
 Defensa: 2
 
 Nombre: Breastplate of Valor
