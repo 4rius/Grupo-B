@@ -48,15 +48,15 @@ public class Demonio extends Esbirro implements Serializable {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Cuantos esbirros quieres añadir");
         int tipo;
-        int num = Integer.parseInt(System.console().readLine());
+        int num = Integer.parseInt(br.readLine());
         for (int i = 0; i < num; i++) {
-            System.out.println("Que esbirro quieres añadir");
-            System.out.println("1.Demonio");
-            System.out.println("2.Ghoul");
-            System.out.println("3.Humano");
+            System.out.println("Que esbirro quieres añadir al demonio?");
+            System.out.println("0.Demonio");
+            System.out.println("1.Ghoul");
+            System.out.println("2.Humano");
             do{
-            tipo = Integer.parseInt(System.console().readLine());
-            }while(tipo < 1 || tipo > 3);
+                tipo = Integer.parseInt(br.readLine());
+            }while(tipo < 0 || tipo > 2);
 
             switch (tipo) {
                 case 0 -> {
@@ -65,10 +65,10 @@ public class Demonio extends Esbirro implements Serializable {
                     System.out.println("Escriba el pacto");
                     String pacto = br.readLine();
                     System.out.println("Introduzca la salud entre 1 y 5");
-                    int salud;
-                    do{
-                        salud = Integer.parseInt(br.readLine());
-                    } while (salud<1 || salud>5);
+                    int salud = Integer.parseInt(br.readLine());
+                    if (salud < 1 || salud > 5) {
+                        salud = 1;
+                    }
                     Esbirros.add(new Demonio(n, salud, pacto));
                     ((Demonio) Esbirros.get(Esbirros.size() - 1)).generarEsbirros();
 
@@ -77,15 +77,15 @@ public class Demonio extends Esbirro implements Serializable {
                     System.out.println("Escriba el nuevo nombre");
                     String n = br.readLine();
                     System.out.println("Escriba la dependencia entre 1 y 5");
-                    int dep;
-                    do{
-                        dep = Integer.parseInt(br.readLine());
-                    } while (dep<1 || dep>5);
+                    int dep = Integer.parseInt(br.readLine());
+                    if (dep > 5 || dep < 1) {
+                        dep = 1;
+                    }
                     System.out.println("Introduzca la salud entre 1 y 5");
-                    int salud;
-                    do{
-                        salud = Integer.parseInt(br.readLine());
-                    } while (salud<1 || salud>5);
+                    int salud = Integer.parseInt(br.readLine());
+                    if (salud > 5 || salud < 1) {
+                        salud = 1;
+                    }
                     Esbirros.add(new Ghoul(n, salud, dep));
 
                 }
@@ -94,14 +94,15 @@ public class Demonio extends Esbirro implements Serializable {
                     String n = br.readLine();
                     System.out.println("Introduzca la salud entre 1 y 5");
                     int salud;
-                    do{
+                    do {
                         salud = Integer.parseInt(br.readLine());
-                    } while (salud<1 || salud>5);
+                    } while (salud < 1 || salud > 5);
                     Esbirros.add(new Humano(n, salud));
-                    int lealtad;
-                    do{
-                        lealtad = Integer.parseInt(br.readLine());
-                    } while (lealtad<1 || lealtad>5);
+                    System.out.println("Lealtad entre 1 y 3");
+                    int lealtad = Integer.parseInt(br.readLine());
+                    if (lealtad < 1 || lealtad > 3) {
+                        lealtad = 1;
+                    }
                     switch (lealtad) {
                         case 1 -> ((Humano) Esbirros.get(Esbirros.size() - 1)).setNivellealtad(Humano.lealtad.low);
                         case 2 -> ((Humano) Esbirros.get(Esbirros.size() - 1)).setNivellealtad(Humano.lealtad.medium);
